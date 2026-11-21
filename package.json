@@ -1,0 +1,13 @@
+{
+  "name": "shiz-creek-3d",
+  "version": "3.0.0",
+  "description": "Shiz Creek 3D - the game page plus its multiplayer server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": true
+}
