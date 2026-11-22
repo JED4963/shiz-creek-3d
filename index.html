@@ -307,8 +307,8 @@ body.job-on #rewardToast{top:118px}
 <div class="ui" id="hud"><h1>SHIZ CREEK 3D</h1><div><span id="heatStars" role="status" hidden><b></b><i></i></span><span id="money">$0</span><span id="esk">ESKY 0/10</span></div><button id="goal" type="button" aria-label="Open the journey journal"></button></div>
 <div class="ui" id="gear"></div><aside id="compHud" hidden aria-label="Tournament standings"></aside><aside id="launchGuide" hidden></aside><div id="rewardToast" role="status" hidden></div><aside id="poolHud" hidden></aside><aside id="parlourHud" hidden><b></b><span role="status"></span><small></small><details><summary>Rules</summary><span></span></details><button type="button" id="stepFromTable">Step back [Esc]</button></aside><button id="headShake" type="button" hidden></button>
 <div id="workTools" hidden><div class="work-orbit"><button data-turn="-.34" aria-label="Rotate boat left">‹</button><span>Drag to inspect</span><button data-turn=".34" aria-label="Rotate boat right">›</button></div></div><aside id="lesson" hidden></aside><button id="friendsButton" type="button">Friends</button><button id="leaderboardsButton" title="Leaderboards [U]" type="button">Boards</button><div id="card"></div><div id="panel"><div id="pin"></div></div>
-<div id="title" hidden><div class="title-box"><div class="title-kicker">HANNAFORD HEADS PRESENTS</div><h1>SHIZ CREEK <span>3D</span></h1><p id="titleSub"></p><button id="titlePlay" type="button">PLAY</button><button id="titleGfx" type="button" class="quiet"></button><p class="title-keys">WASD move · Shift run · drag to look · Space cast · E interact · G take a vehicle · Esc menu</p></div><div class="title-ver">V3.0</div></div>
-<div id="load">SHIZ CREEK 3D <span style="font-size:14px;color:#cfe4f0">V3.2</span><small id="lmsg">building Hannaford Heads...</small><div id="bar"><div></div></div></div>
+<div id="title" hidden><div class="title-box"><div class="title-kicker">HANNAFORD HEADS PRESENTS</div><h1>SHIZ CREEK <span>3D</span></h1><p id="titleSub"></p><button id="titlePlay" type="button">PLAY</button><button id="titleGfx" type="button" class="quiet"></button><p class="title-keys">WASD move · Shift run · drag to look · Space cast · E interact · G take a vehicle · Esc menu</p></div></div>
+<div id="load">SHIZ CREEK 3D<small id="lmsg">building Hannaford Heads...</small><div id="bar"><div></div></div></div>
 <div id="err"><div id="errt"></div></div>
 <script id="pool-rules">
 function createPoolRules() {
@@ -486,7 +486,7 @@ function createPoolRules() {
 </script>
 <script>
 'use strict';
-const VERSION='3D V3.0';
+const VERSION='3D';
 function showErr(m){document.getElementById('errt').textContent='SOMETHING BROKE - PLEASE SCREENSHOT THIS\n\n'+m;document.getElementById('err').style.display='flex';document.getElementById('load').style.display='none';}
 addEventListener('DOMContentLoaded',()=>{const view=document.getElementById('c');if(view)view.addEventListener('webglcontextlost',e=>{e.preventDefault();try{if(window.READY)save();}catch(x){}showErr('The graphics were reset (this happens after sleep or a driver update). Reloading the game…');setTimeout(()=>location.reload(),1800);});});
 addEventListener('error',e=>showErr((e.message||'error')+' @ line '+e.lineno+(e.error&&e.error.stack?'\n'+e.error.stack:'')));
