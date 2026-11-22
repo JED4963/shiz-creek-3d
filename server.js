@@ -70,7 +70,7 @@ function cleanPose(p) {
     gait: num(p.gait, 0, 60), phase: num(p.phase, -1e7, 1e7), mode: text(p.mode, 12) || 'foot',
     smoking: p.smoking === true, queasy: num(p.queasy, 0, 1), ride: Math.floor(num(p.ride, 0, 9)),
     fishing: p.fishing === true, bob: vec(p.bob, 3), catchName: text(p.catchName, 40),
-    fit: Array.isArray(p.fit) && p.fit.length === 11 && p.fit.every(v => Number.isInteger(v) && v >= 0 && v < 64) ? p.fit.slice() : null, loan: null, drive: null, held: null, fall: null, boat: null, deck: null
+    fit: Array.isArray(p.fit) && p.fit.length >= 11 && p.fit.length <= 13 && p.fit.every(v => Number.isInteger(v) && v >= 0 && v < 64) ? p.fit.slice() : null, loan: null, drive: null, held: null, fall: null, boat: null, deck: null
   };
   if (p.loan && typeof p.loan === 'object') pose.loan = { type: text(p.loan.type, 12), paint: text(p.loan.paint, 12), source: text(p.loan.source, 16) };
   if (p.drive && typeof p.drive === 'object') pose.drive = { distance: num(p.drive.distance, -1e7, 1e7), steer: num(p.drive.steer, -2, 2), lean: num(p.drive.lean, -2, 2) };
@@ -82,7 +82,7 @@ function cleanPose(p) {
       x: num(p.boat.x, -5000, 5000), z: num(p.boat.z, -5000, 5000), yaw: num(p.boat.yaw, -1000, 1000), speed: num(p.boat.speed, -60, 60),
       jetSki: p.boat.jetSki === true, source: text(p.boat.source, 16), hop: num(p.boat.hop, 0, 5), trimPitch: num(p.boat.trimPitch, -2, 2), jumpAt: num(p.boat.jumpAt, -1e9, 1e9, undefined),
       config: { hull: Math.floor(num(c.hull, 1, 5, 1)), motor: Math.floor(num(c.motor, 0, 4)), finder: Math.floor(num(c.finder, 0, 2)), tank: c.tank === true, rods: c.rods === true,
-        paint: Math.floor(num(c.paint, 0, 10)), trim: Math.floor(num(c.trim, 0, 10)), decal: Math.floor(num(c.decal, 0, 6)) }
+        paint: Math.floor(num(c.paint, 0, 15)), trim: Math.floor(num(c.trim, 0, 15)), decal: Math.floor(num(c.decal, 0, 10)) }
     };
   }
   if (p.deck && typeof p.deck === 'object') pose.deck = { owner: text(p.deck.owner, 24), u: num(p.deck.u, -30, 30), v: num(p.deck.v, -30, 30) };
@@ -156,7 +156,7 @@ function boardStats(body) {
     if (!/^[a-zA-Z][a-zA-Z0-9_-]{0,30}$/.test(id) || !Array.isArray(rec)) continue;
     fish[id] = [Math.round(num(rec[0], 0, 200000)), Math.round(num(rec[1], 0, 2000))];
   }
-  return { cash: Math.round(num(body.cash, -99999, 1e9)), fish };
+  return { cash: Math.round(num(body.cash, -99999, 1e9)), fish, nate: Math.round(num(body.nate, 0, 100000)) };
 }
 function boardJoin(body) {
   const name = cleanName(body.name, '');
@@ -185,8 +185,9 @@ function boardRead(query) {
   const fishRows = ranked(all.filter(p => p.fish[fishId]).map(p => ({ id: p.id, name: p.name, w: p.fish[fishId][0], len: p.fish[fishId][1] })), 'w');
   const leaders = {};
   for (const p of all) for (const [id, [w, len]] of Object.entries(p.fish)) if (!leaders[id] || w > leaders[id].w) leaders[id] = { name: p.name, w, len };
+  const nateRows = ranked(all.filter(p => p.nate > 0).map(p => ({ id: p.id, name: p.name, lv: p.nate })), 'lv');
   const slice = rows => ({ top: rows.slice(0, 10), total: rows.length, you: rows.find(r => r.id === viewer) || null });
-  return { cash: slice(cashRows), fish: { id: fishId, ...slice(fishRows) }, leaders };
+  return { cash: slice(cashRows), fish: { id: fishId, ...slice(fishRows) }, nate: slice(nateRows), leaders };
 }
 
 // ---------- the API ----------
