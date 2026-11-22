@@ -156,7 +156,7 @@ function boardStats(body) {
     if (!/^[a-zA-Z][a-zA-Z0-9_-]{0,30}$/.test(id) || !Array.isArray(rec)) continue;
     fish[id] = [Math.round(num(rec[0], 0, 200000)), Math.round(num(rec[1], 0, 2000))];
   }
-  return { cash: Math.round(num(body.cash, -99999, 1e9)), fish, nate: Math.round(num(body.nate, 0, 100000)) };
+  return { cash: Math.round(num(body.cash, -99999, 1e9)), fish, nate: Math.round(num(body.nate, 0, 100000)), bull: Math.round(num(body.bull, 0, 36000)) };
 }
 function boardJoin(body) {
   const name = cleanName(body.name, '');
@@ -186,8 +186,10 @@ function boardRead(query) {
   const leaders = {};
   for (const p of all) for (const [id, [w, len]] of Object.entries(p.fish)) if (!leaders[id] || w > leaders[id].w) leaders[id] = { name: p.name, w, len };
   const nateRows = ranked(all.filter(p => p.nate > 0).map(p => ({ id: p.id, name: p.name, lv: p.nate })), 'lv');
+  // the longest bull ride, in tenths of a second (profiles from before the bull show have none)
+  const bullRows = ranked(all.filter(p => p.bull > 0).map(p => ({ id: p.id, name: p.name, t: p.bull })), 't');
   const slice = rows => ({ top: rows.slice(0, 10), total: rows.length, you: rows.find(r => r.id === viewer) || null });
-  return { cash: slice(cashRows), fish: { id: fishId, ...slice(fishRows) }, nate: slice(nateRows), leaders };
+  return { cash: slice(cashRows), fish: { id: fishId, ...slice(fishRows) }, nate: slice(nateRows), bull: slice(bullRows), leaders };
 }
 
 // ---------- the API ----------
