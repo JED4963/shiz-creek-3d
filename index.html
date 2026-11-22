@@ -8947,13 +8947,13 @@ addEventListener('keydown',e=>{
 //   1  One Crate at a Time    carry single crates to three buyers round town
 //   2  The Bagel Boys         Finn and Steve's gang pinched a load: slap them silly with a fish and take it back
 //   3  Boatloads              run a boatload up the coast to a trawler with the water police after you
-//   4  The Pengell Convoy     ride shotgun for three Pengell trucks while bagel vans try to raid them
-//   5  The Reserve            crack the vault of the Hannaford Lychee Reserve and drive the lot home in a Pengell truck
+//   4  The Pengelly Convoy     ride shotgun for three Pengelly trucks while bagel vans try to raid them
+//   5  The Reserve            crack the vault of the Hannaford Lychee Reserve and drive the lot home in a Pengelly truck
 // After the story Phill has one night run a day. Being arrested, or pressing X, ends a job; nothing is paid until it is done.
 // Saved in S.stats: cartel (jobs finished, 0-5), cartelTip (the nudge has been shown), cartelDay (day of the last night
 // run), cartelRuns (night runs done).
 const CARTEL={ready:false,mesh:{},shed:null,corner:null,vault:null,wharf:null,dock:null,meet:null,finn:null,steve:null,guard:null,door:0,talkFor:-1,trawler:null,route:null,blocks:null,parked:null};
-const CARTEL_JOBS=['One Crate at a Time','The Bagel Boys','Boatloads','The Pengell Convoy','The Reserve'];
+const CARTEL_JOBS=['One Crate at a Time','The Bagel Boys','Boatloads','The Pengelly Convoy','The Reserve'];
 const CARTEL_PAY=[300,500,900,1500,4000],CARTEL_NIGHT=180,CARTEL_PINK=[.95,.3,.45];
 // the vault's dial: for each tumbler, how fast the needle turns (turns a second) and how wide the green is (a share of the dial)
 const CARTEL_DIAL=[[.42,.15],[.55,.12],[.68,.10],[.8,.085]];
@@ -9005,18 +9005,18 @@ function cartelCrateMesh(){
   m.add(box(.2,.012,.1),TF({x:.1,y:.47,z:.06,ry:.5}),[.36,.56,.3]);
   return upload(m);
 }
-// The box body of a Pengell truck. It is modelled in a car's own space (x forward, z to the right) to sit on a ute's tray.
+// The box body of a Pengelly truck. It is modelled in a car's own space (x forward, z to the right) to sit on a ute's tray.
 function cartelCargoMesh(){
-  const m=new MB(),white=[.93,.93,.9],red=[.78,.16,.14],steel=[.5,.52,.55];
-  m.add(box(2.2,1.72,1.8),TF({x:-1.52,y:.62}),white);
-  m.add(box(2.24,.17,1.84),TF({x:-1.52,y:.62}),red);
-  m.add(box(2.24,.06,1.84),TF({x:-1.52,y:2.32}),steel);
+  const m=new MB(),white=[.93,.94,.95],navy=[.1,.16,.35],orange=[.94,.47,.13],steel=[.5,.52,.55];
+  m.add(box(2.2,1.72,1.96),TF({x:-1.52,y:.62}),white);
+  m.add(box(2.24,.2,2.0),TF({x:-1.52,y:.62}),navy);m.add(box(2.245,.07,2.005),TF({x:-1.52,y:.82}),orange);
+  m.add(box(2.24,.06,2.0),TF({x:-1.52,y:2.32}),steel);
   for(const side of [-1,1]){
-    const T=TF({x:-1.52,y:1.6,z:side*.905,ry:side>0?0:PI});
-    cartelText(m,T,'PENGELL',.07,red,.02);
-    m.add(box(1.96,.035,.02),Lc(T,{y:-.3}),[.15,.2,.35]);
+    const T=TF({x:-1.52,y:1.6,z:side*.985,ry:side>0?0:PI});
+    cartelText(m,T,'PENGELLY',.062,navy,.02);
+    m.add(box(1.98,.04,.02),Lc(T,{y:-.27}),orange);
   }
-  for(const z of [-.44,.44])m.add(box(.03,1.48,.84),TF({x:-2.63,y:.76,z}),[.86,.86,.83]);
+  for(const z of [-.48,.48])m.add(box(.03,1.48,.92),TF({x:-2.63,y:.76,z}),[.86,.86,.83]);
   m.add(box(.05,.9,.05),TF({x:-2.66,y:1.02}),steel);
   return upload(m);
 }
@@ -9146,8 +9146,8 @@ function cartelEnd(ok,a){
   // put the Bagel Boys back on their corner, and take the truck away
   cartelCorner();
   if(a.truck){
-    if(mounted&&loanRide&&loanRide.source==='pengell')parkRide(false);
-    if(loanRide&&loanRide.source==='pengell')loanRide=null;
+    if(mounted&&loanRide&&loanRide.source==='pengelly')parkRide(false);
+    if(loanRide&&loanRide.source==='pengelly')loanRide=null;
   }
   if(a.lent&&loanRide&&loanRide.source==='phill'&&loanRide.park)loanRide=null;      // Phill's ute goes back in the shed if you never took it
   CARTEL.parked=null;if(!ok||a.job!==4)CARTEL.door=0;
@@ -9175,7 +9175,7 @@ function cartelPanel(a){
   }
   if(a.stage==='go')return {main:t,hot,col:'#f2607c',sub:'The Hannaford Lychee Reserve is on the dam road   ·   go on foot to the door'};
   if(a.stage==='crack')return {main:t,hot,col:'#f2607c',sub:'Crack the vault   ·   tumbler '+(a.pins+1)+' of '+CARTEL_DIAL.length};
-  if(a.stage==='truck')return {main:t,hot,col:'#f2607c',sub:'The vault is open   ·   get in the Pengell truck'};
+  if(a.stage==='truck')return {main:t,hot,col:'#f2607c',sub:'The vault is open   ·   get in the Pengelly truck'};
   return {main:a.cargo+' crates',bar:a.cargo/10,hot:a.cargo<=3,col:'#f2607c',sub:cartelClock(a.left)+'   ·   drive it home to Phill’s shed   ·   every van you hit spills crates   ·   $400 a crate'};
 }
 function cartelGoal(a){
@@ -9186,7 +9186,7 @@ function cartelGoal(a){
   if(a.job===2)return a.stage==='go'?at('The boat ramp',[CARTEL.wharf.x,CARTEL.wharf.z]):a.stage==='boat'?at(S.hull&&!S.impound.boat&&!ownedCraft?'Launch your boat · B':'Get to a boat',heistBoat()):at('The trawler',CARTEL.meet);
   if(a.job===3){const lead=a.trucks?a.trucks[0]:null;return at('The convoy',lead?[lead.x,lead.z]:[CARTEL.shed.x,CARTEL.shed.z]);}
   if(a.stage==='go'||a.stage==='crack')return at('The vault door',CARTEL.vault.dial);
-  if(a.stage==='truck')return at('The Pengell truck',CARTEL.parked?[CARTEL.parked[0],CARTEL.parked[1]]:CARTEL.vault.truck);
+  if(a.stage==='truck')return at('The Pengelly truck',CARTEL.parked?[CARTEL.parked[0],CARTEL.parked[1]]:CARTEL.vault.truck);
   return at('Phill’s packing shed',[CARTEL.shed.x,CARTEL.shed.z]);
 }
 // rings of light on the ground: [x, z, radius, pillar]
@@ -9350,7 +9350,7 @@ function cartelBoatTick(a,dt){
   cartelWin(a,'BOATLOADS',CARTEL_PAY[2],'PHILL: “Now we are a business. Next: trucks.”');
 }
 
-// ---------- job 4: the Pengell convoy ----------
+// ---------- job 4: the Pengelly convoy ----------
 function cartelPath(points){
   const len=[0];for(let i=1;i<points.length;i++)len.push(len[i-1]+Math.hypot(points[i][0]-points[i-1][0],points[i][1]-points[i-1][1]));
   return {points,len,total:len[len.length-1]};
@@ -9369,7 +9369,7 @@ function cartelConvoyStart(a){
   a.trucks=[0,1,2].map(i=>({s:26-i*11,cargo:4,dist:0,x:0,z:0,yaw:0}));
   for(const t of a.trucks)Object.assign(t,cartelAt(CARTEL.route,t.s,1.5));
   if(!(mounted&&activeRide>=2)&&!loanRide){const p=cartelAt(CARTEL.route,36,-2.2);loanRide={type:'ute',paint:'#6c7654',source:'phill',park:[p.x,p.z,p.yaw]};a.lent=true;later(5.8,()=>{if(GTA.act===a)say('No wheels? Take Phill’s ute, parked on the track · E',3.4);});}
-  banner('THE PENGELL CONVOY','PHILL: “Three Pengell trucks. Every lychee I have got. The Bagel Boys will come for them. Do not let them.”','#f2607c',5.6);
+  banner('THE PENGELLY CONVOY','PHILL: “Three Pengelly trucks. Every lychee I have got. The Bagel Boys will come for them. Do not let them.”','#f2607c',5.6);
 }
 function cartelConvoyTick(a,dt,vehicle){
   const R=CARTEL.route;
@@ -9385,7 +9385,7 @@ function cartelConvoyTick(a,dt,vehicle){
   }
   if(lead.s>=R.total-4){
     const kept=a.cargo,cash=kept>=10?CARTEL_PAY[3]:kept>=7?1200:900;
-    cartelWin(a,'THE PENGELL CONVOY',cash,kept+' of 12 crates got through'+(kept===12?'  ·  not a lychee lost':''));return;
+    cartelWin(a,'THE PENGELLY CONVOY',cash,kept+' of 12 crates got through'+(kept===12?'  ·  not a lychee lost':''));return;
   }
   // send the vans: more of them, and closer together, the further the convoy gets
   const live=a.vans.filter(v=>v.state!=='gone').length;
@@ -9461,7 +9461,7 @@ function cartelVaultTick(a,dt,vehicle){
     if(p&&!mounted&&cartelHere(p,2.9)){
       // into the cab: it handles like a ute, because it is one
       const old=loanRide&&streetRides.find(car=>car.source===loanRide.source);if(old)old.taken=T+10;
-      loanRide={type:'ute',paint:'#f3f1ea',source:'pengell',park:null};activeRide=loanType.ute;mounted=true;
+      loanRide={type:'ute',paint:'#f3f1ea',source:'pengelly',park:null};activeRide=loanType.ute;mounted=true;
       PS.x=p[0];PS.z=p[1];PS.yaw=p[2];PS.y=drivingHeight(p[0],p[1]);Object.assign(roadDrive,{speed:0,steer:0,lean:0,distance:0,pitch:0});orbitUntil=0;trafficGuard=3.4;
       CARTEL.parked=null;a.stage='run';a.truck=true;
       later(5,()=>{if(GTA.act===a)raiseWanted(0,'Robbed the Hannaford Lychee Reserve',4);});
@@ -9475,9 +9475,9 @@ function cartelVaultTick(a,dt,vehicle){
     return;
   }
   // the run home
-  if(!(mounted&&loanRide&&loanRide.source==='pengell'&&!loanRide.park)){
+  if(!(mounted&&loanRide&&loanRide.source==='pengelly'&&!loanRide.park)){
     a.awayAt=a.awayAt||T;if(T-a.awayAt>20){gtaEnd(false,'You left the truck behind');return;}
-    if(T-a.awayAt>1&&T>(a.nagAt||0)){a.nagAt=T+5;say('Get back in the Pengell truck',2.4);}
+    if(T-a.awayAt>1&&T>(a.nagAt||0)){a.nagAt=T+5;say('Get back in the Pengelly truck',2.4);}
   }else a.awayAt=0;
   for(const n of a.npcs)if(n.line&&Math.hypot(PS.x-n.x,PS.z-n.z)<30){n.say=n.line;n.sayT=3.4;n.line=null;}
   for(const v of a.vans){
@@ -9506,7 +9506,7 @@ function cartelDial(){
     if(a.pins<CARTEL_DIAL.length){cartelDialNew(a);return;}
     a.stage='truck';S.held=0;
     const V=CARTEL.vault;CARTEL.parked=[V.truck[0],V.truck[1],PI/2];
-    BANNERS.length=0;banner('THE VAULT IS OPEN','Forty tonnes of lychees  ·  ten crates fit in the Pengell truck  ·  get in','#ffd23f',3.6);
+    BANNERS.length=0;banner('THE VAULT IS OPEN','Forty tonnes of lychees  ·  ten crates fit in the Pengelly truck  ·  get in','#ffd23f',3.6);
     raiseWanted(0,'The reserve alarm is ringing',2);       // the real trouble starts once the truck is moving
   }else{
     tone(150,.2,'sawtooth',.08,90);fxKick({shake:.3});cartelDialNew(a);
@@ -9594,7 +9594,7 @@ MODS.push({
       for(const v of a.vans)if(v.state!=='gone'&&near(v.x,v.z,200))van(v);
     }else{
       const p=CARTEL.parked;if(p)truck(p[0],p[1],p[2],0);
-      if(a.truck&&loanRide&&loanRide.source==='pengell'){
+      if(a.truck&&loanRide&&loanRide.source==='pengelly'){
         const at=loanRide.park||[PS.x,PS.z,PS.yaw],pose=carPose(at[0],at[1],at[2]-PI/2,'ute');
         L.push([cartelMesh('cargo'),M.trs(at[0],pose.y,at[1],pose.rx,at[2]-PI/2,pose.rz)]);
       }
@@ -9639,15 +9639,17 @@ addEventListener('pointerdown',e=>{
 // (S.stats.nateLv), and every level is a little harder than the last for ever, because everything about him comes from
 // formulas (boxLevel) and not from a table.
 //
-//   F  jab (quick, light)        G  hook (slow wind-up, heavy)        hold SPACE  block
-//   A  lean back                 D  duck                              X  throw in the towel (a loss)
+// The controls are the ones the boxing in Lychee Farm (the game this town comes from) had, so old hands feel at home:
+//   J  jab (quick, light)        K  hook (slow wind-up, heavy)        L  block (tap, or hold)
+//   SPACE  dodge                 X  throw in the towel (a loss)
+// (BOX_KEYS lists a few spare keys for each as well.)
 //
 // Nate tells you about every real punch before it lands: a "!" appears over his head the moment he commits, a ring closes
 // in on it as the punch comes, and the glove he is about to use lights up. What to do depends on the punch:
-//   jab (yellow)       block it, or dodge it either way
-//   body shot (blue)   comes in low: lean back. A block stops the damage but costs a lot of stamina. Ducking walks into it.
-//   haymaker (red)     comes over the top: duck. It goes through a block, and leaning back does not get you clear.
-//   uppercut (orange)  comes from underneath: lean back. It goes through a block, and ducking meets it half way.
+//   jab (yellow)       block it or dodge it
+//   body shot (blue)   block it (that costs a lot of stamina) or dodge it
+//   haymaker (red)     dodge it: it comes through a block
+//   uppercut (orange)  dodge it: it comes through a block
 // A twitch with no "!" is a feint. A dodge can be held for a moment, so there is no need to time the slow ones exactly.
 // A punch you dodge leaves him wide open, and your next punch (started within 0.65 s) is a counter that does double.
 // A dodge that dodges nothing leaves you open instead. His hands tell you whether your own punches will land: gloves at
@@ -9664,7 +9666,7 @@ addEventListener('pointerdown',e=>{
 const BOX={x:-19,z:30,y:0,fy:0,top:.62,half:3.24,gap:.66,built:false,M:null,mesh:null,gloveR:null,gloveB:null,towelMesh:null,gloveAt:null,nate:null,marker:null,lamps:[],
   act:null,                      // the round in progress (the same object as GTA.act while it runs)
   scene:null,                    // after the bell: a few seconds in the ring before you are let out
-  save:null,queue:null,keys:{block:false,back:false,duck:false},
+  save:null,queue:null,keys:{block:false,dodge:false},blockUntil:0,
   P:null,N:null,                 // what personPose is handed for you and for Nate
   fp:null,fn:null,               // each fighter's pose right now, eased towards wherever the fight says it should be
   mixA:new Float32Array(11),mixB:new Float32Array(11),rate:16,
@@ -9702,15 +9704,16 @@ const BOX_POSE={
   cheer: [-2.7,.36,-.3,  -2.7,.36,-.3,  -.05,0,0,0,-.55],            // won
   slump: [-.15,.12,-.25,  -.12,.12,-.25,  .4,0,.02,0,-.2]};          // lost on points
 // the "!" over his head: its colour, what it tells you to do, and the glove tint that goes with it
-// THE KEYS. Each move lists the keys that do it, in lower case; the first is the one shown on the screen. To change the
-// controls, change this table and nothing else.
-// (The extra keys are there so that other habits work too: J K L, Z C, S and the arrow keys.)
-const BOX_KEYS={jab:['f','j','z'],hook:['g','k','c'],block:[' ','l','s','arrowdown'],back:['a','arrowleft'],duck:['d','arrowright']};
+// THE KEYS, the same as in Lychee Farm: J jab, K hook, L block, SPACE dodge. Each move lists the keys that do it, in lower
+// case; the first is the one shown on the screen (the others are spares for other habits). To change the controls, change
+// this table and nothing else.
+const BOX_KEYS={jab:['j','f','z'],hook:['k','g','c'],block:['l','s','arrowdown'],dodge:[' ','a','d','arrowleft','arrowright']};
 const boxIs=(move,k)=>BOX_KEYS[move].includes(k);
 const boxKeyName=move=>{const k=BOX_KEYS[move][0];return k===' '?'SPACE':({arrowleft:'←',arrowright:'→',arrowup:'↑',arrowdown:'↓'})[k]||k.toUpperCase();};
-// what each warning asks for: its colour, the words, and which keys answer it
-const BOX_CUE={jab:{css:'#ffd23f',rgb:[1,.82,.25],say:'BLOCK or DODGE',key:'',keys:['block','back','duck']},hay:{css:'#ff4a3d',rgb:[1,.25,.2],say:'DUCK',key:'duck',keys:['duck']},
-  upper:{css:'#ff9b3d',rgb:[1,.6,.22],say:'LEAN BACK',key:'back',keys:['back']},body:{css:'#58b8ff',rgb:[.35,.72,1],say:'LEAN BACK or BLOCK',key:'back',keys:['back','block']}};
+// what each warning asks for: its colour, the words, and which keys answer it. A dodge beats everything; a block only
+// stops the two light punches (the big ones come through it).
+const BOX_CUE={jab:{css:'#ffd23f',rgb:[1,.82,.25],say:'BLOCK or DODGE',key:'',keys:['block','dodge']},hay:{css:'#ff4a3d',rgb:[1,.25,.2],say:'DODGE',key:'dodge',keys:['dodge']},
+  upper:{css:'#ff9b3d',rgb:[1,.6,.22],say:'DODGE',key:'dodge',keys:['dodge']},body:{css:'#58b8ff',rgb:[.35,.72,1],say:'BLOCK or DODGE',key:'',keys:['block','dodge']}};
 const BOX_SAY={
   idle:['Oi. You fight like you fish. Mostly waiting.','I have caught bream that hit harder than you.','Step up, champ. The canvas is softer than it looks.',
     'No rod, no bait, no excuses. Just gloves.','I trained for this by wrestling an esky lid.','You bring the chin. I will bring the gloves.',
@@ -9854,7 +9857,7 @@ function boxStart(){
     n:{hp:lv.hp,ghost:lv.hp,state:'idle',t:0,wait:rnd(.9,1.5),guard:Math.random()<lv.guard,guardAt:Infinity,poise:lv.poise,poiseT:0,blocks:0,reply:false,
       seq:null,i:0,move:'jab',tell:1,dur:0,whiffed:false,broken:false,ready:false,hurtAt:-9},
     tick:boxTick,panel:()=>null,goal:()=>({quest:{title:'The ring'},point:[BOX.x,BOX.z]}),onEnd:boxOnEnd};
-  GTA.act=BOX.act=a;BOX.save=S;BOX.queue=null;BOX.towel=null;BOX.keys.block=BOX.keys.back=BOX.keys.duck=false;
+  GTA.act=BOX.act=a;BOX.save=S;BOX.queue=null;BOX.towel=null;BOX.keys.block=BOX.keys.dodge=false;BOX.blockUntil=0;
   BOX.idle.lineT=0;BOX.fp=boxFighter();BOX.fn.down=0;BOX.fn.dizzy=0;BOX.fp.back=BOX.fn.back=1.5;
   a.say=L>1&&Math.random()<.4?'Level '+L+'. I have been eating my greens.':pick(BOX_SAY.intro);a.sayT=2.6;
   BANNERS.length=0;boxCrowd(true);boxGoal(false);
@@ -9934,7 +9937,7 @@ function boxYou(a,dt){
     if(!p.done&&p.t>=up){p.done=true;boxPunch(a,p.state);}
     if(p.state!=='hit'&&p.t>=up+m.rec)boxSet(p,'idle');
   }else if(p.state==='dodge'){
-    const held=p.dir<0?K.back:K.duck;
+    const held=K.dodge;
     if(p.t>=(p.weak?.2:D.min)){
       if(held&&!p.weak&&p.t<D.max&&p.st>0){p.st=Math.max(0,p.st-D.hold*dt);p.regenAt=a.now+BOXP.regenWait;}
       else boxSet(p,p.evaded?'idle':'out');
@@ -9942,16 +9945,16 @@ function boxYou(a,dt){
   }else if(p.state==='out'){if(p.t>=D.out)boxSet(p,'idle');}
   else if(p.state==='hit'){if(p.t>=p.stun)boxSet(p,'idle');}
   else if(p.state==='block'){
-    if(!K.block)boxSet(p,'idle');
+    if(!K.block&&a.now>=BOX.blockUntil)boxSet(p,'idle');
     else{p.st=Math.max(0,p.st-BOXP.blockDrain*dt);p.regenAt=a.now+BOXP.regenWait;}
   }
   if(p.state==='idle'&&a.now>=p.regenAt)p.st=Math.min(100,p.st+BOXP.regen*dt);
   // anything you asked for in the last moment happens as soon as you are free to do it
   const q=BOX.queue&&a.now-BOX.queue.at<=BOXP.buffer?BOX.queue.k:null;
   const dodging=p.state==='dodge',free=p.state==='idle'||p.state==='block'||dodging&&p.evaded;
-  if((q==='back'||q==='duck')&&(free||dodging&&p.dir!==(q==='back'?-1:1))){
+  if(q==='dodge'&&free){
     BOX.queue=null;p.weak=p.st<D.cost;p.st=Math.max(0,p.st-D.cost);p.regenAt=a.now+BOXP.regenWait;
-    boxSet(p,'dodge');p.dir=q==='back'?-1:1;p.evaded=false;
+    boxSet(p,'dodge');p.dir=a.cue&&a.cue.move==='hay'?1:-1;p.evaded=false;
     noise(.12,.05,3000);
   }else if((q==='jab'||q==='hook')&&free){
     const m=BOXP[q],n=a.n;
@@ -9961,7 +9964,7 @@ function boxYou(a,dt){
     if(n.state==='idle'&&!n.guard)n.guardAt=Math.min(n.guardAt,a.now+a.lv.see);
     n.ready=q==='hook'&&n.state==='idle'&&n.guard;
     if(p.weak&&a.now-p.puffAt>1.2){p.puffAt=a.now;floater('PUFFED',BOX.P.x,BOX.fy+2.05,BOX.P.z,'#ffb0a0',18);}
-  }else if(p.state==='idle'&&K.block)boxSet(p,'block');
+  }else if(p.state==='idle'&&(K.block||a.now<BOX.blockUntil))boxSet(p,'block');
 }
 // your punch arrives
 function boxPunch(a,kind){
@@ -10048,7 +10051,7 @@ function boxNext(a){
 function boxLand(a){
   const n=a.n,p=a.p,lv=a.lv,m=n.move,big=m==='hay'||m==='upper',low=m==='upper'||m==='body',P=BOX.P;
   a.cue=null;
-  if(p.state==='dodge'&&(m==='jab'||(low?p.dir<0:p.dir>0))){
+  if(p.state==='dodge'){
     // clean miss: he is open, and your next punch is a counter
     p.evaded=true;p.counter=BOXP.counter;n.whiffed=true;
     floater(pick(['MISSED!','WHIFF','NOPE','FRESH AIR']),BOX.N.x-.35,BOX.fy+2.5,P.z,'#9be08a',20);noise(.16,.08,3200);tone(880,.06,'triangle',.04,1320);
@@ -10129,7 +10132,7 @@ function boxSceneTick(dt){
 // Out of the ring and back on your feet beside the steps, with the camera handed back. Safe to call at any time.
 function boxLeave(){
   if(BOX.act&&GTA.act===BOX.act)GTA.act=null;
-  BOX.act=BOX.scene=null;BOX.queue=null;BOX.towel=null;BOX.keys.block=BOX.keys.back=BOX.keys.duck=false;
+  BOX.act=BOX.scene=null;BOX.queue=null;BOX.towel=null;BOX.keys.block=BOX.keys.dodge=false;BOX.blockUntil=0;
   if(VIEW===BOX.view)VIEW=null;
   boxGoal(true);boxCrowd(false);
   if(BOX.fp){BOX.fp.down=0;BOX.fn.dizzy=0;BOX.fn.back=0;BOX.idle.t=0;BOX.idle.len=.8;BOX.idle.move='rest';BOX.idle.talkAt=T+6;}
@@ -10385,7 +10388,7 @@ function boxHudFight(a){
   // colour of the warning they answer, and when Nate winds up the cap (or caps) to press light up.
   if(live){
     const cue=a.phase==='fight'&&a.cue?BOX_CUE[a.cue.move]:null,small=W<900;
-    const items=[['jab','Jab','#ffffff'],['hook','Hook','#ffffff'],['block',small?'Block':'Block (hold)','#ffd23f'],['back','Lean back','#ff9b3d'],['duck','Duck','#ff4a3d'],['x','Towel','#aab4ba']];
+    const items=[['jab','Jab','#ffd23f'],['hook','Hook','#ff7a6a'],['block','Block','#6cb6ff'],['dodge','Dodge','#7ee08a'],['x','Towel','#aab4ba']];
     const fs=small?11:13,ch=small?22:26,pad=small?6:8,gap=small?10:16;
     ox.textBaseline='middle';
     const sized=items.map(([move,label,col])=>{
@@ -10414,7 +10417,7 @@ function boxHudFight(a){
     ox.textAlign='center';
     // one line of how it works, during the count and for your first few fights
     if(a.phase==='intro'||(S.stats.boxFights||0)<=5){
-      const tip='Watch the “!” over his head: its colour is the colour of the key to press   ·   dodge a punch, then hit back for double';
+      const tip='When Nate flashes “!”, block or dodge   ·   a red or orange one goes through a block   ·   dodge, then hit back for double';
       ox.font='700 12px '+font;const tw=Math.min(W-20,ox.measureText(tip).width+26);
       ox.fillStyle='rgba(8,14,20,.8)';ox.beginPath();ox.roundRect(cx-tw/2,by-30,tw,24,8);ox.fill();ox.fillStyle='#fff5db';ox.fillText(tip,cx,by-18,tw-14);
     }
@@ -10434,17 +10437,17 @@ addEventListener('keydown',e=>{
   const a=BOX.act;
   if(GTA.act!==a)return;
   if(k==='x'){gtaQuit();return;}
-  const left=boxIs('back',k),right=boxIs('duck',k);
-  if(boxIs('block',k))BOX.keys.block=true;else if(left)BOX.keys.back=true;else if(right)BOX.keys.duck=true;
+  const dodge=boxIs('dodge',k);
+  if(boxIs('block',k)){BOX.keys.block=true;BOX.blockUntil=a.now+.7;}else if(dodge)BOX.keys.dodge=true;
   if(a.phase!=='fight')return;
-  const ask=boxIs('jab',k)?'jab':boxIs('hook',k)?'hook':left?'back':right?'duck':'';
+  const ask=boxIs('jab',k)?'jab':boxIs('hook',k)?'hook':dodge?'dodge':'';
   if(ask)BOX.queue={k:ask,at:a.now};
 },true);
 addEventListener('keyup',e=>{
   const k=e.key.toLowerCase();
-  if(boxIs('block',k))BOX.keys.block=false;else if(boxIs('back',k))BOX.keys.back=false;else if(boxIs('duck',k))BOX.keys.duck=false;
+  if(boxIs('block',k))BOX.keys.block=false;else if(boxIs('dodge',k))BOX.keys.dodge=false;
 },true);
-addEventListener('blur',()=>{BOX.keys.block=BOX.keys.back=BOX.keys.duck=false;});
+addEventListener('blur',()=>{BOX.keys.block=BOX.keys.dodge=false;BOX.blockUntil=0;});
 
 // ===================== V3 DEALER: Isaac, the bloke in Charlie's Forest =====================
 // On every second night (the nights that START on an even day) a bloke called Isaac camps in the middle of Charlie's
