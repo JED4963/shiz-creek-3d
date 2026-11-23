@@ -14399,6 +14399,10 @@ addEventListener('pointerdown',e=>{if(GUN.out&&!e.button&&!UI&&!mapOpen&&e.targe
 // first boat that gets there. The land was already there, and bare. This file is everything on it:
 //   the island, dressed   palms, scrub, dune grass, driftwood, rocks, a wrecked dinghy, crab pots and a mob of pelicans
 //                         (the jetty's pelican, a dozen more of it: they lift off when you walk up and come back round)
+//   a hut                 on the rise in the middle, door towards the camp: stilts, plank walls, a thatched roof, a
+//                         verandah you can walk up onto, a lantern that is lit at night. He built it for himself; the
+//                         pelicans moved in, so the door says OCCUPIED and he sleeps under the tarp.
+//   more trees            about thirty palms (a stand round the hut, more along every shore) and a thicket of tea-tree
 //   a camp                a driftwood and tarp shack, a fire that burns from dusk till dawn (at night you can see it from
 //                         the mainland), a washing line, a hammock and a hand-painted sign
 //   the castaway          he has lived out here for years, by choice. He fishes off his beach day and night, he is wary
@@ -14419,7 +14423,7 @@ addEventListener('pointerdown',e=>{if(GUN.out&&!e.button&&!UI&&!mapOpen&&e.targe
 // and islandMenuHTML() in the pause menu nothing in game.js calls this file. Progress is plain numbers in S.stats, all
 // named castaway* (and S.side.island once the quest list has paid).
 const CASTAWAY={S:null,built:false,ident:null,camp:null,at:null,fire:null,sign:null,dinghy:null,posts:null,palms:[],keep:[],
-  npc:null,marker:null,boxMarker:null,box:null,boxPlace:'',site:null,mesh:null,birds:[],card:null,line:'',note:'',pending:'',hint:'',
+  npc:null,marker:null,boxMarker:null,box:null,boxPlace:'',site:null,mesh:null,birds:[],hut:null,scrub:[],lampGlow:{glow:[1,.78,.42,1]},card:null,line:'',note:'',pending:'',hint:'',
   greeted:false,hush:false,bestName:'',warm:[1,.62,.24],flameGlow:{glow:[1,.55,.18,1]},boxGlow:{glow:[1,.62,.25,.45]}};
 // cash for each favour (the quest list pays CASTAWAY_BONUS on top when all five are done), and the experience
 const CASTAWAY_PAY=[30,40,50,60,0],CASTAWAY_XP=[10,15,15,25,30],CASTAWAY_BONUS=150;
@@ -14433,8 +14437,13 @@ const CASTAWAY_BEARING=2.52;
 // the tackle box: how close a boat has to come, and how slowly it has to be going
 const CASTAWAY_GRAB=6.5,CASTAWAY_GRAB_SPEED=2.4;
 // pelicans: how many (fewer on a slow computer) and how close you get before one takes off
-const CASTAWAY_BIRDS=13,CASTAWAY_BIRDS_FEW=8,CASTAWAY_SCARE=3.3;
+const CASTAWAY_BIRDS=15,CASTAWAY_BIRDS_FEW=9,CASTAWAY_SCARE=3.3;
 const CASTAWAY_SITE='castaway',CASTAWAY_TINT='#ffb84a';
+const HUT={bearing:5.6,out:.12,          // where it stands on the island (see castawayAt)
+  roomX:2,roomBack:-1.85,roomFront:1.15,wall:2.05,                       // the room: half its width, its back and front walls, how high
+  deckX:2.3,deckBack:-2,deckFront:2.6,lift:.5,                           // the deck it stands on, and how far that is off the highest ground under it
+  ridgeZ:.15,ridgeY:3.75,eaveY:1.95,eaveBack:-2.5,eaveFront:2.85,roofX:2.65,   // the thatch
+  stepsX:.7,stepsRun:1.3};                                               // the steps down from the verandah
 const CASTAWAY_JOBS=['Smoko','Off my beach','The tackle box','The one I miss','The hole'];
 
 // ---------- who he is ----------
@@ -14446,7 +14455,8 @@ TALK.f_castaway=['Came out for a weekend. That was a while ago.','I am not stuck
   'A jet ski is not a boat. It is a noise with a seat.','The mainland has traffic lights now, I hear. No thank you.',
   'I have forty neighbours and every one of them is a pelican. Quiet lot. Terrible at cards.','People ask if I get lonely. People do not ask twice. It is a long way to row.',
   'Rent is nil. Rates are nil. The view is the view.','I do not miss the mainland. I miss pies. Different thing.',
-  'A kayak got out here once. He was very tired and very proud. Nine out of ten.','No, I do not have a volleyball. Everybody asks.'];
+  'A kayak got out here once. He was very tired and very proud. Nine out of ten.','No, I do not have a volleyball. Everybody asks.',
+  'I built the hut for me. The pelicans moved in. You do not argue with a pelican.','The hut? Lovely and dry. I would not know. Ask the pelicans.'];
 const CASTAWAY_HELLO='A visitor. The last one was a pelican, and he did not stay either. Well. Since you are here, you can make yourself useful.';
 const CASTAWAY_BUSY=['You have brought company. I moved out here to get away from company.','Sort that lot out first. I have a quiet life and I mean to keep it.','Not with the law about. Come back when it is just you.'];
 const CASTAWAY_BYE=['Hooroo. Mind the pelicans.','Shut the gate on your way out. There is no gate. Hooroo.','Tight lines.'];
@@ -14593,9 +14603,30 @@ function castawayBuild(){
   // the sign faces the cove where boats come in; the dinghy never left the north-west beach
   {const [x,z]=castawayAt(2.98,.87),[sx,sz]=seaward(x,z);Q.sign={x,z,yaw:Math.atan2(sx,sz)};CIRC.push({x,z,r:.14});}
   {const [x,z]=castawayAt(3.74,.93),yaw=1.1;Q.dinghy={x,z,yaw};for(const k of [-1,0,1])CIRC.push({x:x+Math.cos(yaw)*k*1.18,z:z-Math.sin(yaw)*k*1.18,r:.66});}
-  // palms: a stand in the middle, a few round the camp (two of them hold the hammock up), the rest on the points
-  Q.palms=[[.4,.12,1.15],[2,.2,1],[3.6,.24,1.25],[5.1,.18,.95],[1.1,.33,1.1],[4.55,.55,1],[4.85,.62,.9],[4.3,.7,1.1],[6.1,.5,1.05],[.35,.6,.9],[1.5,.5,1],[3.08,.72,.95]]
-    .map(([t,r,size])=>[...castawayAt(t,r),size]);
+  // The hut: on the rise in the middle, its door towards the camp. Solid walls; the verandah and its steps are ground
+  // you can walk on (castawayRamp).
+  {
+    const [hx,hz]=castawayAt(HUT.bearing,HUT.out),yaw=Math.atan2(fx-hx,fz-hz),sn=Math.sin(yaw),cs=Math.cos(yaw);
+    const h=Q.hut={x:hx,z:hz,yaw,sn,cs,y:0,at:(side,out)=>[hx+cs*side+sn*out,hz-sn*side+cs*out]};
+    for(const side of [-HUT.deckX,0,HUT.deckX])for(const out of [HUT.deckBack,.3,HUT.deckFront]){const q=h.at(side,out);h.y=Math.max(h.y,H(q[0],q[1]));}
+    h.y+=HUT.lift;
+    const wall=(side,out,r=.42)=>{const q=h.at(side,out);CIRC.push({x:q[0],z:q[1],r});};
+    for(let side=-HUT.roomX;side<=HUT.roomX+.01;side+=.8){wall(side,HUT.roomBack);wall(side,HUT.roomFront);}
+    for(let out=HUT.roomBack+.75;out<HUT.roomFront-.3;out+=.75){wall(-HUT.roomX,out);wall(HUT.roomX,out);}
+    wall(0,-.4,1.2);                                                           // (nothing gets inside)
+    for(const side of [-1,1]){wall(side*2.2,2.5,.12);wall(side*2.28,1.75,.2);wall(side*1.5,2.6,.2);}     // verandah posts and rails
+    wall(-2.85,.2,.42);                                                        // the rain barrel
+    h.perch=[[-1.2,HUT.ridgeZ],[1.5,HUT.ridgeZ]].map(([side,out])=>{const q=h.at(side,out);return [q[0],q[1],h.y+HUT.ridgeY+.06-H(q[0],q[1])];});
+  }
+  // palms: a stand round the hut, a few round the camp (two of them hold the hammock up), the rest along every shore
+  Q.palms=[[.55,.3,1.15],[2,.2,1],[3.6,.24,1.25],[5,.34,.95],[1.1,.33,1.1],[4.55,.55,1],[4.85,.62,.9],[4.3,.7,1.1],[6.1,.5,1.05],[.35,.6,.9],[1.5,.5,1],[3.08,.72,.95],
+    [5.5,.52,1.1],[5.75,.66,.95],[5.3,.74,1.05],[.05,.72,1],[.8,.74,.9],[1.25,.68,1.1],[1.9,.62,.95],[2.25,.36,1.05],[3.4,.5,1],[3.75,.62,.9],[4,.4,1.1],[2.9,.4,1.15],
+    [.9,.45,.75],[5.9,.3,.8],[3.2,.33,.78],[4.7,.84,.85],[.55,.86,.8],[5.05,.7,1.2]]
+    .map(([t,r,size])=>[...castawayAt(t,r),size])
+    .filter(([x,z])=>Math.hypot(x-Q.hut.x,z-Q.hut.z)>4.8&&Math.hypot(x-fx,z-fz)>6);
+  // a thicket of tea-tree on the north side, behind the hut
+  Q.scrub=[[4.6,.3,.5],[4.45,.42,.56],[4.95,.5,.46],[5.25,.42,.52],[4.2,.52,.44],[4.75,.62,.5],[5.45,.3,.4]]
+    .map(([t,r,size])=>[...castawayAt(t,r),size]).filter(([x,z])=>Math.hypot(x-Q.hut.x,z-Q.hut.z)>5.2);
   for(const [side,out,size] of [[4.6,-7.4,1.05],[7.3,-5.9,.95],[-3,-9.2,1.15]])Q.palms.push([...at(side,out),size]);
   // He fishes off the point, a few steps along from the camp. His float sits over the hole.
   const [px,pz]=castawayAt(CASTAWAY_BEARING+.17,.962),[vx,vz]=seaward(px,pz),yaw=Math.atan2(vx,vz);
@@ -14630,14 +14661,27 @@ function castawayBuild(){
   // room to walk: nothing grows on the camp, on the path down to where he fishes or round the things on the beach
   Q.keep=[[fx,fz,5],[...at(-.5,-5.5),4.6],[...at(-5.4,-2.4),3],[...at(5.9,-6.6),3],[...at(3.8,-4.1),2],[px,pz,3.5],[mx,mz,3],[Q.sign.x,Q.sign.z,2.2],[Q.dinghy.x,Q.dinghy.z,3.2]];
   for(let k=1;k<6;k++)Q.keep.push([lerp(fx,px,k/6),lerp(fz,pz,k/6),2]);
+  {const h=Q.hut,door=h.at(0,4.2);Q.keep.push([h.x,h.z,4.6],[door[0],door[1],2.4]);for(let k=1;k<7;k++)Q.keep.push([lerp(fx,door[0],k/7),lerp(fz,door[1],k/7),1.5]);
+    for(const t of Q.scrub)Q.keep.push([t[0],t[1],1.2]);}
   // the pelicans: on the sign as if he owned it, on the shack, on the dinghy, and loafing in mobs on the sand
   const spots=[[Q.sign.x,Q.sign.z,2.3],[...at(-2.3,-4.2),2.2],[Q.dinghy.x-Math.sin(Q.dinghy.yaw)*.54,Q.dinghy.z-Math.cos(Q.dinghy.yaw)*.54,.71]];
   for(const [t,r] of [[6.15,.9],[4.55,.92],[.1,.93],[1.45,.93],[4.72,.9],[3.9,.95],[6.28,.84],[1.7,.9],[4.9,.93],[.22,.88]])spots.push([...castawayAt(t,r),0]);
+  spots.splice(3,0,...Q.hut.perch);
   const count=!GFX.hdr||GFX.tier===0?CASTAWAY_BIRDS_FEW:CASTAWAY_BIRDS;
   Q.birds=spots.slice(0,count).map(([x,z,up],i)=>{
     const [sx,sz]=seaward(x,z),hyaw=Math.atan2(sx,sz)+(hash2(i,77)-.5)*2.4,y=H(x,z)+up;
     return {hx:x,hz:z,hy:y,hyaw,x,y,z,yaw:hyaw,fly:false,t:hash2(i,31)*9,span:8,from:0,turn:1,reach:14,size:.8+hash2(i,5)*.16,body:null,head:null};
   });
+}
+// The hut's verandah and its steps: how far above the sand you stand there (the game lays this on the ground).
+function castawayRamp(x,z){
+  const h=CASTAWAY.hut;if(!h)return 0;
+  const dx=x-h.x,dz=z-h.z;if(dx*dx+dz*dz>36)return 0;
+  const side=dx*h.cs-dz*h.sn,out=dx*h.sn+dz*h.cs,up=h.y-groundAt(x,z);
+  if(up<=0)return 0;
+  if(Math.abs(side)<HUT.deckX&&out>HUT.roomFront-.2&&out<=HUT.deckFront)return up;
+  if(Math.abs(side)<HUT.stepsX+.1&&out>HUT.deckFront&&out<HUT.deckFront+HUT.stepsRun)return up*(1-(out-HUT.deckFront)/HUT.stepsRun);
+  return 0;
 }
 // Is this spot clear of the camp, the path and everything else that needs room?
 function castawayClear(x,z,margin){
@@ -14691,6 +14735,7 @@ function castawayMeshes(){
     const stick=(m,a,b,r0,r1,col)=>tube(m,[a,b],[r0,r1],[col,col]);
     // --- palms, scrub, rocks, driftwood ---
     for(const [x,z,size] of Q.palms)palm(far,x,z,size);
+    for(const [x,z,size] of Q.scrub)gum(far,x,z,size);
     const greens=[[.4,.5,.36],[.34,.45,.33],[.47,.53,.38],[.3,.42,.34]];
     for(let i=0;i<48;i++){
       const [x,z]=castawayAt(R()*TAU,.1+R()*.64),size=.7+R()*.7;
@@ -14784,7 +14829,10 @@ function castawayMeshes(){
       const blade=[g.x+Math.sin(g.yaw)*1.5+Math.cos(g.yaw)*1.3,y+.05,g.z+Math.cos(g.yaw)*1.5-Math.sin(g.yaw)*1.3],grip=[g.x+Math.sin(g.yaw)*1.25-Math.cos(g.yaw)*1.1,y+.06,g.z+Math.cos(g.yaw)*1.25+Math.sin(g.yaw)*1.1];
       stick(far,grip,blade,.028,.03,bleach);far.add(box(.5,.03,.16),TF({x:blade[0],y:blade[1]-.01,z:blade[2],ry:g.yaw}),bleach,{material:SURFACE.wood});   // one oar
     }
+    // --- the hut ---
+    const lampAt=castawayHutMesh(far,near,stick,bleach,wood,rope,steel);
     const mesh=Q.mesh={far:upload(far),near:upload(near)};
+    {const lamp=new MB();lamp.add(ico(.075,1,0),TF({}),[1,.82,.45],{e:2.6});mesh.lamp=upload(lamp);mesh.lampAt=M.trs(lampAt[0],lampAt[1],lampAt[2],0,0,0);mesh.lampXYZ=lampAt;}
     // the flames (they light themselves after dark)
     const flame=new MB();
     flame.add(prism(.2,0,.6,6),TF({}),[1,.5,.12],{e:2.6});flame.add(prism(.13,0,.44,6),TF({x:.06,z:.03}),[1,.74,.2],{e:2.8});flame.add(prism(.08,0,.3,5),TF({x:-.05,z:-.05}),[1,.92,.55],{e:3});
@@ -14806,6 +14854,87 @@ function castawayMeshes(){
     const b=at(-2.6,.9);mesh.boxAt=M.trs(b[0],b[1]-.02,b[2],0,c.yaw-.5,0,1.15);
     mesh.fireAt=[Q.fire[0],Q.fire[1]+.05,Q.fire[2]];
   }finally{R=keep;}
+}
+
+// The hut, built into the island's two meshes (far: what shows from the sea; near: the small things). Returns where its
+// lantern hangs. Everything is placed in the hut's own frame: x across the front, y up from the deck, z out of the door.
+function castawayHutMesh(far,near,stick,bleach,wood,rope,steel){
+  const Q=CASTAWAY,h=Q.hut,B=TF({x:h.x,y:h.y,z:h.z,ry:h.yaw}),W=(x,y,z)=>B([x,y,z]);
+  const thatch=[.69,.58,.36],dark=[.4,.31,.22],pane=[.31,.44,.46];
+  const roofY=z=>z>=HUT.ridgeZ?lerp(HUT.ridgeY,HUT.eaveY,(z-HUT.ridgeZ)/(HUT.eaveFront-HUT.ridgeZ)):lerp(HUT.ridgeY,HUT.eaveY,(HUT.ridgeZ-z)/(HUT.ridgeZ-HUT.eaveBack));
+  // stilts down to the sand, and the deck
+  for(const x of [-2.15,0,2.15])for(const z of [-1.85,.35,2.45]){const top=W(x,0,z);stick(far,[top[0],H(top[0],top[2])-.4,top[2]],top,.095,.085,wood);}
+  far.add(box(HUT.deckX*2+.1,.14,HUT.deckFront-HUT.deckBack+.1),Lc(B,{y:-.14,z:(HUT.deckFront+HUT.deckBack)/2}),bleach,{jit:.07,material:SURFACE.deck});
+  for(let i=0;i<5;i++)near.add(box(HUT.deckX*2,.012,.03),Lc(B,{y:.002,z:1.42+i*.27}),shade3(bleach,-.22),{material:SURFACE.wood});        // the gaps between the verandah boards
+  // walls of driftwood planks, no two the same height
+  const plank=(x,z,turn,tall)=>far.add(box(.345,tall+R()*.07,.06),Lc(B,{x,z,ry:turn+(R()-.5)*.03}),shade3(bleach,(R()-.5)*.12),{jit:.1,material:SURFACE.wood});
+  for(let i=0;i<12;i++)plank(-1.87+i*.34,HUT.roomBack,0,HUT.wall);
+  for(let i=0;i<9;i++){plank(-HUT.roomX,-1.7+i*.34,PI/2,HUT.wall);plank(HUT.roomX,-1.7+i*.34,PI/2,HUT.wall);}
+  for(const x of [-1.87,-1.53,-1.19,-.85,-.55,.55,.85,1.19,1.53,1.87])plank(x,HUT.roomFront,0,HUT.wall);
+  far.add(box(.8,.3,.06),Lc(B,{y:HUT.wall-.3,z:HUT.roomFront}),bleach,{jit:.08,material:SURFACE.wood});
+  // the gable ends, boarded up to the ridge
+  for(const x of [-HUT.roomX,HUT.roomX]){
+    const inside=W(0,HUT.wall,HUT.ridgeZ);
+    far.tri(W(x,HUT.wall-.02,HUT.roomBack-.05),W(x,HUT.wall-.02,HUT.roomFront+.05),W(x,roofY(HUT.ridgeZ)-.1,HUT.ridgeZ),shade3(bleach,-.1),SURFACE.wood,inside);
+  }
+  // the door (shut), and what is written on it
+  far.add(box(.78,1.76,.05),Lc(B,{y:.02,z:HUT.roomFront+.035}),dark,{jit:.06,material:SURFACE.wood});
+  for(const y of [.35,1.45])near.add(box(.8,.09,.03),Lc(B,{y,z:HUT.roomFront+.07}),shade3(dark,-.2),{material:SURFACE.wood});
+  near.add(box(.05,.12,.05),Lc(B,{x:.27,y:.92,z:HUT.roomFront+.08}),steel,{material:SURFACE.metal});
+  near.add(box(.86,.24,.03),Lc(B,{y:1.02,z:HUT.roomFront+.085,rz:-.04}),bleach,{jit:.05,material:SURFACE.wood});
+  castawayPaint(near,Lc(B,{y:1.14,z:HUT.roomFront+.105,rz:-.04}),'OCCUPIED',.03,[.34,.11,.08]);
+  // two windows: a pane that is lit at night, a frame, and a shutter propped open over the front one
+  const window=(x,y,z,turn,w,hh)=>{
+    const F=Lc(B,{x,y,z,ry:turn});
+    near.add(box(w,hh,.03),Lc(F,{z:.035}),pane,{material:SURFACE.litGlass});
+    for(const [fx,fy,fw,fh] of [[0,-.05,w+.12,.06],[0,hh,w+.12,.06],[-w/2-.03,0,.06,hh],[w/2+.03,0,.06,hh],[0,0,.04,hh]])near.add(box(fw,fh,.05),Lc(F,{x:fx,y:fy,z:.04}),dark,{material:SURFACE.wood});
+  };
+  window(1.36,.95,HUT.roomFront,0,.62,.56);window(-HUT.roomX,1,-.3,-PI/2,.7,.56);
+  {const zf=HUT.roomFront+.07;far.quad(W(.99,1.58,zf),W(1.73,1.58,zf),W(1.73,1.32,zf+.5),W(.99,1.32,zf+.5),shade3(bleach,-.06),SURFACE.wood,W(1.36,0,zf+.2),true);
+    stick(near,W(1.36,.98,zf+.02),W(1.36,1.33,zf+.48),.012,.012,dark);}
+  // the thatch: five rows a side, each lapping over the one below, a ragged edge at the eaves and a rolled ridge
+  const under=W(0,HUT.wall-.5,HUT.ridgeZ);
+  for(const end of [HUT.eaveFront,HUT.eaveBack]){
+    const rows=5;
+    for(let k=0;k<rows;k++){
+      const z0=lerp(HUT.ridgeZ,end,k/rows),z1=lerp(HUT.ridgeZ,end,(k+1)/rows+.05),col=shade3(thatch,(R()-.5)*.1-(k%2)*.05),wide=HUT.roofX-(rows-1-k)*.035;
+      far.quad(W(-wide,roofY(z0)+.075,z0),W(wide,roofY(z0)+.075,z0),W(wide,roofY(z1)+.01,z1),W(-wide,roofY(z1)+.01,z1),col,SURFACE.cloth,under);
+    }
+    for(let x=-HUT.roofX;x<HUT.roofX-.05;x+=.26){
+      const drop=.12+R()*.16,z=end+(end>0?.05:-.05)*1.2;
+      far.tri(W(x,roofY(end),end),W(x+.26,roofY(end),end),W(x+.13+(R()-.5)*.1,roofY(end)-drop,z),shade3(thatch,-.1-R()*.12),SURFACE.cloth,under,true);
+    }
+  }
+  for(const x of [-HUT.roofX,HUT.roofX]){            // the thatch is thick: close its ends
+    const out=W(x*3,HUT.wall,HUT.ridgeZ);
+    far.tri(W(x,roofY(HUT.eaveBack),HUT.eaveBack),W(x,roofY(HUT.eaveFront),HUT.eaveFront),W(x,HUT.ridgeY+.08,HUT.ridgeZ),shade3(thatch,-.2),SURFACE.cloth,out,true);
+  }
+  {const pts=[-HUT.roofX-.08,-1.3,0,1.3,HUT.roofX+.08].map(x=>W(x,HUT.ridgeY+.1,HUT.ridgeZ));tube(far,pts,pts.map(()=>.13),pts.map(()=>shade3(thatch,-.16)));}
+  // the verandah: two posts up to the roof, a beam, rails either side of the steps
+  for(const x of [-2.2,2.2])stick(far,W(x,0,2.5),W(x,roofY(2.5)-.03,2.5),.07,.06,wood);
+  stick(far,W(-2.25,roofY(2.5)-.08,2.5),W(2.25,roofY(2.5)-.08,2.5),.05,.05,wood);
+  for(const s of [-1,1]){
+    stick(near,W(s*2.25,.86,HUT.roomFront+.1),W(s*2.25,.86,2.5),.04,.04,bleach);stick(near,W(s*2.25,0,1.85),W(s*2.25,.86,1.85),.035,.035,bleach);
+    stick(near,W(s*2.25,.86,2.5),W(s*.82,.86,2.56),.04,.04,bleach);stick(near,W(s*.82,0,2.56),W(s*.82,.92,2.56),.045,.04,bleach);stick(near,W(s*1.5,0,2.53),W(s*1.5,.86,2.53),.03,.03,bleach);
+  }
+  // the steps: as many planks as it takes to reach the sand
+  {
+    const foot=W(0,0,HUT.deckFront+HUT.stepsRun),drop=h.y-H(foot[0],foot[2]),n=Math.max(2,Math.ceil(drop/.19));
+    for(let k=1;k<=n;k++)far.add(box(HUT.stepsX*2,.06,HUT.stepsRun/n+.06),Lc(B,{y:-drop*k/(n+1)-.03,z:HUT.deckFront+HUT.stepsRun*(k-.5)/n}),bleach,{jit:.08,material:SURFACE.wood});
+    for(const x of [-HUT.stepsX,HUT.stepsX])stick(far,W(x,-.06,HUT.deckFront),[W(x,0,HUT.deckFront+HUT.stepsRun)[0],H(foot[0],foot[2])-.1,W(x,0,HUT.deckFront+HUT.stepsRun)[2]],.05,.05,wood);
+  }
+  // what is lying about: a stool, old floats on a string under the eave, a surfboard, a rain barrel under the corner of the roof
+  near.add(bbox(.42,.4,.4,.03),Lc(B,{x:-1.45,z:1.95}),wood,{jit:.08,material:SURFACE.wood});
+  for(let i=0;i<5;i++){const x=-2+i*.34,top=W(x,roofY(2.5)-.1,2.5);near.add(ico(.095,0,0),TF({x:top[0],y:top[1]-.24-(i%2)*.07,z:top[2]}),[[.95,.45,.12],[.2,.45,.7],[.93,.93,.9],[.85,.2,.15],[.95,.8,.2]][i]);stick(near,top,[top[0],top[1]-.16,top[2]],.006,.006,rope);}
+  {const q=h.at(HUT.deckX+.5,-.5),g=H(q[0],q[1]);       // (leaning on the side of the deck, its tail in the sand)
+    far.add(loft([[0,.02,.2],[.35,.03,.27],[1.2,.03,.28],[1.85,.025,.2],[2.1,.015,.06]],8,true),chain(TF({rz:.2}),TF({x:q[0],y:g-.06,z:q[1],ry:h.yaw})),[.96,.86,.32],{material:SURFACE.painted});}
+  {const q=h.at(-2.85,.2),g=H(q[0],q[1]);far.add(prism(.36,.4,.86,10),TF({x:q[0],y:g-.04,z:q[1]}),[.25,.36,.5],{jit:.05,material:SURFACE.painted});far.add(prism(.41,.41,.04,10),TF({x:q[0],y:g+.3,z:q[1]}),steel,{material:SURFACE.metal});far.add(prism(.34,.34,.02,10),TF({x:q[0],y:g+.8,z:q[1]}),[.2,.3,.36]);}
+  // a hurricane lantern on a hook by the door (its flame is drawn only after dark)
+  const hook=W(.62,1.72,HUT.roomFront+.12),lamp=W(.62,1.5,HUT.roomFront+.3);
+  stick(near,hook,[lamp[0],lamp[1]+.17,lamp[2]],.01,.01,steel);
+  near.add(prism(.065,.075,.05,8),TF({x:lamp[0],y:lamp[1]-.13,z:lamp[2]}),steel,{material:SURFACE.metal});near.add(prism(.045,.02,.07,8),TF({x:lamp[0],y:lamp[1]+.08,z:lamp[2]}),steel,{material:SURFACE.metal});
+  near.add(prism(.055,.055,.16,8),TF({x:lamp[0],y:lamp[1]-.08,z:lamp[2]}),[.75,.82,.8],{material:SURFACE.glass});
+  return lamp;
 }
 
 // ---------- his spot ----------
@@ -15025,6 +15154,12 @@ function castawayDraw(L){
   if(step>=3)L.push([mesh.box,mesh.boxAt]);
   // the fire, from dusk till dawn
   const blaze=castawayBlaze();
+  if(blaze>0&&mesh.lamp){
+    const q=mesh.lampXYZ,flick=.9+.1*Math.sin(T*7.1);
+    Q.lampGlow.glow[3]=.9*flick*blaze;
+    L.push([mesh.lamp,mesh.lampAt,Q.lampGlow]);
+    if(far<110)fxLight(q[0],q[1],q[2],8,1.5*flick*blaze,1.05*flick*blaze,.5*flick*blaze,1);
+  }
   if(blaze>0){
     const f=mesh.fireAt,flick=.8+.12*Math.sin(T*9.3)+.08*Math.sin(T*23.7);
     Q.flameGlow.glow[3]=1.1*flick*blaze;
@@ -15056,7 +15191,7 @@ function islandMenuHTML(){
     :'Somebody lives on the island off South Beach &nbsp;·&nbsp; a half cabin or bigger gets there &nbsp;·&nbsp; the I on your map';
   return '<h4>Pelican Island</h4><p>'+line+'</p>';
 }
-MODS.push({tick:castawayTick,draw:castawayDraw,glows:castawayGlows,hud:castawayHud});
+MODS.push({tick:castawayTick,draw:castawayDraw,glows:castawayGlows,hud:castawayHud,ramp:castawayRamp});
 
 // ===================== THE BREATH TEST: a booze bus on the highway at night =====================
 // From seven at night until three in the morning the police set up a breath test somewhere on the highway. It is in a
