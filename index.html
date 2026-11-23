@@ -148,6 +148,17 @@ button:hover{background:rgba(30,60,90,.85)}button.on{background:#f2b632;color:#1
 #gear button img{height:27px;width:37px;object-fit:contain;pointer-events:none}
 #gear button em{position:absolute;right:3px;top:2px;font:600 9px "Segoe UI";color:#dfe6d8}
 #gear button label{max-width:100%;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;text-wrap:balance;min-height:18px}
+#pin .pack-bar{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:5px;margin:8px 0 14px}
+#pin .pack-slot{position:relative;min-height:60px;display:grid;justify-items:center;align-content:end;gap:2px;padding:15px 3px 6px;background:#253035;border:1px solid #40494b;border-radius:3px;font-size:10px;text-transform:capitalize;text-align:center;line-height:1.1}
+#pin .pack-slot b{position:absolute;top:3px;left:6px;font:700 10px "Segoe UI";color:#d1be8b}#pin .pack-slot em{position:absolute;top:3px;right:5px;font:600 10px "Segoe UI";color:#dfe6d8}
+#pin .pack-slot img{width:36px;height:23px;object-fit:contain}#pin .pack-slot i{font-style:normal;color:#e9ece8}#pin .pack-slot.empty{border-style:dashed}#pin .pack-slot.empty i{color:#8d968f}
+#pin .pack-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:7px;margin:6px 0 14px}
+#pin .pack-tile{position:relative;display:grid;grid-template-columns:46px minmax(0,1fr);grid-template-rows:auto auto;column-gap:9px;align-items:center;text-align:left;padding:9px 30px 9px 10px;min-height:64px;background:#253035;border:1px solid #40494b;border-radius:3px;color:#e9ece8;cursor:pointer;font:inherit}
+#pin .pack-tile img{grid-row:1 / span 2;width:46px;height:31px;object-fit:contain}#pin .pack-tile strong{font-size:13px;align-self:end;text-transform:capitalize}#pin .pack-tile small{font-size:11px;color:#c0cbbb;align-self:start;line-height:1.25}
+#pin .pack-tile em{position:absolute;top:5px;right:8px;font:700 12px "Segoe UI";color:#f1e5c3}#pin .pack-tile kbd{position:absolute;bottom:6px;right:7px;font:700 10px "Segoe UI";padding:1px 5px;border:1px solid #d9b65a;border-radius:3px;color:#f1e5c3;background:#1a2428}
+#pin .pack-tile:hover,#pin .pack-tile:focus-visible{background:#344443}#pin .pack-tile.on{box-shadow:inset 0 -2px #dec590;background:#2d3d38}#pin .pack-tile[disabled]{opacity:.5;cursor:default}
+#pin .pack-note{font-weight:400;color:#c0cbbb;text-transform:none;letter-spacing:0;margin-left:8px;font-size:11px}
+#gear button.pack{margin-left:10px}
 #pin .bag-slots{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:5px;margin:12px 0 6px}
 #pin .bag-slots button{position:relative;min-height:54px;display:grid;align-content:end;line-height:1.1;text-wrap:balance;padding:15px 4px 7px}
 #pin .bag-slots b{position:absolute;top:4px;left:6px;font:700 10px "Segoe UI";color:#d1be8b}
@@ -3427,11 +3438,11 @@ const BAITS=[{id:'worm',n:'WORMS',price:0,qty:0,d:'Free. Freshwater fish love th
 const LYCHEE_PULL=[.35,1,2.5,4,6,12],LYCHEE_BITE=.55,LYCHEE_BIG=3;
 const ESKYS=[{cap:10,price:0},{cap:20,price:120},{cap:35,price:350},{cap:60,price:900}];
 const BOATS=[{n:'NO BOAT',c:0,spd:0,range:0,box:0},
-  {n:'SIT-ON KAYAK',c:200,spd:3.4,range:10,box:2,lv:1,col:'#f2c020',d:'PADDLE IT. INSHORE ONLY',where:'CREEK MOUTH, JETTY, BEACH, ROCKS'},
-  {n:'3.7M TINNY HULL',c:650,spd:4.6,range:20,box:6,lv:2,col:'#b8bcc4',d:'TAKES A MOTOR. REACHES PALM BAY',where:'+ PALM BAY, SEAL ROCKS'},
-  {n:'4.8M HALF CABIN HULL',c:2600,spd:5.4,range:20,box:14,lv:3,col:'#f4f4f4',d:'BIGGER FISH BOX, DRY CABIN',where:'+ PALM BAY, SEAL ROCKS'},
-  {n:'6M CENTRE CONSOLE HULL',c:6500,spd:6.2,range:99,box:24,lv:4,col:'#f4f4f4',d:'BLUE WATER READY',where:'+ OUTER REEF, GANNET WRECK, THREE SISTERS'},
-  {n:'8M GAME BOAT HULL',c:17000,spd:7,range:99,box:40,lv:6,col:'#f4f4f4',d:'FLYBRIDGE + OUTRIGGERS',where:'+ TURTLE BANK, BLACK REEF'}];
+  {n:'SIT-ON KAYAK',c:150,spd:3.4,range:10,box:2,lv:1,col:'#f2c020',d:'PADDLE IT. INSHORE ONLY',where:'CREEK MOUTH, JETTY, BEACH, ROCKS'},
+  {n:'3.7M TINNY HULL',c:490,spd:4.6,range:20,box:6,lv:2,col:'#b8bcc4',d:'TAKES A MOTOR. REACHES PALM BAY',where:'+ PALM BAY, SEAL ROCKS'},
+  {n:'4.8M HALF CABIN HULL',c:1950,spd:5.4,range:20,box:14,lv:3,col:'#f4f4f4',d:'BIGGER FISH BOX, DRY CABIN',where:'+ PALM BAY, SEAL ROCKS'},
+  {n:'6M CENTRE CONSOLE HULL',c:4900,spd:6.2,range:99,box:24,lv:4,col:'#f4f4f4',d:'BLUE WATER READY',where:'+ OUTER REEF, GANNET WRECK, THREE SISTERS'},
+  {n:'8M GAME BOAT HULL',c:12750,spd:7,range:99,box:40,lv:6,col:'#f4f4f4',d:'FLYBRIDGE + OUTRIGGERS',where:'+ TURTLE BANK, BLACK REEF'}];
 const BOATUPS=[{id:'finder',n:'FISH FINDER',c:1200,d:'BITES 30% FASTER WHILE YOU FISH FROM A BOAT',need:2},{id:'motor',n:'BIGGER MOTOR',c:2500,d:'+25% BOAT SPEED',need:2},{id:'tank',n:'LIVE BAIT TANK',c:1500,d:'+5 FREE LIVE MULLET EVERY MORNING',need:3}];
 const REELS=[{n:'RUSTY OLD REEL',c:0,spd:1,drag:0,d:'SQUEAKS. A LOT.'},{n:'2500 SPIN REEL',c:140,spd:1.3,drag:0.15,d:'SMOOTH DRAG'},{n:'4000 SPIN REEL',c:480,spd:1.6,drag:0.3,d:'GOOD ALL ROUNDER'},
   {n:'8000 SPIN REEL',c:1900,spd:2,drag:0.45,d:'BUILT FOR BLUE WATER'},{n:'GAME REEL',c:7000,spd:2.4,drag:0.6,d:'LEVER DRAG. SERIOUS STUFF'},
@@ -3447,17 +3458,20 @@ const COMPS=[
  {id:'bay',n:'PALM BAY CLASSIC',z:['bay'],fee:400,prize:[7000,3000,1000],lv:5,boat:2,d:'BOAT ONLY (TINNY OR BIGGER)'},
  {id:'marlin',n:'MARLIN CUP',z:['reef'],fee:1500,prize:[35000,14000,5000],lv:7,boat:4,d:'OUTER REEF. CENTRE CONSOLE OR BIGGER'},
 ];
-const RIDES=[{n:'ON FOOT',c:0,spd:2.6},{n:'SKATEBOARD',c:0,spd:5,col:'#e04040',d:'YOU START WITH THIS. KICK, PUSH, COAST'},{n:'DIRT BIKE',c:450,spd:8.5,col:'#f07820',d:'BRAAAP. FAST ON THE DIRT TOO',lv:2},
-  {n:'LITTLE HATCHBACK',c:1900,spd:11,col:'#3fa85a',d:'GETS YOU THERE. JUST',lv:3},{n:'FAMILY UTE',c:5500,spd:13.5,col:'#d8dce4',d:'THE AUSSIE CLASSIC. ROOM FOR RODS',lv:4},{n:'LUXURY SPORTS CAR',c:18000,spd:17,col:'#c8a020',d:'FLEX ON THE WHOLE TOWN',lv:6}];
+const RIDES=[{n:'ON FOOT',c:0,spd:2.6},{n:'SKATEBOARD',c:0,spd:5,col:'#e04040',d:'YOU START WITH THIS. KICK, PUSH, COAST'},{n:'DIRT BIKE',c:340,spd:8.5,col:'#f07820',d:'BRAAAP. FAST ON THE DIRT TOO',lv:2},
+  {n:'LITTLE HATCHBACK',c:1400,spd:11,col:'#3fa85a',d:'GETS YOU THERE. JUST',lv:3},{n:'FAMILY UTE',c:4100,spd:13.5,col:'#d8dce4',d:'THE AUSSIE CLASSIC. ROOM FOR RODS',lv:4},{n:'LUXURY SPORTS CAR',c:13500,spd:17,col:'#c8a020',d:'FLEX ON THE WHOLE TOWN',lv:6}];
 const SHORE=['creek','dam','lagoon','estuary','jetty','surf','shelly','rocks','bay','seal','reef','wreck','sisters','turtle','black'];
 const BOOKFISH=FISH.filter(f=>f.sh!=='crab'&&!f.secret&&f.z.some(z=>SHORE.includes(z)));
 const SECRETFISH=FISH.filter(f=>f.secret),secretsCaught=()=>SECRETFISH.filter(f=>S.book[f.id]).length;      // rumours: they never count towards the book
 const ZNAME={creek:'SHIZ CREEK',dam:'COD HOLE DAM',lagoon:'BLUE LAGOON',estuary:'MANGROVE MOUTH',jetty:'THE JETTY',surf:'MAIN BEACH',rocks:'LIGHTHOUSE ROCKS',bay:'PALM BAY',reef:'OUTER REEF',shelly:'SHELLY BEACH',seal:'SEAL ROCKS',wreck:'GANNET WRECK',sisters:'THREE SISTERS',turtle:'TURTLE BANK',black:'BLACK REEF'};
-function newSave(){return {version:SAVE_VERSION,nextCatch:0,held:0,hotbar:defaultHotbar(),launchGuide:false,journeyRewards:[],position:null,park:null,compResult:null,xp:0,tutorial:0,hull:0,boatUps:{},reel:0,line:0,ride:1,paintHull:0,paintTrim:0,boatMotor:1,boatFinder:0,boatDecal:0,marineOwned:null,license:false,wanted:0,impound:{ride:false,boat:false},oddJob:null,jobsDone:{},side:{},market:{},comp:null,compHistory:{},trophies:[],questDone:{},questPin:'',journeyReady:false,legal:{},bag:{},buffs:{},sound:true,money:60,rod:'starter',rods:['starter'],bait:'worm',baits:{worm:1},esky:0,cooler:[],book:{},goal:0,day:1,tod:7.2,stats:{caught:0,sold:0,zones:{},biggest:0,bought:0}};}
+function newSave(){return {version:SAVE_VERSION,nextCatch:0,held:0,hotbar:defaultHotbar(),launchGuide:false,journeyRewards:[],position:null,park:null,compResult:null,xp:0,tutorial:0,hull:0,boatUps:{},reel:0,line:0,ride:1,paintHull:0,paintTrim:0,boatMotor:1,boatFinder:0,boatDecal:0,marineOwned:null,license:true,wanted:0,impound:{ride:false,boat:false},oddJob:null,jobsDone:{},side:{},market:{},comp:null,compHistory:{},trophies:[],questDone:{},questPin:'',journeyReady:false,legal:{},bag:{},buffs:{},sound:true,money:60,rod:'starter',rods:['starter'],bait:'worm',baits:{worm:1},esky:0,cooler:[],book:{},goal:0,day:1,tod:7.2,stats:{caught:0,sold:0,zones:{},biggest:0,bought:0}};}
 const SAVE_KEY='shizcreek3d_save',SAVE_VERSION=8;
 const DART_SECONDS=45,DRINK_SECONDS=35,LYCHEE_SECONDS=28;
 const oddJobIds=['orchard','jetski','getaway'];
 const supplyIds=['gs','dart','pie','coffee','ginger','lychee'];
+// The hotbar: how many slots, the first one that fills itself, and what never goes on it by itself (a stolen lychee is
+// worth more as bait than as a snack). These live up here because a save is read before most of this file has run.
+const HOT_SLOTS=8,HOT_FIRST=2,HOT_SKIP=['lychee'];
 function numberIn(value,min,max,fallback=min){
   return typeof value==='number'&&Number.isFinite(value)?clamp(value,min,max):fallback;
 }
@@ -3485,7 +3499,7 @@ function normalizeSave(raw){
   next.day=intIn(raw.day,1,100000,1);next.tod=numberIn(from2D?raw.time:raw.tod,0,23.99,next.tod);
   next.xp=intIn(raw.xp,0,1e8);
   next.tutorial=from2D?4:intIn(raw.tutorial,0,4);
-  next.license=raw.license===true;
+  next.license=true;
   next.wanted=intIn(raw.wanted,0,5);
   next.jobsDone=recordFlags(raw.jobsDone,id=>oddJobIds.includes(id));
   if(oddJobIds.includes(raw.oddJob?.id)&&!next.jobsDone[raw.oddJob.id])next.oddJob={id:raw.oddJob.id,from:intIn(raw.oddJob.from,0,1e9)};
@@ -3612,12 +3626,12 @@ function readPortableSave(source){
   throw Error('Use a Shiz Creek 3D backup or an SC1 code from the original game.');
 }
 function menuPanel(){
-  return '<h1>Shiz Creek 3D</h1><div class="menu-links"><button id="menuResume">Resume</button><button id="menuJournal">Journey</button><button id="menuTutorial">Replay tutorial</button><button id="menuOutfit">Outfit</button><button id="menuSound">Sound '+(S.sound===false?'off':'on')+'</button></div>'
+  return '<h1>Shiz Creek 3D</h1><div class="menu-links"><button id="menuResume">Resume</button><button id="menuJournal">Journey</button><button id="menuTutorial">Replay tutorial</button>'+tutorMenuHTML()+'<button id="menuOutfit">Outfit</button><button id="menuSound">Sound '+(S.sound===false?'off':'on')+'</button></div>'
     +gtaMenuHTML()+boxMenuHTML()+dealerMenuHTML()+bullMenuHTML()+localsMenuHTML()+gfxMenuHTML()+'<h4>Progress and backups</h4><p>'+(saveOK?'This browser saves your progress here.':'This browser blocked your save. Export a backup to keep your progress.')+'</p>'
     +'<div class="menu-links"><button id="saveExport">Download backup</button><label class="file-button">Choose save file<input id="saveFile" type="file" accept=".json,.txt,application/json"></label></div>'
     +'<label for="savePaste">Paste a backup or an original SC1 save code</label><textarea id="savePaste" rows="3" spellcheck="false"></textarea>'
     +'<div class="menu-links"><button id="saveInspect">Check save</button><button id="saveReplace" hidden>Replace current progress</button></div><p id="saveStatus" role="status"></p>'
-    +'<h4>Controls</h4><p>WASD move · hold Shift to run · drag to orbit · Space cast and hook · E interact or start a glowing marker · X quit a race or job · B launch or board · V ride · G take item or vehicle · F shove · 1–8 hotbar · M map · L journey · I bag · K esky · O outfit · T dance · H horn when driving · F with a fish in your hand: fish slap</p>'
+    +'<h4>Controls</h4><p>WASD move · hold Shift to run · drag to orbit · Space cast and hook · E interact or start a glowing marker · X quit a race or job · B launch or board · V ride · G take item or vehicle · F shove · 1–8 hotbar · M map · L journey · I bag · K esky · O outfit · T dance · H how to play (horn when driving) · F with a fish in your hand: fish slap</p>'
     +'<button id="startFresh">Start a new trip</button><button id="freshConfirm" hidden>Replace this save with a new trip</button>';
 }
 function bindMenu(){
@@ -3632,7 +3646,7 @@ function bindMenu(){
   }
   bindGfxMenu();$('menuResume').onclick=closeUI;
   $('menuJournal').onclick=()=>openUI('journey');
-  $('menuTutorial').onclick=()=>{closeUI();S.tutorial=0;save();updateTutorial();};
+  $('menuTutorial').onclick=()=>{closeUI();S.tutorial=0;save();updateTutorial();};tutorBindMenu();
   $('menuSound').onclick=()=>{S.sound=S.sound===false;save();renderUI();};
   $('saveExport').onclick=()=>{
     const a=document.createElement('a'),url=URL.createObjectURL(new Blob([progressBackup()],{type:'application/json'}));
@@ -3833,7 +3847,7 @@ function drawSchoolWater(vp){
 
 const lenOf=(f,w)=>Math.round(f.k*Math.cbrt(w));
 function special(){const list=BOOKFISH.filter(f=>!f.junk&&f.p>0&&f.r>=0.5);return list[(S.day*7919)%list.length];}
-const FISH_PAY=1.2;      // what Petey pays, across the board
+const FISH_PAY=1.5;      // what Petey pays, across the board
 function valueOf(c){if(c.under)return 0;const f=FISHI[c.id];let v=f.p*FISH_PAY*c.w*(.85+hash2(S.day,FISH.indexOf(f))*.35);if(c.trophy)v*=1.5;if(special().id===c.id)v*=2;return Math.max(f.p>0?2:0,Math.round(v));}
 // ---------- fish meshes ----------
 const SHP={perch:{dep:0.32,wid:0.13},deep:{dep:0.44,wid:0.13,dorsal:0.8},barra:{dep:0.27,wid:0.14,eye:'#e85a20'},long:{dep:0.2,wid:0.11},cod:{dep:0.3,wid:0.2,tailShape:'round',dorsal:0.7},
@@ -3978,16 +3992,15 @@ function keepFish(keepUndersize=false){const c=F.card;if(!c)return;if(c.must==='
     if(!under)S.stats.kept=(S.stats.kept||0)+1;
     const excess=!under&&S.cooler.filter(f=>f.id===c.id&&!f.under).length>=BAG_LIMIT;
     storeCatch({id:c.id,w:c.w,len:c.len,trophy:c.trophy,under});
-    if(under){const hot=hotFish();if(hot>=3)raiseWanted(1,'Poaching · '+hot+' undersize fish in the esky',2);else raiseWanted(1,'Kept an undersize fish');}
+    const hide=under?eskyHides():0;
+    if(under&&hotFish()<=hide)say('Under the false bottom · '+hotFish()+' of '+hide+' hidden',2.4);
+    else if(under){const hot=hotSeen();if(hot>=3)raiseWanted(1,'Poaching · '+hot+' undersize fish in the esky',2);else raiseWanted(1,'Kept an undersize fish');}
     else if(excess)raiseWanted(1,'Over the bag limit for '+FISHI[c.id].n.toLowerCase());
     else say('In the esky ('+S.cooler.length+'/'+eskyCapacity()+')');
   }
   closeCard();}
 function releaseFish(){if(!F.card)return;if(FISHI[F.card.id].pest){say('Keep carp out of the water');SFX.no();return;}if(F.card.must==='protected'){keepFish();return;}S.stats.released=(S.stats.released||0)+1;say('RELEASED. SWIM FREE!');splash(PS.x+fwd(PS.yaw)[0]*1.5,PS.y,PS.z+fwd(PS.yaw)[1]*1.5,8,0.6);closeCard();}
 function closeCard(){if(S.tutorial<4){S.tutorial=4;updateTutorial();}
-  if(!S.license&&S.stats.caught===3&&!S.stats.licenceReminder){
-    S.stats.licenceReminder=1;say('First three fish caught · licences are $25 at Karki’s',3.2);
-  }
   CAM.yaw=F.revealYaw;F.card=null;F.st='idle';document.getElementById('card').style.display='none';save();}
 function headShake(key){
   const m=F.track;
@@ -4022,7 +4035,7 @@ function fishUpdate(dt){F.t+=dt;updateTutorial();if(F.msgT>0)F.msgT-=dt;F.castA=
   else if(F.st==='fly'){F.flyT+=dt;const t=clamp(F.flyT/F.flyD,0,1),h=Math.hypot(F.to[0]-F.from[0],F.to[2]-F.from[2])*0.28;
     F.bob=[lerp(F.from[0],F.to[0],t),lerp(F.from[1],F.to[1],t)+Math.sin(t*PI)*h,lerp(F.from[2],F.to[2],t)];
     if(t>=1&&!isWater(F.to[0],F.to[2])){for(let k=1;k<=40;k++){const u=1-k/40,x=lerp(PS.x,F.to[0],u),z=lerp(PS.z,F.to[2],u);if(Math.hypot(x-PS.x,z-PS.z)<1.8)break;if(isWater(x,z)){F.to=[x,waterLevel(x,z),z];F.bob=F.to.slice();break;}}}
-    if(t>=1){if(isWater(F.to[0],F.to[2])){F.st='wait';if(S.tutorial<2)S.tutorial=2;afterUnlicensedCast();F.biteT=waitTime();F.nib=0;F.dip=0;F.D=Math.hypot(F.to[0]-PS.x,F.to[2]-PS.z);SFX.plop();waterBurst(...F.to,9,.65);if(F.cleanCast)say('Clean cast',.85);}else{SFX.no();F.st='miss';F.t=0;say('MISSED THE WATER! FACE THE WATER AND CAST AGAIN');}}}
+    if(t>=1){if(isWater(F.to[0],F.to[2])){F.st='wait';if(S.tutorial<2)S.tutorial=2;F.biteT=waitTime();F.nib=0;F.dip=0;F.D=Math.hypot(F.to[0]-PS.x,F.to[2]-PS.z);SFX.plop();waterBurst(...F.to,9,.65);if(F.cleanCast)say('Clean cast',.85);}else{SFX.no();F.st='miss';F.t=0;say('MISSED THE WATER! FACE THE WATER AND CAST AGAIN');}}}
   else if(F.st==='miss'){if(F.t>0.9)reelIn();}
   else if(F.st==='wait'||F.st==='bite'){const wl=waterLevel(F.bob[0],F.bob[2]);F.dip=lerp(F.dip,0,dt*6);
     if(keys[' ']&&F.st==='wait'){const dx=PS.x-F.bob[0],dz=PS.z-F.bob[2],d=Math.hypot(dx,dz);const nx=F.bob[0]+dx/d*r.reel*0.8*dt,nz=F.bob[2]+dz/d*r.reel*0.8*dt;
@@ -4367,10 +4380,10 @@ const shellyTarget=()=>[coastX(-112)-3,-112];
 const markTarget=i=>()=>[offshorePlaces[i].x-offshorePlaces[i].rx-10,offshorePlaces[i].z];
 const voyageRows=[
  ['First tide',[
-   ['cast','Land your first fish',byStat('caught'),1,30,jettyTarget],
-   ['keep','Keep a legal catch',()=>Math.max(S.stats.kept||0,S.cooler.filter(c=>!c.under).length,S.stats.sold),1,25,jettyTarget],
-   ['sell','Sell a catch at Petey’s',byStat('sold'),1,30,npcAt('petey')],
-   ['prawns','Pick up prawns at Karki’s',()=>Math.max(S.stats.prawns||0,S.baits.prawn||0),1,15,npcAt('karki')]
+   ['cast','Land your first fish',byStat('caught'),1,60,jettyTarget],
+   ['keep','Keep a legal catch',()=>Math.max(S.stats.kept||0,S.cooler.filter(c=>!c.under).length,S.stats.sold),1,50,jettyTarget],
+   ['sell','Sell a catch at Petey’s',byStat('sold'),1,60,npcAt('petey')],
+   ['prawns','Pick up prawns at Karki’s',()=>Math.max(S.stats.prawns||0,S.baits.prawn||0),1,30,npcAt('karki')]
  ]],
  ['Hannaford local',[
    ['graphite','Buy the Bream Stick',()=>S.rods.includes('graphite')?1:0,1,55,npcAt('karki')],
@@ -4474,6 +4487,7 @@ sides.push(...[
  ['hotwheels','Hot Wheels','Steal the car Keith is after and get it to the car yard · H on the map',byStat('hotCars'),1,150,()=>gtaSpot('spray')],
  ['frenzy','Slap Happy','Win a Fish Frenzy · ! on the map',byStat('frenzies'),1,150,()=>gtaSpot('frenzy')],
  ['shiny','Shiny Things','Find five hidden lures',()=>lureCount(),5,200,null],
+ ['isaac','A Light in the Forest','Find out who camps in Charlie’s Forest after dark · the ? on the map',byStat('dealerMet'),1,80,()=>typeof DEALER==='object'&&DEALER.camp?[DEALER.camp.x,DEALER.camp.z]:null],
  ['respray','Clean Record','Lose the cops with a respray at the car yard · S on the map',byStat('resprays'),1,100,()=>gtaSpot('spray')],
  ['cartel','The Lychee Cartel','Work your way up Phill Hansen’s lychee business: five jobs · L on the map, up at the orchard',byStat('cartel'),5,1200,()=>gtaSpot('cartel')]
 ].map(([id,title,desc,get,target,cash,at])=>({id:'side:'+id,title,desc,get,target,cash,at,side:true})));
@@ -4508,7 +4522,7 @@ const freshwater=[
 ].map(([id,title,desc,get,target,cash,at])=>({id:'side:'+id,title,desc,get,target,cash,at,side:true}));
 const allQuests=[...journey.flatMap(c=>c.quests),...sides,...freshwater];
 const chapterRewards=[
-  {cash:50,xp:20,prawns:5},{cash:220,xp:66,prawns:5},{cash:400,xp:125,prawns:12},
+  {cash:100,xp:40,prawns:5},{cash:220,xp:66,prawns:5},{cash:400,xp:125,prawns:12},
   {cash:1100,xp:330,prawns:0},{cash:4300,xp:900,prawns:0}
 ];
 let questPage='Active',goalCk=0,rewardUntil=0;
@@ -4667,7 +4681,19 @@ function slotArt(index){
   }else if(index===6){
     g.fillStyle='#d8bb81';g.beginPath();g.moveTo(5,14);g.lineTo(35,14);g.lineTo(29,22);g.lineTo(11,22);g.closePath();g.fill();
     stroke('#a2c8c0',1.5,[[17,14],[17,6],[26,6],[30,14]]);
-  }else if(index===4){
+  }else if(index==='gs'){          // a gold can
+    g.fillStyle='#d8a23a';g.beginPath();g.roundRect(14,5,12,19,2);g.fill();g.fillStyle='#cfd6d8';g.fillRect(14,5,12,2.6);g.fillStyle='#1f5a3a';g.fillRect(14,11,12,6);g.fillStyle='#f1e5c3';g.fillRect(17,13,6,2);
+  }else if(index==='dart'){        // a dart, lit
+    g.fillStyle='#f1eee4';g.fillRect(8,13,20,3.4);g.fillStyle='#d9a05b';g.fillRect(8,13,6,3.4);g.fillStyle='#e25b2e';g.fillRect(28,13,2.4,3.4);stroke('#c9d6cc',.9,[[31,12],[33,9],[31,6],[33,3]]);
+  }else if(index==='pie'){         // a meat pie with sauce
+    g.fillStyle='#b97a3a';g.beginPath();g.ellipse(20,17,13,6,0,0,TAU);g.fill();g.fillStyle='#d9a25c';g.beginPath();g.ellipse(20,14,12,6,0,0,TAU);g.fill();g.fillStyle='#c0392b';g.beginPath();g.ellipse(20,13,5,2.4,0,0,TAU);g.fill();
+  }else if(index==='coffee'){      // an iced coffee carton with a straw
+    g.fillStyle='#e9e2d0';g.beginPath();g.roundRect(13,7,13,17,2);g.fill();g.fillStyle='#7a5a3c';g.fillRect(13,12,13,6);stroke('#c0392b',1.4,[[22,7],[25,2]]);
+  }else if(index==='ginger'){      // a brown bottle
+    g.fillStyle='#8a5a2a';g.fillRect(18,3,4,7);g.beginPath();g.roundRect(15,9,10,15,2);g.fill();g.fillStyle='#e8c65a';g.fillRect(15,14,10,5);g.fillStyle='#cfd6d8';g.fillRect(18,2,4,1.6);
+  }else if(index==='lychee'){      // two lychees on a stalk
+    stroke('#5c7a3a',1.4,[[14,6],[20,9],[27,5]]);for(const [x,y] of [[15,15],[25,14]]){g.fillStyle='#d9435e';g.beginPath();g.arc(x,y,6,0,TAU);g.fill();g.fillStyle='#f08aa0';g.beginPath();g.arc(x-2,y-2,1.6,0,TAU);g.fill();}
+  }else if(index===4||typeof index==='string'){
     g.fillStyle='#b38557';g.fillRect(13,7,14,16);g.fillStyle='#e7d3ab';g.fillRect(15,10,10,9);g.fillStyle='#78998f';g.fillRect(17,13,6,3);
   }else{
     g.fillStyle='#c9b28c';g.fillRect(7,7,26,17);g.fillStyle='#71948a';g.fillRect(8,5,24,16);
@@ -4686,16 +4712,22 @@ function updateWantedStars(){
 function hud(){
   updateWantedStars();
   $('money').textContent='$'+S.money.toLocaleString();
-  $('esk').textContent='ESKY '+S.cooler.length+'/'+eskyCapacity()+(hotFish()?' · '+hotFish()+' HOT':'');writeGoals();
+  $('esk').textContent='ESKY '+S.cooler.length+'/'+eskyCapacity()+(hotSeen()?' · '+hotSeen()+' HOT':'')+(hotFish()>hotSeen()?' · '+(hotFish()-hotSeen())+' HIDDEN':'');writeGoals();
   const bar=$('gear');
   for(let i=bar.children.length;i<S.hotbar.length;i++){
     const button=document.createElement('button');button.onclick=()=>quickSlot(String(i+1));bar.append(button);
+  }
+  if(!bar.querySelector('.pack')){
+    // beside the eight slots, the door to everything else you carry
+    const pack=document.createElement('button'),letter=document.createElement('small'),label=document.createElement('label');
+    pack.className='pack';pack.title='I · Backpack';letter.textContent='I';label.textContent='backpack';pack.append(letter,slotArt(3),label);
+    pack.onclick=()=>{if(!fishBusy()&&!knockdown&&!mapOpen&&!UI)resetBag('Pack');};bar.append(pack);
   }
   S.hotbar.forEach((token,i)=>{
     const slot=bar.children[i],{name,art,fish,active,qty}=hotItem(token);
     const key=[token,name,active,qty].join('|');slot.classList.toggle('empty',!token);
     if(slot.dataset.render===key)return;
-    slot.dataset.render=key;slot.classList.toggle('equipped',!!active);slot.title=(i+1)+' · '+name;
+    slot.dataset.render=key;slot.classList.toggle('equipped',!!active);slot.title=(i+1)+' · '+(name||'free slot: food and drink lands here by itself');
     const number=document.createElement('small'),label=document.createElement('label');
     number.textContent=i+1;label.textContent=name.toLowerCase();
     const children=[number];
@@ -4707,9 +4739,9 @@ function hud(){
 }
 function showCard(){const c=F.card,f=FISHI[c.id],[rn,rc]=rarity(f);const v=c.must?0:valueOf(c);const tags=(c.isNew?'<span class="tg new">NEW SPECIES!</span>':'')+(c.pb?'<span class="tg pb">PERSONAL BEST!</span>':'')+(c.trophy&&!f.junk?'<span class="tg tr">TROPHY</span>':'')+(c.compNote?'<span class="tg tr">'+c.compNote+'</span>':'')+(special().id===c.id&&!c.must?'<span class="tg tr">PETEY\'S SPECIAL x2</span>':'');
   const bagFull=!c.must&&S.cooler.filter(item=>item.id===c.id&&!item.under).length>=BAG_LIMIT;
-  const note=c.must==='undersize'?'Under the legal size of '+f.min+' cm. Release it and stay clean — or keep it: Petey pays about <b>$'+underPrice(c)+'</b> under the counter, and it rigs as live bait. The ranger will come looking.':c.must==='protected'?'PROTECTED SPECIES. RELEASE IT FOR A BONUS.':c.must==='junk'?'NOT A FISH. BIN IT.':bagFull?'Bag limit reached. Keeping another draws patrol attention.':'WORTH ABOUT <b>$'+v+'</b> AT PETEY\'S';
+  const note=c.must==='undersize'?'Under the legal size of '+f.min+' cm. Release it and stay clean — or keep it: Petey pays about <b>$'+underPrice(c)+'</b> under the counter, and it rigs as live bait. '+(hotFish()<eskyHides()?'It fits under your false bottom, so nobody calls the ranger.':'The ranger will come looking.'):c.must==='protected'?'PROTECTED SPECIES. RELEASE IT FOR A BONUS.':c.must==='junk'?'NOT A FISH. BIN IT.':bagFull?'Bag limit reached. Keeping another draws patrol attention.':'WORTH ABOUT <b>$'+v+'</b> AT PETEY\'S';
   $('card').innerHTML='<div class="rar" style="color:'+rc+'">'+rn+' CATCH</div><h2>'+f.n+'</h2><div class="tgs">'+tags+'</div><div class="st"><div><b>'+c.w.toFixed(2)+'</b> KG</div><div><b>'+c.len+'</b> CM</div><div><b>'+ZNAME[c.zone]+'</b></div></div><p>'+note+'</p>'+
-   '<div class="bt">'+(c.must==='undersize'?'<button id="cr" class="go">Release [Space]</button><button id="cu">Keep it (risky)</button>':c.must==='protected'?'<button id="cr" class="go">'+(f.tag?'Tag &amp; release':'Release')+' +$'+(f.bounty||10).toLocaleString()+' [Space]</button>':c.must==='junk'?'<button id="ck" class="go">BIN IT [SPACE]</button>':'<button id="ck" class="go">Keep [Space]</button>'+(f.pest?'':'<button id="cr">Release [X]</button>'))+'</div>';
+   '<div class="bt">'+(c.must==='undersize'?'<button id="cr" class="go">Release [Space]</button><button id="cu">'+(hotFish()<eskyHides()?'Keep it (hidden)':'Keep it (risky)')+'</button>':c.must==='protected'?'<button id="cr" class="go">'+(f.tag?'Tag &amp; release':'Release')+' +$'+(f.bounty||10).toLocaleString()+' [Space]</button>':c.must==='junk'?'<button id="ck" class="go">BIN IT [SPACE]</button>':'<button id="ck" class="go">Keep [Space]</button>'+(f.pest?'':'<button id="cr">Release [X]</button>'))+'</div>';
   $('card').style.display='block';if($('ck'))$('ck').onclick=keepFish;if($('cr'))$('cr').onclick=c.must?keepFish:releaseFish;if($('cu'))$('cu').onclick=()=>keepFish(true);}
 // Feature modules (src/v3/*.js) plug in here instead of being wired in by hand:
 //   MODS.push({tick(dt), draw(L), glows(SK), hud(), pose(st)})   any of them, called every frame from the matching place
@@ -5293,7 +5325,7 @@ function update(dt){updateRemoteDecks(dt);autosaveClock+=dt;if(autosaveClock>15)
   const prevX=PS.x,prevZ=PS.z;
   const run=keys.shift?2.0:1,boost=buffSeconds('dart')?1.19:1;
   const driving=mounted&&activeRide>=2;
-  const target=l>0?boost*(onBoat?2.1:mounted?RIDES[activeRide].spd:2.6*run*(buffSeconds('lychee')?1.27:1)):0;
+  const target=l>0?boost*(onBoat?2.1:mounted?RIDES[activeRide].spd:2.6*run*(buffSeconds('lychee')?1.27:1)*(hungover()?HANGOVER_SLOW:1)):0;
   if(!driving)PS.spd=lerp(PS.spd,target,1-Math.exp(-dt*(target>PS.spd?10:18)));
   if(l>0&&!driving){
     mx/=l;mz/=l;[mx,mz]=drunkWalk(mx,mz);
@@ -5342,7 +5374,7 @@ function update(dt){updateRemoteDecks(dt);autosaveClock+=dt;if(autosaveClock>15)
     const y=PS.y+1.62;CAM.eye=[PS.x,y,PS.z];
     CAM.tgt=[PS.x-Math.sin(CAM.yaw),y-Math.tan(clamp(CAM.pitch-(insideShop(PS.x,PS.z)===SHOPS.pub?.12:.22),-.6,.85)),PS.z-Math.cos(CAM.yaw)];return;
   }
-  if(onBoat&&F.st!=='show'){
+  if(onBoat&&F.st!=='show'&&craftAtSeat()){
     const ship=craftAtSeat(),length=MARINE_SIZE[ship.config.hull][0];
     const active=fishCam(dt,!!drag),center=active||[lerp(PS.x,ship.x,.53),PS.y+.98,lerp(PS.z,ship.z,.53)];
     const pitch=Math.max(CAM.pitch,ship.config.hull>=4?.43:.29);
@@ -5372,13 +5404,14 @@ function update(dt){updateRemoteDecks(dt);autosaveClock+=dt;if(autosaveClock>15)
   ex=lerp(tx,ex,CAM.clearance);ey=lerp(ty,ey,CAM.clearance);ez=lerp(tz,ez,CAM.clearance);
   const gmin=Math.max(H(ex,ez),waterLevel(ex,ez))+0.5;if(ey<gmin)ey=gmin;CAM.eye=[ex,ey,ez];CAM.tgt=[tx,ty,tz];}
 const BAG_LIMIT=4;
+const FALSE_BOTTOM=2,eskyHides=()=>S.stats.dealerFalse?FALSE_BOTTOM:0;
 const pursuit={age:0,driving:0,drank:false,stop:0,cover:0,lost:0,peak:0,retry:0,noiseAt:0,
-  officer:null,air:null,block:null,nextBlock:0,lastSeen:null,seen:false,lastLicence:-100};
+  officer:null,air:null,block:null,nextBlock:0,lastSeen:null,seen:false};
 const patrolBoatConfig={hull:3,motor:2,finder:0,tank:false,rods:false,paint:5,trim:3,decal:6};
 let patrolModels=null;
 function resetPursuit(){
   Object.assign(pursuit,{age:0,driving:0,drank:false,stop:0,cover:0,lost:0,peak:0,retry:0,noiseAt:0,
-    officer:null,air:null,block:null,nextBlock:0,lastSeen:null,seen:false,lastLicence:-100});
+    officer:null,air:null,block:null,nextBlock:0,lastSeen:null,seen:false});
   citationReceipt=null;
 }
 function repScore(){return (S.stats.streetRep||0)+Math.floor(Math.sqrt(S.xp/3));}
@@ -5405,11 +5438,6 @@ function liquorPatrol(dt,speed){
   if(pursuit.driving<2.75)return;
   pursuit.drank=true;
   raiseWanted(0,onBoat?'Water Police · bring your boat to a stop':'Hannaford Police · pull over',3);
-}
-function afterUnlicensedCast(){
-  if(!S.license&&S.stats.caught>=3&&T-pursuit.lastLicence>18){
-    pursuit.lastLicence=T;raiseWanted(1,'Fishing without a licence');
-  }
 }
 function patrolSpawn(kind){
   const fx=Math.sin(PS.yaw),fz=Math.cos(PS.yaw);
@@ -5512,18 +5540,18 @@ function citePlayer(voluntary=false){
     trafficGuard=2.6;
     delete S.buffs.gs;
   }
-  let removed=0;
-  const counts=new Map();
+  let removed=0,hidden=0;
+  const counts=new Map(),hide=transfer?0:eskyHides();
   S.cooler=S.cooler.filter(c=>{
     const amount=counts.get(c.id)||0;
+    if(c.under&&hidden<hide){hidden++;return true;}
     if(c.under||amount>=BAG_LIMIT){removed++;return false;}
     counts.set(c.id,amount+1);return true;
   });
   const base=[0,35,58,115,170,230][rank],bill=Math.min(420,base+removed*22);
   const fine=Math.min(Math.max(0,S.money),voluntary?Math.round(bill*.65):bill);
   S.money-=fine;S.stats.fines=(S.stats.fines||0)+fine;S.stats.arrests=(S.stats.arrests||0)+(transfer?1:0);
-  if(!S.license)pursuit.lastLicence=T;
-  citationReceipt={rank,fine,removed,transfer,voluntary,ride,boat,seized:stolenCar||stolenBoat};
+  citationReceipt={rank,fine,removed,hidden,transfer,voluntary,ride,boat,seized:stolenCar||stolenBoat};
   clearPursuit();F.msgT=0;SFX.no();
   openUI('citation');save();hud();
   return true;
@@ -5786,7 +5814,7 @@ const TALK={
  phill:['G’day. That’s my lychee orchard. I count what comes off each tree.','The track east will take you back to town. Watch for the ranger.'],
  moss:['You here for a job? Come a bit closer.'],local:['The bite’s on at the jetty in the mornings.','Charlie’s Forest is just west of here.'],
  walker:['I reckon there’s something big down in that dam.','Seen anyone on the jet ski today?'],
- officer:['Licence and esky, please.','Four fish per species. Let the little ones grow.'],karki:["G'DAY MATE! KARKI. BEST BAIT IN SHIZ CREEK.","PRAWNS FOR THE JETTY, WORMS FOR THE CREEK. EASY.","DAWN AND DUSK, THAT'S WHEN THEY BITE.","THE GOLDEN FISH IS REAL. I SAW IT ONCE. MAYBE."],
+ officer:['Esky check. Lid up, please.','Four fish per species. Let the little ones grow.'],karki:["G'DAY MATE! KARKI. BEST BAIT IN SHIZ CREEK.","PRAWNS FOR THE JETTY, WORMS FOR THE CREEK. EASY.","DAWN AND DUSK, THAT'S WHEN THEY BITE.","THE GOLDEN FISH IS REAL. I SAW IT ONCE. MAYBE."],
  petey:["POP POP! FRESH FISH ONLY.","BRING ME A SNAPPER AND I'LL PAY TOP DOLLAR.","PRICES CHANGE EVERY DAY. CHECK THE BOARD."],
  hugh:["What can I get you?","The pool table is to your left when you face the door.","Anything you buy goes into your backpack."],
  damo:["DAMO'S BOAT WORKS. WE BUILD 'EM, YOU PAINT 'EM.","TWIN 300S. THAT'S THE DREAM, MATE.","YEAH THE SHIRT'S A BIT SHORT. DON'T WORRY ABOUT IT."],
@@ -6061,7 +6089,7 @@ function raiseWanted(amount,reason,minimum=0){
 }
 function resetPursuit(){
   Object.assign(pursuit,{age:0,driving:0,drank:false,stop:0,cover:0,lost:0,peak:0,retry:0,noiseAt:0,
-    officer:null,air:null,block:null,nextBlock:0,lastSeen:null,seen:false,lastLicence:-100});
+    officer:null,air:null,block:null,nextBlock:0,lastSeen:null,seen:false});
   COP.units.length=0;COP.search=0;COP.bust=0;COP.busted=null;COP.chatter.length=0;FX.desat=0;COP.hull=3;
   citationReceipt=null;
 }
@@ -6257,7 +6285,7 @@ function tickPursuit(dt){
   const speed=pursuitSpeed();
   liquorPatrol(dt,speed);
   COP.flash=Math.max(0,COP.flash-dt*1.2);
-  FX.desat=lerp(FX.desat,COP.busted&&!COP.busted.minor?1:0,1-Math.exp(-dt*(COP.busted?14:3)));
+  FX.desat=lerp(FX.desat,COP.busted&&!COP.busted.minor?1:hungover()?HANGOVER_GREY:0,1-Math.exp(-dt*(COP.busted?14:3)));
   if(COP.capsize){
     const k=clamp((performance.now()-COP.capsize.at)/1100,0,1),ship=COP.capsize.ship;
     if(COP.busted){ship.roll=k*k*2.3;ship.sink=k*.45;}else{ship.roll=0;ship.sink=0;COP.capsize=null;}
@@ -6320,7 +6348,7 @@ function tickPursuit(dt){
   }
   if(seen)COP.chase=(COP.chase||0)+speed*dt;
   pursuit.seen=seen;pursuit.lost=COP.search;pursuit.officer=nearest;
-  COP.evadeNeed=9+S.wanted*4+Math.min(8,hotFish()*2);   // an esky full of illegal fish is harder to hide
+  COP.evadeNeed=9+S.wanted*4+Math.min(8,hotSeen()*2);   // an esky full of illegal fish is harder to hide
   if(COP.search>=COP.evadeNeed){escapePatrol();return;}
   // ----- move everyone -----
   for(const u of COP.units){
@@ -6885,7 +6913,7 @@ function fxPost(sky,VP,W,H){
   gl.uniform1f(u.uVig,FX.look.vig+night*.10+FX.desat*.25+FX.drunk*.18);
   gl.uniform1f(u.uDrunk,FX.drunk);gl.uniform1f(u.uFlash,FX.flash);gl.uniform3fv(u.uFlashCol,FX.flashCol);
   gl.uniform1f(u.uDesat,FX.desat);gl.uniform1f(u.uGrain,.014);gl.uniform1f(u.uPunch,FX.punch);
-  gl.uniform1f(u.uTrail,FX.drunk>.02?Math.min(.80,.42+FX.drunk*.38):0);
+  gl.uniform1f(u.uTrail,FX.drunk>.02&&DRUNK.level>=DRUNK_DOUBLE?Math.min(.80,.42+FX.drunk*.38):0);
   gl.uniform1f(u.uRayAmt,rayAmt*(.55+golden*.75));gl.uniform3f(u.uRayCol,sky.sunC[0]*.30,sky.sunC[1]*.30,sky.sunC[2]*.30);
   gl.uniform1f(u.uSpeed,inside?0:FX.speed);
   fxTri();
@@ -7179,31 +7207,38 @@ function v3PlayerPose(st){
   if(T<EMOTE.until&&!fishBusy()&&!mounted&&!onBoat){st.pose=EMOTE.pose;if(EMOTE.pose==='cheer')st.hop=Math.abs(Math.sin((T-EMOTE.at)*9))*.15;if(EMOTE.pose==='slap')st.swing=clamp((T-EMOTE.at)/.28,0,1);}
 }
 // ---------- Great Southern: it stacks, and it gets silly ----------
-const DRUNK={level:0,startT:-10,hicAt:0,blackout:null,fade:0,stumbleAt:0};
+// how many it takes to black out, and the stages on the way: seeing double, swerving at the wheel, legs giving out, the last warning
+const DRUNK_MAX=8,DRUNK_DOUBLE=4,DRUNK_SWERVE=5,DRUNK_LEGS=6,DRUNK_WARN=7;
+// the morning after: seconds of play it lasts, how much it slows your legs, how grey the world looks (a coffee or a pie ends it)
+const HANGOVER_SECONDS=240,HANGOVER_SLOW=.85,HANGOVER_GREY=.5;
+const hungover=()=>(S.stats.hangover||0)>0;
+const DRUNK={level:0,startT:-10,hicAt:0,blackout:null,fade:0,stumbleAt:0,ughAt:0,due:0};
 function drunkAmount(){
   const left=((S.buffs.gs||0)-Date.now())/1000;
   if(left<=0){DRUNK.level=0;return 0;}
-  return clamp(smooth(0,2.6,left)*smooth(0,1.6,T-DRUNK.startT)*(.40+.20*Math.max(1,DRUNK.level)),0,1);
+  return clamp(smooth(0,2.6,left)*smooth(0,1.6,T-DRUNK.startT)*(.22+.12*Math.max(1,DRUNK.level)),0,1);
 }
 function drinkGS(){
   if(buffSeconds('gs')<=0)DRUNK.level=0;
-  DRUNK.level=Math.min(5,DRUNK.level+1);
+  DRUNK.level=Math.min(DRUNK_MAX,DRUNK.level+1);
   if(DRUNK.level===1)DRUNK.startT=T;
   S.buffs.gs=Date.now()+(DRINK_SECONDS+(DRUNK.level-1)*14)*1000;
   DRUNK.hicAt=T+2.5;
-  const lines=['','One Great Southern. Lovely.','Two. Feeling good.','Three. The jetty is moving.','Four. Who put two moons up there?','Five?! Good night, mate.'];
+  const lines=['','One Great Southern. Lovely.','Two. Feeling good.','Three. The jetty is moving.','Four. Who put two moons up there?','Five. The road has bends it never used to have.',
+    'Six. Your legs have stopped taking orders.','Seven. One more and you are gone.','Eight?! Good night, mate.'];
   say(lines[DRUNK.level],2.6);
-  if(DRUNK.level>=5&&!DRUNK.blackout)later(3.2,startBlackout);
+  if(DRUNK.level===DRUNK_WARN)banner('ONE MORE AND YOU ARE GONE','That was number seven. The eighth ends the night.','#ffcf6b',3.6);
+  if(DRUNK.level>=DRUNK_MAX&&!DRUNK.blackout)DRUNK.due=T+3.2;
 }
-const drunkSteer=()=>FX.drunk>.05?(Math.sin(T*1.1)+Math.sin(T*2.3)*.5)*.42*FX.drunk*(DRUNK.level>=2?1:.5):0;
+const drunkSteer=()=>FX.drunk>.05?(Math.sin(T*1.1)+Math.sin(T*2.3)*.5)*.42*FX.drunk*(DRUNK.level>=DRUNK_SWERVE?1.25:DRUNK.level>=3?.6:.3):0;
 function drunkWalk(mx,mz){
   const d=FX.drunk;if(d<.05)return [mx,mz];
-  const a=(Math.sin(T*1.9)*.55+Math.sin(T*3.3)*.25)*d*(DRUNK.level>=2?1:.55),c=Math.cos(a),s=Math.sin(a);
+  const a=(Math.sin(T*1.9)*.55+Math.sin(T*3.3)*.25)*d*(DRUNK.level>=DRUNK_DOUBLE?1:.55),c=Math.cos(a),s=Math.sin(a);
   return [mx*c-mz*s,mx*s+mz*c];
 }
 function startBlackout(){
   if(DRUNK.blackout||UI||fishBusy())return;
-  DRUNK.blackout={at:performance.now(),done:false};resetGameInput();
+  DRUNK.due=0;DRUNK.blackout={at:performance.now(),done:false};resetGameInput();
 }
 const wakeSpots=[
   [()=>[LH.x-6,LH.z+3],'on the lighthouse rocks, hugging a traffic cone'],
@@ -7224,16 +7259,23 @@ function tickDrunk(dt,realDt){
       if(mounted)parkRide();
       const [spot,story]=pick(wakeSpots),lost=Math.min(Math.max(0,S.money),15+Math.floor(Math.random()*45));
       if(!onBoat){const p=freeSpot(...spot());PS.x=p[0];PS.z=p[1];PS.y=groundAt(PS.x,PS.z);}
-      S.money-=lost;S.day++;gtaBender();tod=6.6;delete S.buffs.gs;DRUNK.level=0;S.stats.blackouts=(S.stats.blackouts||0)+1;
+      S.money-=lost;S.day++;gtaBender();tod=6.6;delete S.buffs.gs;DRUNK.level=0;S.stats.blackouts=(S.stats.blackouts||0)+1;S.stats.hangover=HANGOVER_SECONDS;
       if(S.wanted)clearPursuit();
-      b.story='You wake up '+story+'.'+(lost?'  You are $'+lost+' lighter.':'');
+      b.story='You wake up '+story+'.'+(lost?'  You are $'+lost+' lighter.':'')+'  Your head is pounding: a coffee or a pie fixes it.';
       save();hud();
     }
-    if(age>=3.2&&b.done&&!b.told){b.told=true;banner('THE NEXT MORNING…',b.story,'#ffe9a8',5.5);}
+    if(age>=3.2&&b.done&&!b.told){b.told=true;banner('THE NEXT MORNING…',b.story,'#ffe9a8',7);}
     if(age>5){DRUNK.blackout=null;DRUNK.fade=0;}
     return;
   }
   DRUNK.fade=0;
+  // the eighth drink always catches up with you: a cast or an open panel only delays it
+  if(DRUNK.due){if(DRUNK.level<DRUNK_MAX)DRUNK.due=0;else if(T>=DRUNK.due)startBlackout();}
+  if(hungover()&&!UI&&!mapOpen&&!TITLE.active){
+    S.stats.hangover=Math.max(0,S.stats.hangover-dt);
+    if(!S.stats.hangover){say('The hangover has lifted',2.4);save();}
+    else if(T>DRUNK.ughAt&&!fishBusy()&&!knockdown){DRUNK.ughAt=T+rnd(9,17);floater(pick(['ugh','my head','never again','too bright','who turned the sun up']),PS.x,PS.y+1.9,PS.z,'#cfd6d8',15);}
+  }
   if(d<.08||UI||mapOpen)return;
   if(T>DRUNK.hicAt){
     DRUNK.hicAt=T+rnd(2.6,6)/Math.max(1,DRUNK.level*.7);
@@ -7241,8 +7283,8 @@ function tickDrunk(dt,realDt){
     const p=[PS.x,PS.y+1.9,PS.z];floater(pick(['hic!','*hic*','HIC','...hic','burp']),p[0],p[1],p[2],'#d9f2ff',16);
     for(let i=0;i<3;i++)pfx({kind:3,x:p[0]+rnd(-.15,.15),y:p[1]-.15,z:p[2]+rnd(-.15,.15),vy:rnd(.3,.7),life:rnd(.6,1),size:.03,grow:.06,r:.85,g:.95,b:1,a:.8});
   }
-  // at three or more, the legs give out now and then
-  if(DRUNK.level>=3&&T>DRUNK.stumbleAt&&!mounted&&!onBoat&&!fishBusy()&&!knockdown&&PS.spd>1.5){
+  // from six, the legs give out now and then
+  if(DRUNK.level>=DRUNK_LEGS&&T>DRUNK.stumbleAt&&!mounted&&!onBoat&&!fishBusy()&&!knockdown&&PS.spd>1.5){
     DRUNK.stumbleAt=T+rnd(7,14);
     if(Math.random()<.6){startKnockdown({x:PS.x+(Math.random()<.5?1:-1),forward:Math.random()<.5?1:-1});knockdown.x*=.25;knockdown.z*=.25;knockdown.vy=2.2;say(pick(['Who moved the ground?','I\'m fine. I\'m FINE.','Legs. Why.']),2);}
   }
@@ -7425,6 +7467,11 @@ function drawV3Extras(L){
   }
 }
 function drawV3Glows(VP,SK){lastVP=VP;drawBeacon(SK);gtaGlows(SK);for(const m of MODS)if(m.glows)m.glows(SK);}   // (lastVP is otherwise only set at the end of the frame)
+function hangoverHud(){
+  if(!hungover()||UI||mapOpen||TITLE.active||GTA.act||DRUNK.blackout||atPubGame())return;
+  pill(innerWidth/2,innerHeight-118,'HUNGOVER  ·  a coffee or a pie fixes it','#2b2f31','#e6dfc8','700 13px Segoe UI, Arial');
+}
+MODS.push({hud:hangoverHud});
 function drawV3Fade(){
   if(DRUNK.fade>0){ox.fillStyle='rgba(0,0,0,'+DRUNK.fade+')';ox.fillRect(0,0,innerWidth,innerHeight);}
 }
@@ -7471,6 +7518,7 @@ function netEvents(list){
 // or it can be rigged as live bait. Get caught with it and it is confiscated with a fine on top.
 const underPrice=c=>{const f=FISHI[c.id];return Math.max(10,Math.round(f.p*c.w*2.6)+8);};
 const hotFish=()=>S.cooler.filter(c=>c.under).length;
+const hotSeen=()=>Math.max(0,hotFish()-eskyHides());      // the ones a ranger could find (the false bottom hides the rest)
 function sellUnder(uid){
   const index=S.cooler.findIndex(c=>c.uid===uid&&c.under);if(index<0)return;
   if(S.wanted){say('Not with the ranger sniffing around · lose them first',2.4);SFX.no();return;}
@@ -8770,7 +8818,7 @@ function gtaMapIcons(x0,y0,sc){
   };
   for(const m of GTA.markers)if(gtaShown(m))dot(m.x,m.z,m.css,m.tag);
   const hot=!GTA.act&&hotCarSpot();if(hot)dot(hot[0],hot[1],'#58d68d','H');
-  pill(innerWidth/2,y0+MAPC.height*sc+18,gtaOpen()?'$ the freezer job   ·   R illegal race   ·   J back-door run   ·   ! fish frenzy   ·   S respray   ·   H Keith’s hot car   ·   L Phill Hansen   ·   B boxing   ·   Y bull show   ·   O outfits'+(S.stats.dealerMet?'   ·   ? Isaac':'')+'   ·   lures '+lureCount()+' / '+LURE_COUNT:'O outfit shop   ·   B boxing   ·   Y bull show','#283e38db','#f7edd6','700 12px Segoe UI, Arial');
+  pill(innerWidth/2,y0+MAPC.height*sc+18,gtaOpen()?'$ the freezer job   ·   R illegal race   ·   J back-door run   ·   ! fish frenzy   ·   S respray   ·   H Keith’s hot car   ·   L Phill Hansen   ·   B boxing   ·   Y bull show   ·   O outfits'+'   ·   ? Isaac (after dark)'+'   ·   lures '+lureCount()+' / '+LURE_COUNT:'O outfit shop   ·   B boxing   ·   Y bull show','#283e38db','#f7edd6','700 12px Segoe UI, Arial');
 }
 function drawGtaHud(){
   if(!GTA.markers||UI||mapOpen||atPubGame())return;
@@ -10573,50 +10621,54 @@ addEventListener('keyup',e=>{
 addEventListener('blur',()=>{BOX.keys.block=BOX.keys.dodge=false;BOX.blockUntil=0;});
 
 // ===================== V3 DEALER: Isaac, the bloke in Charlie's Forest =====================
-// On every second night (the nights that START on an even day) a bloke called Isaac camps in the middle of Charlie's
-// Forest. He turns up at dusk and is gone by dawn; the rest of the time there is only a cold lantern and two milk crates.
-// He is a secret: nothing shows on the radar or the map until you have walked up to him once.
+// Every night a bloke called Isaac camps in the middle of Charlie's Forest. He turns up at dusk and is gone by dawn; the
+// rest of the time there is only a cold lantern and two milk crates. He is meant to be FOUND (most players never knew he
+// existed while he was a secret): he is the ? on the map and radar whenever he is in, a green glow hangs above the trees
+// that you can see from town, the news goes round at nightfall, and a side quest points at the camp.
 //   dynamite            illegal bait. Tab selects it once you own a stick, and casting throws it: up to three stunned fish
 //                       straight into the esky, three stars every time, and no hiding from those stars until the police
 //                       have chased you in plain sight (so the forest, the pub and a reload are no way round it).
 //   a hot rod           the next rod up from your best one for about half price. Any fine or arrest and it is confiscated.
-//   a home-made licence $8 instead of $25. Good until a ranger writes you up; then it is torn up and the fine is bigger.
-//   fencing fish        half as much again as Petey would pay (up to $120 extra a fish), twelve fish a night, and now and
+//   a false-bottom esky the first two undersize fish you keep go under it: no ranger is called, and a check on the spot
+//                       does not find them. Get taken in to the station and it is found, ripped out, and the fine is bigger.
+//   fencing fish        half as much again as Petey would pay (up to $120 extra a fish), eight fish a night, and now and
 //                       then somebody dobs.
 // He will not trade while the police are about, and if they come anywhere near the camp he is gone for the night.
-// Fishing stays the main game: he only appears once you have sold a fish, he is in one night out of two, what he pays is a
+// Fishing stays the main game: he only appears once you have sold a fish, he is only there after dark, what he pays is a
 // capped top-up on fish you still had to catch, and three sticks a night is nine fish at most.
 // Apart from the include line and dealerMenuHTML() in the pause menu, nothing in game.js calls this file. It watches the
 // game's own state from its tick (a float in the air, a new citation, a bender) and plugs in through MODS, UI_MODS and
 // GTA.markers. Progress is plain numbers in S.stats, all named dealer*.
 const DEALER={S:null,camp:null,npc:null,lit:false,armed:false,armBait:'',threw:-9,missed:null,nudged:false,sticks:[],floats:[],flash:null,note:'',cite:null,receipt:null,blackouts:0,
-  solids:[],marker:null,ringM:null,base:null,gear:null,lampBody:null,lampGlass:null,stick:null,ident:null,lampM:null,lampGlow:{glow:[1,.7,.28,1.3]},warm:[1,.68,.3],lime:[.79,.94,.35]};
+  solids:[],marker:null,ringM:null,base:null,gear:null,lampBody:null,lampGlass:null,stick:null,ident:null,lampM:null,lampGlow:{glow:[1,.7,.28,1.3]},warm:[1,.68,.3],lime:[.79,.94,.35],green:[.25,1,.2]};
 // dynamite: price of a stick, how many he has each night, how many you can carry, fish a stick stuns, seconds of fuse,
 // and the metres of chase (in plain sight) each bang costs you before hiding works again
 const DYNA_PRICE=15,DYNA_STOCK=3,DYNA_CARRY=3,DYNA_FISH=3,DYNA_FUSE=1,DYNA_HEAT=90,DYNA_HEAT_MAX=180;
 // fencing: fish a night, his mark-up on Petey's price, the most extra he pays for one fish, the chance somebody dobs
-const DEALER_FENCE=12,DEALER_MARKUP=.5,DEALER_BONUS=120,DEALER_DOB=.08;
-// a hot rod costs this share of Karki's price; the home-made licence, and what it adds to the fine when it is spotted;
+const DEALER_FENCE=8,DEALER_MARKUP=.5,DEALER_BONUS=120,DEALER_DOB=.08;
+// a hot rod costs this share of Karki's price; the false-bottom esky, and what it adds to the fine when the station finds it;
 // how close the police can come to the camp before he bolts
-const DEALER_ROD_CUT=.55,DEALER_FAKE=8,DEALER_FORGERY=60,DEALER_SPOOK=30;
+const DEALER_ROD_CUT=.55,DEALER_FALSE=40,DEALER_FORGERY=60,DEALER_SPOOK=30;
+// the green light above his camp: metres above the ground, and how far away it is still drawn
+const DEALER_BEACON=24,DEALER_SEEN=420;
 LOOKS.f_dealer={name:'Isaac',skin:'#c9966e',hair:'#3a3026',hairS:'short',hat:'bucket',hatC:'#2c382b',shirt:'#3d4a39',shirt2:'#6a6248',pattern:'angler',shorts:'#2b2a26',shoes:'#3a2c20',long:1,sunnies:1,mo:'#3a3026',pack:'#5a4a30',h:1.01,belly:.3,width:1.06};
 TALK.f_dealer=['You did not see me. I am a tree.','Everything here fell off the back of a ute. Different utes.','No receipts. No refunds. No eye contact.',
-  'The licence is real. Real cardboard.','I am here every second night. The other nights I am also not here.','If a ranger asks, I am a possum. A large one.','This? A Deckers Dart. I am never without one.',
+  'That esky has two floors. The ranger only knows about one.','I am here every night. In the daytime I was never here.','If a ranger asks, I am a possum. A large one.','This? A Deckers Dart. I am never without one.',
   'It is always my last dart. It has been my last dart for six years.','Smoke? That is mist. Forest mist.'];
 // the town has heard something (these only go onto lists that already exist)
 for(const [who,line] of [['f_fisho','There is a bloke in Charlie’s Forest some nights. I did not tell you that.'],
-  ['f_nomad','Saw a lantern up in Charlie’s Forest after dark. Every second night, like clockwork.'],
+  ['f_nomad','Saw a green light up in Charlie’s Forest after dark. Every night, like clockwork.'],
   ['f_skater','Some bloke in the forest pays more than Petey for fish. Nights only.'],
   ['f_kid','My cousin says a bloke called Isaac sells fireworks in Charlie’s Forest. FIREWORKS.'],
   ['f_tradie','Bloke in the forest goes through Deckers Darts like a chimney. Isaac, his name is.'],
   ['local','There was a lantern in the forest last night. Not my business. Not yours either.'],
-  ['moss','Isaac is in the forest every second night. You never heard it from me.']])if(Array.isArray(TALK[who]))TALK[who].push(line);
+  ['moss','Isaac is in the forest every night. You never heard it from me.']])if(Array.isArray(TALK[who]))TALK[who].push(line);
 // Which night is it? A night belongs to the day it started on, so it does not change at midnight. 0 in daylight.
 const dealerNight=()=>isNight()?(tod>12?S.day:S.day-1):0;
 // tonight's counters start again on a new night (they are saved, so reloading the page does not restock him)
 function dealerTonight(){const s=S.stats,n=dealerNight();if(n&&s.dealerNight!==n){s.dealerNight=n;s.dealerSold=0;s.dealerBought=0;}return n;}
-// Is this one of his nights? Every second one, once the side jobs are open, unless he has bolted or is lying low after a bender.
-function dealerDue(){const n=dealerNight(),s=S.stats;return n>=2&&n%2===0&&gtaOpen()&&(s.dealerGone||0)!==n&&(s.dealerShy||0)!==n;}
+// Is he in? Every night, once you have sold a fish, unless he has bolted for the night.
+function dealerDue(){const n=dealerNight(),s=S.stats;return n>=1&&gtaOpen()&&(s.dealerGone||0)!==n;}
 // police (or the helicopter) within this many metres of the camp
 function dealerCops(range){
   const c=DEALER.camp;if(!S.wanted)return false;
@@ -10655,8 +10707,8 @@ function dealerBuild(){
   // The marker. gta.js draws every marker's ring level, which on this hillside would be half buried and half in the air:
   // so its colour is black (which adds nothing in the glow pass) and dealerGlows lays a ring on the slope instead.
   const m=D.marker={kind:'dealer',x:ring[0],z:ring[1],r:1.6,col:[0,0,0],css:'#c9f05a',tag:'?',name:'Isaac',
-    // until you have found him he is only "there" when you are standing next to him
-    shown:m=>!!DEALER.npc&&(S.stats.dealerMet>0||Math.hypot(PS.x-m.x,PS.z-m.z)<7),
+    // on the map and the radar whenever he is in
+    shown:m=>!!DEALER.npc,
     prompt:()=>mounted?'Isaac does not talk to people on wheels':dealerWatched()?'Isaac will not deal with the police about':'E   Have a quiet word with Isaac',
     use:()=>{dealerOpen();return true;}};
   GTA.markers.push(m);
@@ -10783,8 +10835,8 @@ function dealerRender(){
     btn('rod',0,'$'+o.price.toLocaleString()),'<div class="bars">POWER '+'■'.repeat(Math.round(o.rod.pow/1.2))+' · CAST '+o.rod.cast+' m · LINE '+o.rod.line+' m</div>');
   else h+=row(o.hot?o.hot.n+' · HOT':'NO RODS',o.hot?'You are still carrying the last one. It stays hot for ever: any fine or arrest and the ranger takes it back. One at a time.'
     :o.sold?'That was the only one he had tonight.':'Nothing better than what you have already got.',off(o.hot?'Yours':'None'));
-  if(!S.license)h+='<h4>Paperwork</h4>'+row('FISHING LICENCE · HOME-MADE','Looks right from three metres. It passes until a ranger writes you up for anything: then it is torn up and the fine is $'+DEALER_FORGERY+' bigger. The real one is $25 at Karki’s.',btn('fake',0,'$'+DEALER_FAKE));
-  else if(s.dealerFake)h+='<h4>Paperwork</h4><p class="sub">Your home-made licence is holding up. Do not let a ranger read it.</p>';
+  if(!s.dealerFalse)h+='<h4>For your esky</h4>'+row('FALSE-BOTTOM ESKY','A second floor for your esky. '+FALSE_BOTTOM+' undersize fish at a time ride under it: nobody calls the ranger for those, and a check on the spot does not find them. Get taken in to the station and they tip it out: it is ripped up and the fine is $'+DEALER_FORGERY+' bigger.',btn('esky',0,'$'+DEALER_FALSE));
+  else h+='<h4>For your esky</h4><p class="sub">Your false bottom is fitted: '+FALSE_BOTTOM+' undersize fish at a time ride under it. Stay out of the station.</p>';
   const quota=Math.max(0,DEALER_FENCE-(s.dealerSold||0));
   h+='<h4>He buys fish · '+quota+' of '+DEALER_FENCE+' left tonight</h4><p class="sub">Half as much again as Petey would pay, up to $'+DEALER_BONUS+' extra a fish. No questions about size. Now and then somebody dobs.</p>';
   if(!S.cooler.length)h+='<p class="sub">Your esky is empty. He is not buying stories.</p>';
@@ -10821,8 +10873,8 @@ function dealerAct(what,id){
       S.rods.push(o.rod.id);S.rod=o.rod.id;S.held=0;
       D.note='The '+o.rod.n+' is yours. If anybody asks, it was a present.';
     }
-  }else if(what==='fake'){
-    if(!S.license&&dealerPay(DEALER_FAKE)){S.license=true;s.dealerFake=1;D.note='One fishing licence. Mind the ink, it is still wet.';}
+  }else if(what==='esky'){
+    if(!s.dealerFalse&&dealerPay(DEALER_FALSE)){s.dealerFalse=1;D.note='One extra floor, fitted. Do not let anyone tip it out.';}
   }else if(what==='fence'){
     const i=S.cooler.findIndex(c=>c.uid===Number(id)),pay=i<0?0:dealerPrice(S.cooler[i]);
     if(pay>0&&(s.dealerSold||0)<DEALER_FENCE){
@@ -10951,18 +11003,18 @@ function dealerHeat(dt){
   if(owed>0){pursuit.cover=0;COP.search=0;}       // (this runs straight after the pursuit's own tick, every frame)
 }
 // ---------- fines ----------
-// A ranger writing you up for anything finds the home-made licence and the hot rod. Called from the tick when a new
+// A ranger writing you up for anything finds the hot rod; the false bottom is only found at the station. Called from the tick when a new
 // citation appears (and safe to call from citePlayer itself, if anyone ever wires that in: each citation is only handled once).
 function dealerCited(info){
   if(!info||info.dealer)return;
   info.dealer=1;
   const s=S.stats,rows=[];
-  if(s.dealerFake){
-    s.dealerFake=0;S.license=false;pursuit.lastLicence=T;
+  if(s.dealerFalse&&info.transfer){
+    s.dealerFalse=0;
     const extra=Math.min(Math.max(0,S.money),DEALER_FORGERY);
     S.money-=extra;s.fines=(s.fines||0)+extra;info.fine=(info.fine||0)+extra;
-    rows.push(['Forged licence','Torn up on the spot'+(extra?' · $'+extra+' added to the fine':'')]);
-  }
+    rows.push(['False-bottom esky','Tipped out at the station and ripped up'+(extra?' · $'+extra+' added to the fine':'')]);
+  }else if(info.hidden)rows.push(['False bottom','The ranger never lifted it · '+info.hidden+' undersize fish still in your esky']);
   const hot=s.dealerRod?RODS[s.dealerRod-1]:null;
   if(s.dealerRod){
     s.dealerRod=0;
@@ -10998,8 +11050,7 @@ function dealerTick(dt){
   if(D.sticks.length||D.floats.length)dealerSticks(dt);
   if(citationReceipt!==D.receipt){D.receipt=citationReceipt;dealerCited(citationReceipt);}
   if(D.cite)dealerCiteNote();
-  // A bender skips to the next morning, and it is no way to bring his next visit forward: he gives the night after one a miss.
-  if((s.blackouts||0)>D.blackouts){D.blackouts=s.blackouts;s.dealerShy=S.day;save();}
+  if((s.blackouts||0)>D.blackouts)D.blackouts=s.blackouts;
   // dynamite in hand: put away if you pick other bait or run out, thrown when a cast leaves the rod
   if(D.armed){
     if(S.bait!==D.armBait||!(s.dealerSticks>0))D.armed=false;
@@ -11020,11 +11071,17 @@ function dealerTick(dt){
   }
   if(UI==='dealer'){if(dealerWatched()){closeUI();say('Isaac has closed up · the police are about',2.6);}return;}
   if(UI||mapOpen||fishBusy())return;
-  // a secret, but not an unfair one: the lantern gets a mention the first time you are near it, and walking up to him finds him
+  const night=dealerNight();
+  if(night&&s.dealerTold!==night&&!GTA.act&&!(typeof TUTOR==='object'&&TUTOR.on)&&T>3){
+    s.dealerTold=night;
+    if(!s.dealerMet)banner('SOMEBODY IS CAMPING IN CHARLIE’S FOREST','Look for the green light above the trees  ·  he is the ? on your map (M)','#c9f05a',6);
+    else say('Isaac is in Charlie’s Forest tonight · ? on your map',3.6);
+  }
+  // not a secret any more, but still worth a line: the lantern gets a mention the first time you are near it, and walking up to him finds him
   if(!s.dealerHint&&far<25){s.dealerHint=1;say('A lantern is burning in the trees up ahead… and somebody is smoking a Deckers Dart',4.5);}
   if(!s.dealerMet&&far<6.5){
     s.dealerMet=1;
-    banner('YOU FOUND ISAAC','In Charlie’s Forest every second night  ·  look for the ? on your radar','#c9f05a',5);
+    banner('YOU FOUND ISAAC','In Charlie’s Forest every night after dark  ·  the ? on your map','#c9f05a',5);
     n.say='...You can see me? Right. Keep your voice down.';n.sayT=4;save();
   }
 }
@@ -11065,12 +11122,21 @@ function dealerDart(L){
 }
 function dealerGlows(SK){
   const D=DEALER,c=D.camp;if(!c||!D.lit||TITLE.active||UI==='works'||atPubGame())return;
-  if(Math.hypot(c.lamp[0]-CAM.eye[0],c.lamp[2]-CAM.eye[2])>170)return;
+  if(Math.hypot(c.lamp[0]-CAM.eye[0],c.lamp[2]-CAM.eye[2])>(D.npc?DEALER_SEEN:170))return;
   // the same additive pass gta.js draws its rings in: a warm halo round the lantern glass...
   const face=Math.atan2(CAM.eye[0]-CAM.tgt[0],CAM.eye[2]-CAM.tgt[2]),flick=.82+.11*Math.sin(T*9.3)+.07*Math.sin(T*23.7);
   gl.useProgram(P_GLOW.p);gl.uniformMatrix4fv(P_GLOW.u.uVP,false,lastVP);gl.blendFunc(gl.ONE,gl.ONE);
   gl.uniform3fv(P_GLOW.u.uCol,D.warm);gl.uniform1f(P_GLOW.u.uA,(.2+.5*SK.night)*flick);
   draw(P_GLOW,HALO,M.trs(c.lamp[0],c.lamp[1]+.2,c.lamp[2],0,face,0,1.2));
+  // ...the green light high above the camp while he is in (it grows with distance, so it still reads from the main street)...
+  if(D.npc){
+    const far=Math.hypot(c.x-CAM.eye[0],c.z-CAM.eye[2]),beat=.78+.22*Math.sin(T*2.1),near=smooth(6,20,far);
+    BEACON||=beaconMesh();
+    gl.uniform3fv(P_GLOW.u.uCol,D.green);gl.uniform1f(P_GLOW.u.uA,(.30+.40*SK.night)*beat*near);
+    draw(P_GLOW,BEACON,M.trs(c.x,c.y+2.6,c.z,0,T*.3,0,DEALER_BEACON/22*(1+Math.min(far/140,1.4))));
+    gl.uniform1f(P_GLOW.u.uA,(.45+.55*SK.night)*beat*near);
+    draw(P_GLOW,HALO,M.trs(c.x,c.y+2.6+DEALER_BEACON*(1+Math.min(far/140,1.4)),c.z,0,face,0,clamp(far*.05,1.6,13)));
+  }
   // ...and the ring to stand in, lying on the slope
   if(gtaShown(D.marker)){
     GTA.ring||=gtaRingMesh();
@@ -12500,6 +12566,1044 @@ addEventListener('keyup',e=>{
 },true);
 addEventListener('blur',()=>{BULL.keys.left=BULL.keys.right=false;});
 
+// ===================== V3.3 KARKI'S LESSON: the guided first session, coach marks and the help page =====================
+// Three things for people who have never played, all in this one file.
+//
+// 1. KARKI'S LESSON. A brand-new trip starts with Karki standing on the jetty beside you, and one instruction on the
+//    screen at a time. Each step waits until you have really done it, ticks itself off, and the next one appears:
+//       1 look around and walk        2 cast                 3 hook the first bite        4 reel it in
+//       5 keep it                     6 sell it at Petey's   7 buy the first rod          8 buy prawns, swap bait
+//       9 eat Karki's pie (hotbar)   10 the map and the quest list
+//    Nothing is taken away from the player: no camera moves, no locked keys. The two exceptions are the two moments a
+//    beginner loses a fish without knowing why. The first bite cannot be missed (the hook window is held open and the world
+//    runs slow until SPACE is pressed), and the first fight stands still while a card explains the reel band.
+//    Steps that are already true are skipped, never waited for; a fish that gets away just sends you back to the cast.
+//    A line of gold dots on the ground leads to Petey's counter, then to Karki's rods and his bait freezer.
+//    "Skip tutorial" is on every card and ends it for good. "Replay tutorial" in the pause menu starts it again.
+//
+// 2. COACH MARKS. coach('boat') shows a short card (one to three steps) the first time a topic comes up and never again.
+//    This file fires the ones for what exists today by watching the game (see tutorWatch); anything new calls coach()
+//    itself. Cards wait their turn: never during Karki's lesson, a job, a fight with a fish, or while a panel is open.
+//
+// 3. HOW TO PLAY. openUI('help'), or H on foot, or the button tutorMenuHTML() makes for the pause menu: every topic above,
+//    grouped, readable again at any time.
+//
+// For other code:   coach(id)   coachSeen(id)   COACH   tutorTrail(x,z) / tutorTrail(null)   tutorMenuHTML()   tutorBindMenu()
+//
+// Saved as plain numbers in S.stats (nothing else is added to the save):
+//   tutorOn     1 while the lesson is running
+//   tutorDone   1 once it has been finished or skipped
+//   tutorMask   what has been done so far in the lesson in progress (TUTOR_BIT)
+//   tutorBonus  1 once Petey's first sale bonus has had its chance (paid or not needed): never offered twice
+//   tutorPie    1 once Karki has handed over his free pie: never twice
+//   coach_<id>  1 once that coach card has been shown (or was not needed: see "known" in COACH)
+// S.tutorial keeps its old meaning for the rest of the game (4 = the fishing lesson is over); 0 is how the pause menu asks
+// for a replay.
+
+// ---------- tuning ----------
+const TUTOR_LOOK=.55,TUTOR_WALK=2.5;            // step 1 wants this much camera drag (radians) and this much walking (metres)
+const TUTOR_SLOW=.22;                           // how slow the world runs while the first bite waits for SPACE
+const TUTOR_FIGHT_WAIT=700;                     // the fight card cannot be dismissed for this long (ms), so a mashed SPACE does not skip it unread
+const TUTOR_CELL=2,TUTOR_FINE=.5,TUTOR_PAD=36;  // path-finder: grid step, the finer grid the ground is looked up on, margin round the two ends (metres)
+const TUTOR_DOT=1.5,TUTOR_NEAR=2,TUTOR_AHEAD=60,TUTOR_STRAY=6;   // trail: dot spacing, hidden this near you, drawn this far ahead, planned again when you are this far off it
+const TUTOR_BALL=1.3;                            // how high above its dot each ball of light floats: chest height, because from behind
+                                                 // the player anything lower on the line ahead is hidden by the player's own body
+const TUTOR_GOLD=[1,.8,.25],TUTOR_DARK=[.8,.8,.8];      // the dots, and how much light the patch under each one takes from the ground
+const TUTOR_BIT={look:1,walk:2,keep:4,sold:8,swap:16,pie:32,map:64,list:128,fight:256};
+const TUTOR_NAMES=['','Look around','Cast','The bite','Reel it in','Keep it','Sell it','A proper rod','Bait','The hotbar','Map and quests'];
+const TUTOR_EAT=['bag','eat1','eat2','eat3','eat4','eat5','eat6','eat7','eat8'];
+const TUTOR_GROUPS=['Fishing','Getting around','Money and gear','Trouble'];
+
+const TUTOR={S:null,on:false,step:0,sub:'',st:'idle',again:'',to:null,
+  look:0,walk:0,camYaw:0,camPitch:0,px:0,pz:0,sold:0,bait:'',keyAt:0,saleAt:0,
+  fight:null,                                   // the first fight, standing still while its card is up: {snap,jumpT,tension,since}
+  karki:null,real:null,sayKey:'',sayQ:[],sayNext:0,spots:null,
+  el:null,elDone:null,elTitle:null,elBody:null,elCount:null,elSkip:null,elNext:null,elFight:null,elFightGo:null,
+  shown:false,fightShown:false,fightReady:false,lessonShow:false,vTitle:'',vHTML:'',vBig:false,vSerial:0,serial:0,painted:-1,
+  flash:null,flashOn:false,layAt:0,top:-1,popAt:0,
+  queue:[],card:null,watchAt:0,coachAt:0,
+  trail:{owner:'',target:null,pts:null,cum:null,dots:null,job:null,len:0,along:0,off:0,due:0,checkAt:0,show:false,mesh:null,M:null}};
+
+// ---------- small helpers ----------
+const tutorHas=bit=>((S.stats.tutorMask||0)&bit)!==0;
+function tutorSet(bit){S.stats.tutorMask=(S.stats.tutorMask||0)|bit;}
+function tutorClear(bit){S.stats.tutorMask=(S.stats.tutorMask||0)&~bit;}
+const tutorRod=()=>RODS[1]||RODS[0];                                    // the first rod worth buying (its name and price come from the table)
+const tutorPrawn=()=>BAITS.find(b=>b.id==='prawn')||BAITS[1];
+const tutorOwnsRod=()=>S.rods.length>1;                                 // anything better than the one you start with
+const tutorTwoBaits=()=>{let n=0;for(const b of BAITS)if(baitLeft(b.id)>0)n++;return n>1;};      // something to swap between
+const tutorLegal=c=>!c.under,tutorKeepers=()=>S.cooler.some(tutorLegal);            // is there a fish Petey will buy over the counter?
+// things that are in the way of the lesson: it steps aside for them and comes back afterwards
+const tutorBusy=()=>!!UI||mapOpen||!!GTA.act||mounted&&activeRide>=2||onBoat||atPubGame()||!!COP.busted||!!DRUNK.blackout||!!knockdown;
+// a coach card needs a quiet moment as well (it is fine on a boat or in a car: that is what some of them are about)
+const tutorCoachFree=()=>!TUTOR.on&&!UI&&!mapOpen&&!GTA.act&&!atPubGame()&&!COP.busted&&!DRUNK.blackout&&!knockdown&&(F.st==='idle'||F.st==='wait');
+// could the camera be looking at this spot?
+function tutorSeen(x,z){
+  const dx=x-CAM.eye[0],dz=z-CAM.eye[2],d=Math.hypot(dx,dz);
+  if(d>75)return false;if(d<4)return true;
+  const fx=CAM.tgt[0]-CAM.eye[0],fz=CAM.tgt[2]-CAM.eye[2],f=Math.hypot(fx,fz)||1;
+  return (dx*fx+dz*fz)/(d*f)>.42;
+}
+function tutorDing(){tone(880,.09,'triangle',.07);setTimeout(()=>tone(1320,.16,'triangle',.07),90);}
+// A banner that goes in front of any that have not started showing yet (the side jobs are announced by the same first
+// sale, and "fish sold" should come first). Like banner(), it hurries along the one on screen now.
+function tutorBanner(title,sub,color,seconds){
+  const first=BANNERS[0],i=BANNERS.findIndex(b=>b.at<0);
+  if(first&&first.at>0)first.seconds=Math.min(first.seconds,(performance.now()-first.at)/1000+.25);
+  BANNERS.splice(i<0?BANNERS.length:i,0,{title,sub,color,seconds,at:-1});
+}
+
+// ===================== THE LESSON =====================
+// A different save (the first frame, a loaded backup, a new trip): whatever was on the screen belonged to the old one.
+function tutorSync(){
+  const Q=TUTOR,s=S.stats;
+  if(Q.karki)tutorKarkiDrop();
+  Q.S=S;
+  // a trip that already has fish in its book and has never had this lesson is not a beginner's (the game says the same
+  // about S.tutorial when the page loads; this covers a backup loaded from the menu as well)
+  if(S.tutorial<4&&s.caught>0&&!s.tutorOn)S.tutorial=4;
+  Q.on=s.tutorOn===1&&!s.tutorDone;
+  Q.queue.length=0;Q.card=null;Q.fight=null;Q.flash=null;Q.sayQ.length=0;Q.sayKey='';Q.real=null;Q.spots=null;Q.to=null;
+  Q.step=0;Q.sub='';Q.again='';Q.saleAt=0;Q.lessonShow=false;
+  tutorTrail(null);
+  // an old hand does not need telling about things they have plainly done already
+  for(const id in COACH){const c=COACH[id];if(c.known&&!s['coach_'+id]&&c.known(s))s['coach_'+id]=1;}
+  tutorMark();
+  if(Q.on&&tutorStepNow()<=5)tutorKarkiPut();           // a lesson picked up where it was left: he is still on the jetty
+}
+// remember where everything stands, so the next frame only sees what changes from now on
+function tutorMark(){
+  const Q=TUTOR;
+  Q.st=F.st;Q.sold=S.stats.sold||0;Q.bait=S.bait;Q.camYaw=CAM.yaw;Q.camPitch=CAM.pitch;Q.px=PS.x;Q.pz=PS.z;Q.look=0;Q.walk=0;
+}
+function tutorStart(replay){
+  const Q=TUTOR,s=S.stats;
+  s.tutorOn=1;s.tutorDone=0;s.tutorMask=0;
+  if(S.tutorial<1||replay)S.tutorial=1;
+  Q.on=true;Q.step=0;Q.sub='';Q.again='';Q.fight=null;Q.flash=null;Q.saleAt=0;Q.sayKey='';Q.sayQ.length=0;Q.card=null;
+  tutorMark();
+  if(Q.karki)tutorKarkiDrop();
+  tutorKarkiPut();
+  if(replay)say('Karki is waiting on the jetty',3);
+  save();
+}
+// put it all away: finished, skipped, or the save has gone
+function tutorEnd(){
+  const Q=TUTOR,n=Q.karki;
+  Q.on=false;Q.fight=null;Q.flash=null;Q.to=null;Q.step=0;Q.sub='';Q.lessonShow=false;Q.sayQ.length=0;
+  Q.coachAt=performance.now()+8000;                      // any coach cards that were waiting give it a moment first
+  if(Q.trail.owner==='lesson')tutorTrail(null);
+  if(n){if(tutorSeen(n.x,n.z))dustPuff(n.x,n.y+.5,n.z,8,[.8,.75,.6],1.2);tutorKarkiDrop();}
+}
+function tutorSkip(){
+  if(!TUTOR.on)return;
+  const s=S.stats;
+  s.tutorDone=1;s.tutorOn=0;S.tutorial=4;
+  tutorEnd();
+  say('Tutorial skipped · press H for how to play',3.6);SFX.click();save();
+  if(cv&&cv.focus)cv.focus();
+}
+function tutorFinish(){
+  const s=S.stats,n=tutorSpeaker();
+  s.tutorDone=1;s.tutorOn=0;S.tutorial=4;
+  if(n){n.say='THAT\'S THE LOT. TIGHT LINES, MATE.';n.sayT=4;}
+  tutorEnd();
+  banner('YOU’RE ON YOUR OWN NOW','Press H any time for how to play  ·  tight lines','#ffd23f',4.4);
+  if(S.sound!==false)[523,659,784,1046].forEach((hz,i)=>setTimeout(()=>tone(hz,.2,'triangle',.08),i*95));
+  save();
+}
+
+// ---------- Karki on the jetty ----------
+// An extra Karki, only for the lesson (the real one never leaves his shop). gang:true is what keeps E from opening the
+// shop out here: nearestNPC() skips him, so there is no "Talk to" prompt, and a fish slap on him brings no police.
+function tutorKarkiPut(){
+  const Q=TUTOR;if(Q.karki||!PEOPLE.karki)return;
+  // On the jetty head, a step ahead of where a new game starts and off to the left of the first view: clear of the
+  // walkway back to shore, of the two people fishing along the far edge, and of the line of your first cast.
+  for(const [dx,dz] of [[-1.65,.95],[-1.65,2.1],[-.2,2.6],[1.3,2.2],[-2.2,-1.9]]){
+    const x=SPAWN[0]+dx,z=SPAWN[1]+dz;
+    if(!onJetty(x,z)||blocked(x,z)||Math.hypot(x-PS.x,z-PS.z)<1.1)continue;
+    const yaw=Math.atan2(SPAWN[0]-x,SPAWN[1]-z);
+    Q.karki={k:'karki',x,z,y:groundAt(x,z),yaw,hx:x,hz:z,hyaw:yaw,ph:0,spd:0,t:Math.random()*9,say:null,sayT:0,gang:true,tutor:true};
+    NPCS.push(Q.karki);return;
+  }
+}
+function tutorKarkiDrop(){
+  const Q=TUTOR,n=Q.karki;if(!n)return;
+  const i=NPCS.indexOf(n);if(i>=0)NPCS.splice(i,1);
+  if(talk&&talk.n===n)talk=null;
+  Q.karki=null;
+}
+// whoever is in earshot to say Karki's lines: the one on the jetty, or the real one when you are in his shop
+function tutorSpeaker(){
+  const Q=TUTOR,n=Q.karki,inside=insideShop(PS.x,PS.z);
+  if(n&&!inside&&Math.hypot(n.x-PS.x,n.z-PS.z)<11)return n;
+  if(inside&&inside===SHOPS.karki)return Q.real||(Q.real=NPCS.find(p=>p.k==='karki'&&!p.tutor)||null);
+  return null;
+}
+function tutorSpeak(key,lines){
+  const Q=TUTOR;if(Q.sayKey===key)return;
+  Q.sayKey=key;Q.sayQ.length=0;Q.sayQ.push(...lines);Q.sayNext=0;
+}
+function tutorSpeakTick(){
+  const Q=TUTOR;if(!Q.sayQ.length||T<Q.sayNext)return;
+  const n=tutorSpeaker();if(!n)return;
+  const line=Q.sayQ.shift();
+  n.say=line;n.sayT=clamp(1.7+line.length*.06,2.8,5.5);Q.sayNext=T+n.sayT+.3;
+}
+
+// ---------- where the lesson is up to ----------
+function tutorStepNow(){
+  const B=TUTOR_BIT,m=S.stats.tutorMask||0,st=F.st;
+  if(!(m&B.keep)){
+    // until there is a fish in the esky, the step is whatever the line is doing
+    if(st==='wait'||st==='bite')return 3;
+    if(st==='fight')return 4;
+    if(st==='show')return 5;
+    if(st!=='idle')return 2;
+    return (m&B.look)&&(m&B.walk)?2:1;
+  }
+  if(!(m&B.sold))return 6;
+  if(!tutorOwnsRod())return 7;
+  if(!(m&B.swap))return 8;
+  if(!(m&B.pie))return 9;
+  if(!(m&B.map)||!(m&B.list))return 10;
+  return 11;
+}
+// where to stand for the things the lesson sends you to: half a metre back from the shelf, towards the middle of the shop
+function tutorSpots(){
+  const at=(kind,id)=>{
+    const p=stock.find(q=>q.kind===kind&&(!id||q.item&&q.item.id===id)),b=p&&SHOPS[p.id];if(!b)return null;
+    const dx=b.x-p.x,dz=b.z-p.z;
+    return Math.abs(dx)>Math.abs(dz)?[p.x+Math.sign(dx)*.5,p.z]:[p.x,p.z+Math.sign(dz)*.5];
+  };
+  const real=NPCS.find(p=>p.k==='karki'&&!p.tutor),shop=SHOPS.karki;
+  return {sell:at('sell'),rod:at('rod',tutorRod().id),prawn:at('bait',tutorPrawn().id),
+    karki:real&&shop&&insideShop(real.x,real.z)===shop?[real.x-1.4,real.z+.3]:shop?[shop.x,shop.z+1.5]:null};
+}
+// which version of the step's instruction fits this moment (and where the dots should lead: Q.to)
+function tutorSubNow(step){
+  const Q=TUTOR,B=TUTOR_BIT,st=F.st,sp=Q.spots,inside=insideShop(PS.x,PS.z);
+  Q.to=null;
+  switch(step){
+    case 1:return tutorHas(B.look)?'walk':tutorHas(B.walk)?'look':'both';
+    case 2:
+      if(st==='charge'||st==='fly')return 'charge';
+      if(st==='miss')return 'miss';
+      if(Math.hypot(PS.x-SPAWN[0],PS.z-SPAWN[1])>45){Q.to=SPAWN;return 'far';}
+      return Q.again||'go';
+    case 3:return st==='bite'?'bite':'wait';
+    case 4:{
+      if(Q.fight)return 'card';
+      const m=F.track;
+      return m&&m.shake?(m.shake==='a'?'a':'d'):m&&m.load>.62?'tight':'go';
+    }
+    case 5:{const c=F.card;return c&&c.must?c.must:c&&S.cooler.length>=eskyCapacity()?'full':'keep';}
+    case 6:{
+      Q.to=sp.sell;if(inside!==SHOPS.petey)return 'go';
+      const p=shelfNear();return p&&p.kind==='sell'?'at':'in';
+    }
+    case 7:{
+      const rod=tutorRod();
+      if(S.money<rod.price){if(tutorKeepers()){Q.to=sp.sell;return 'sell';}return 'short';}
+      Q.to=sp.rod;if(inside!==SHOPS.karki)return 'go';
+      const p=shelfNear();return p&&p.kind==='rod'&&p.item===rod?'at':'in';
+    }
+    case 8:{
+      if(tutorTwoBaits())return 'swap';
+      const prawn=tutorPrawn();
+      if(S.money<prawn.price){if(tutorKeepers())Q.to=sp.sell;return 'short';}
+      Q.to=sp.prawn;if(inside!==SHOPS.karki)return 'go';
+      const p=shelfNear();return p&&p.kind==='bait'&&p.item===prawn?'at':'in';
+    }
+    case 9:
+      if(!S.stats.tutorPie){Q.to=sp.karki;return 'go';}
+      return TUTOR_EAT[S.hotbar.indexOf('supply:pie')+1]||'bag';
+    case 10:return tutorHas(B.map)?'list':'map';
+  }
+  return '';
+}
+// The words. text is what the card shows ([X] is drawn as a key cap); say is Karki, in his own voice.
+function tutorText(step,sub){
+  const rod=tutorRod(),prawn=tutorPrawn(),his=TALK.karki||[];        // (his own lines where the game already has them)
+  switch(step){
+    case 1:return {text:sub==='walk'?'Now walk a few steps with [W][A][S][D].':sub==='look'?'Now hold the [MOUSE] button and drag to look around.'
+        :'Hold the [MOUSE] button and drag to look around. Walk with [W][A][S][D].',
+      say:[his[0]||'G\'DAY MATE!','HAVE A LOOK ABOUT. STRETCH THE LEGS.'],sayKey:'hello'};
+    case 2:switch(sub){
+      case 'charge':return {text:'The bar is how far you will cast: let go of [SPACE] near the top for a clean cast.'};
+      case 'miss':return {text:'That one missed the water. Face the water and hold [SPACE] a little longer.',say:['THAT\'S THE JETTY, MATE. AIM FOR THE WET BIT.']};
+      case 'far':return {text:'Any water will do. The dots lead back to the jetty, where Karki is waiting.'};
+      case 'lost':return {text:'It got off: that happens to everyone. Hold [SPACE] to cast again.',say:['HE GOT OFF. THEY DO THAT. GO AGAIN.']};
+      case 'reeled':return {text:'The line is back in. Cast again, then leave the keys alone until the float goes under.',say:['HANDS OFF WHILE YOU WAIT, MATE.']};
+      case 'back':return {text:'Catch one you can keep. Hold [SPACE] to cast again.',say:['NO DRAMA. PLENTY MORE DOWN THERE.']};
+      case 'empty':return {text:'Your esky is empty. Catch another fish to sell: hold [SPACE] to cast.'};
+      default:return {text:'Face the water. Hold [SPACE] to wind up a cast, then let go.',say:['RIGHTO. FACE THE WATER, HOLD SPACE, LET HER GO.']};
+    }
+    case 3:return sub==='bite'?{text:'NOW! Press [SPACE]!',big:true,say:['THAT\'S A BITE! SPACE! SPACE!']}
+      :{text:'Hands off now. When the float goes under, press [SPACE].',say:['NOW WE WAIT. WHEN SHE GOES UNDER, HIT SPACE.']};
+    case 4:switch(sub){
+      case 'card':return {text:'Fish on!',say:['FISH ON! HAVE A READ, THEN GET STUCK IN.']};
+      case 'a':return {text:'Head shake! Tap [A] now.',big:true};
+      case 'd':return {text:'Head shake! Tap [D] now.',big:true};
+      case 'tight':return {text:'The line is about to snap. Let go of [SPACE] for a moment.'};
+      default:return {text:'Hold [SPACE] to slide the band right, let go to slide it left. Keep the fish inside the band.',say:['KEEP HIM IN THE BAND. HOLD. LET GO. HOLD.'],sayKey:'fight'};
+    }
+    case 5:switch(sub){
+      case 'undersize':return {text:'Too small to keep. [SPACE] puts it back.',say:['TOO SMALL, MATE. BACK HE GOES.']};
+      case 'protected':return {text:'A protected fish. [SPACE] lets it go, and pays you for it.',say:['CAN\'T KEEP THAT ONE. LET HIM GO.']};
+      case 'junk':return {text:'Not a fish. [SPACE] bins it.',say:['THAT\'S NOT A FISH. THAT\'S SOMEBODY\'S RUBBISH.']};
+      case 'full':return {text:'Your esky is full. [X] lets this one go.'};
+      default:return {text:'[SPACE] keeps it, [X] lets it go. Your esky is the ice box that holds your catch until you sell it.',say:['YOU BEAUTY! SPACE, AND HE GOES IN THE ESKY.']};
+    }
+    case 6:return sub==='at'?{text:'Press [E], then click “Sell legal catch”.'}:sub==='in'?{text:'Walk up to the fish counter.'}
+      :{text:'Follow the dots to Petey’s Fish Market to sell your fish. Hold [SHIFT] to run.',say:['PETEY BUYS FISH. FOLLOW THE DOTS. SEE YOU AT THE SHOP, MATE.']};
+    case 7:switch(sub){
+      case 'at':return {text:'Press [E] to buy the '+rod.n+' for $'+rod.price+'.'};
+      case 'in':return {text:'The rods are along the back wall. Stand at the '+rod.n+' and press [E].',say:['THERE YOU ARE. '+rod.n+'. BACK WALL. '+String(rod.d||'').toUpperCase()],sayKey:'rod'};
+      case 'sell':return {text:'The '+rod.n+' is $'+rod.price+'. Sell your fish at Petey’s first.'};
+      case 'short':return {text:'The '+rod.n+' is $'+rod.price+'. Catch and sell a few more fish, then come back to Karki’s.'};
+      default:return {text:'Next door is Karki’s Bait & Tackle. Follow the dots and buy the '+rod.n+'.'};
+    }
+    case 8:switch(sub){
+      case 'swap':return {text:'[TAB] swaps your bait. Different fish take different bait, so carry a few.',say:['TAB SWAPS YOUR BAIT. GIVE IT A PRESS.']};
+      case 'at':return {text:'Press [E] to buy prawns for $'+prawn.price+'.'};
+      case 'in':return {text:'Bait is in the freezer by the left wall. Stand at Prawns and press [E].',say:[his[1]||'DIFFERENT FISH, DIFFERENT BAIT. EASY.'],sayKey:'bait'};
+      case 'short':return {text:'Prawns are $'+prawn.price+'. Sell a fish at Petey’s, then come back to Karki’s.'};
+      default:return {text:'Fish need bait. Follow the dots to Karki’s and buy prawns.'};
+    }
+    case 9:
+      if(sub==='go')return {text:'Karki has something for you. Follow the dots to his shop.'};
+      if(sub==='bag')return {text:'Karki gave you a meat pie. Press [I] and use it from your backpack.',say:['HAVE A PIE. ON THE HOUSE.'],sayKey:'pie'};
+      return {text:'Karki gave you a meat pie. Press ['+sub.slice(3)+'] to eat it: the number keys use what is on your hotbar.',say:['HAVE A PIE. ON THE HOUSE. NUMBER KEYS, MATE.'],sayKey:'pie'};
+    case 10:return sub==='list'?{text:'[L] opens your quest list. It always has something to do next.'}
+      :{text:'[M] opens the map of Hannaford. Press it again to close.',say:['M IS THE MAP. L IS YOUR LIST OF JOBS.']};
+  }
+  return {text:''};
+}
+
+// ---------- the first fight stands still while its card is up ----------
+function tutorFightOpen(now){
+  const Q=TUTOR;if(!F.track)return;
+  Q.fight={snap:{...F.track},jumpT:F.jumpT,tension:F.tension,since:now};
+}
+// SPACE or a click: off you go (the same press starts the reel, so it is not swallowed)
+function tutorFightGo(){
+  const Q=TUTOR;if(!Q.fight||performance.now()-Q.fight.since<TUTOR_FIGHT_WAIT)return;
+  Q.fight=null;tutorSet(TUTOR_BIT.fight);tone(660,.07,'triangle',.06,990);
+}
+
+// ---------- every frame of the lesson ----------
+function tutorLesson(now){
+  const Q=TUTOR,s=S.stats,B=TUTOR_BIT,st=F.st,was=Q.st;
+  Q.spots||=tutorSpots();
+  // ----- what has happened since the last frame -----
+  if(!tutorHas(B.look)){if(drag)Q.look+=Math.abs(CAM.yaw-Q.camYaw)+Math.abs(CAM.pitch-Q.camPitch);if(Q.look>=TUTOR_LOOK)tutorSet(B.look);}
+  Q.camYaw=CAM.yaw;Q.camPitch=CAM.pitch;
+  if(!tutorHas(B.walk)){const d=Math.hypot(PS.x-Q.px,PS.z-Q.pz);if(d<1&&!mounted&&!onBoat&&!knockdown)Q.walk+=d;if(Q.walk>=TUTOR_WALK)tutorSet(B.walk);}
+  Q.px=PS.x;Q.pz=PS.z;
+  if(st!==was){
+    Q.st=st;
+    if(st!=='idle')tutorSet(B.look|B.walk);                 // already casting: nobody needs showing how to walk
+    if(st==='wait')Q.again='';
+    if(Q.fight&&st!=='fight')Q.fight=null;
+    if(st==='fight'&&!tutorHas(B.fight)&&!tutorHas(B.keep))tutorFightOpen(now);
+    if(st==='idle'&&!tutorHas(B.keep)){
+      if(was==='show'){if(tutorKeepers())tutorSet(B.keep);else Q.again='back';}
+      else if(was==='fight')Q.again='lost';
+      else if(was==='wait'||was==='bite')Q.again='reeled';
+      else if(was==='miss')Q.again='miss';
+    }
+  }
+  if((s.sold||0)>Q.sold){tutorSet(B.sold);Q.saleAt=now;}
+  Q.sold=s.sold||0;
+  // the fish went somewhere other than over Petey's counter: back to the water for another
+  if(tutorHas(B.keep)&&!tutorHas(B.sold)&&st==='idle'&&!tutorKeepers()){tutorClear(B.keep);Q.again='empty';}
+  // TAB (or 2) was pressed since the last frame and the bait really is a different one now (buying bait changes it
+  // too, and that is not a swap)
+  if(S.bait!==Q.bait){if(Q.bait&&Q.keyAt)tutorSet(B.swap);Q.bait=S.bait;}
+  Q.keyAt=0;
+  if(mapOpen)tutorSet(B.map);
+  if(UI==='journey')tutorSet(B.list);
+  // ----- the two moments a beginner cannot be left alone with -----
+  // the first bite: the hook window never runs out, and the world waits with you (fxKick's slow really does slow the
+  // game: the frame multiplies its dt by FX.timeScale before anything is updated)
+  if(st==='bite'&&!tutorHas(B.keep)){F.hookT=Math.max(F.hookT,F.hookSpan||1.3);fxKick({slow:TUTOR_SLOW,slowFor:.25});}
+  // the first fight: everything about it is put back each frame until the card has been read
+  if(Q.fight&&F.track){const m=F.track,wake=m.wake;Object.assign(m,Q.fight.snap);m.wake=wake;F.jumpT=Q.fight.jumpT;F.tension=Q.fight.tension;}      // (its ripples keep their own time)
+  // ----- Petey's first sale bonus: once the counter is shut again, enough for the rod and a pack of prawns -----
+  if(Q.saleAt&&!UI&&now-Q.saleAt>450){
+    Q.saleAt=0;let bonus=0;
+    if(!s.tutorBonus){
+      s.tutorBonus=1;
+      bonus=Math.max(0,(tutorOwnsRod()?0:tutorRod().price)+(tutorTwoBaits()?0:tutorPrawn().price)-S.money);
+      if(bonus>0){S.money+=bonus;SFX.cash();moneyBump();}
+    }
+    tutorBanner('FISH SOLD!',bonus?'First sale bonus from Petey  ·  +$'+bonus+'  ·  that covers a proper rod':'That is how you earn in Hannaford  ·  next stop: Karki’s','#ffd23f',3.6);
+    s.coach_shop=1;hud();save();
+  }
+  // ----- which step, which version of it -----
+  let step=tutorStepNow();
+  if(step===9){
+    if(!s.tutorPie){
+      // Karki's free pie, handed over in his shop
+      if(insideShop(PS.x,PS.z)===SHOPS.karki&&!UI){
+        s.tutorPie=1;S.bag.pie=(S.bag.pie||0)+1;
+        if(typeof packSync==='function')packSync();
+        tone(523,.08,'triangle',.07,784);hud();save();
+      }
+    }else if(buffSeconds('pie')>0||!(S.bag.pie>0)){tutorSet(B.pie);step=tutorStepNow();}      // eaten (or, on a replay, none left to eat)
+  }
+  if(step>10){
+    Q.lessonShow=false;
+    if(!UI&&!mapOpen)tutorFinish();
+    return;
+  }
+  const sub=tutorSubNow(step);
+  if(step!==Q.step||sub!==Q.sub){
+    if(Q.step&&step>Q.step){Q.flash={text:'✓  '+TUTOR_NAMES[Q.step],until:0};tutorDing();}      // done: a tick and a ding
+    Q.step=step;Q.sub=sub;
+    const t=tutorText(step,sub);
+    Q.vTitle='Lesson '+step+' of 10 · '+TUTOR_NAMES[step];Q.vHTML=tutorHTML(t.text);Q.vBig=!!t.big;Q.vSerial=++Q.serial;
+    if(t.say)tutorSpeak(t.sayKey||step+sub,t.say);
+  }
+  tutorSpeakTick();
+  // fishing again later in the lesson is your own business: the card keeps out of it
+  Q.lessonShow=!tutorBusy()&&!Q.fight&&!(fishBusy()&&tutorHas(B.keep));
+  // ----- Karki: on the jetty for the fishing, gone once you have walked off it -----
+  const n=Q.karki;
+  if(step<=5){if(!n&&!tutorSeen(SPAWN[0],SPAWN[1])&&Math.hypot(PS.x-SPAWN[0],PS.z-SPAWN[1])>25)tutorKarkiPut();}
+  else if(n&&!onJetty(PS.x,PS.z)&&!onApproach(PS.x,PS.z)&&!tutorSeen(n.x,n.z))tutorKarkiDrop();
+}
+
+// ===================== THE CARD =====================
+// One element for Karki's lesson and the coach cards (under the quest box, top left), and one for the fight card
+// (above the reel band). Built the first time either is needed; this file cannot add to shell.html, so the styles are here.
+// (a key cap's style goes inside style="..." in the HTML, so it must not contain a double quote)
+const TUTOR_CAP='display:inline-block;box-sizing:border-box;min-width:1.62em;padding:.06em .42em .1em;margin:0 .12em;border:1.5px solid #ffd23f;border-bottom-width:3px;border-radius:.4em;background:#1a2328;color:#fff5db;font:800 .9em/1.3 Segoe UI,Arial,sans-serif;font-style:normal;text-align:center;white-space:nowrap;vertical-align:baseline;letter-spacing:.02em';
+function tutorCap(key){return '<kbd style="'+TUTOR_CAP+(key==='SPACE'?';min-width:4.6em;letter-spacing:.12em':'')+'">'+key+'</kbd>';}
+function tutorHTML(text){
+  return String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\[([A-Z0-9]{1,5})\]/g,(m,key)=>tutorCap(key));
+}
+function tutorStepHTML(step){
+  const text=typeof step.text==='function'?step.text():step.text,keys=step.keys||[];
+  return keys.map(tutorCap).join('')+(keys.length?'&ensp;':'')+tutorHTML(text);
+}
+function tutorBuild(){
+  const Q=TUTOR;if(Q.el)return;
+  const mk=(tag,css)=>{const e=document.createElement(tag);e.style.cssText=css;return e;};
+  const button='pointer-events:auto;cursor:pointer;padding:4px 10px;border:0;border-radius:6px;background:rgba(255,255,255,.12);color:#e6ecea;font:600 11px "Segoe UI",Arial,sans-serif';
+  const quiet=b=>{b.type='button';b.tabIndex=-1;b.onmousedown=e=>e.preventDefault();return b;};      // never takes the keyboard: SPACE must stay the cast key
+  const el=Q.el=mk('aside','position:fixed;left:16px;top:176px;z-index:6;display:none;box-sizing:border-box;width:clamp(285px,23vw,410px);padding:10px 13px 10px 14px;'
+    +'border-left:3px solid #ffd23f;border-radius:8px;background:linear-gradient(120deg,rgba(9,16,22,.92),rgba(12,20,27,.84));box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 6px 22px rgba(0,0,0,.35);'
+    +'color:#f4ead2;font:600 clamp(14px,1.02vw,18px)/1.45 "Segoe UI",Arial,sans-serif;text-shadow:none;pointer-events:none');
+  el.id='tutor';
+  Q.elDone=mk('div','display:none;margin-bottom:5px;color:#7ee08a;font:800 clamp(11px,.8vw,13px)/1.2 "Segoe UI",Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase');
+  Q.elTitle=mk('div','margin-bottom:5px;color:#ffd23f;font:800 clamp(10px,.74vw,12px)/1.2 "Segoe UI",Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase');
+  Q.elBody=mk('div','');
+  const foot=mk('div','display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:9px');
+  Q.elCount=mk('span','color:#b9c4c0;font:600 11px "Segoe UI",Arial,sans-serif');
+  Q.elSkip=quiet(mk('button',button));Q.elSkip.textContent='Skip tutorial';Q.elSkip.onclick=tutorSkip;
+  Q.elNext=quiet(mk('button',button));Q.elNext.onclick=()=>{tutorCoachNext();if(cv&&cv.focus)cv.focus();};
+  foot.append(Q.elCount,Q.elSkip,Q.elNext);
+  el.append(Q.elDone,Q.elTitle,Q.elBody,foot);
+  // the fight card: it sits just above the reel band and points down at it
+  const f=Q.elFight=mk('aside','position:fixed;left:50%;bottom:198px;transform:translateX(-50%);z-index:7;display:none;box-sizing:border-box;width:min(480px,92vw);padding:12px 16px 11px;'
+    +'border-top:3px solid #ffd23f;border-radius:9px;background:rgba(8,14,20,.94);box-shadow:0 10px 34px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.14);'
+    +'color:#f4ead2;font:600 clamp(14px,1.02vw,17px)/1.55 "Segoe UI",Arial,sans-serif;text-shadow:none;pointer-events:none');
+  f.id='tutorFight';
+  const head=mk('div','margin-bottom:4px;color:#ffd23f;font:800 clamp(11px,.8vw,13px)/1.2 "Segoe UI",Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase');
+  head.textContent='Lesson 4 of 10 · Fish on!';
+  const lines=mk('div','');
+  lines.innerHTML=tutorHTML('Hold [SPACE] and the band slides right. Let go and it slides left.')+'<br>'+tutorHTML('Keep the little fish inside the band to reel it in.')+'<br>'+tutorHTML('If [A] or [D] flashes up, tap that key for a boost.');
+  const bar=mk('div','display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:9px');
+  const skip=quiet(mk('button',button));skip.textContent='Skip tutorial';skip.onclick=tutorSkip;
+  Q.elFightGo=mk('span','opacity:.35;color:#fff5db;font:700 clamp(12px,.9vw,14px)/1.3 "Segoe UI",Arial,sans-serif');
+  Q.elFightGo.innerHTML=tutorHTML('[SPACE] or click to start');
+  bar.append(skip,Q.elFightGo);
+  const arrow=mk('div','position:absolute;left:50%;bottom:-11px;width:0;height:0;margin-left:-11px;border-left:11px solid transparent;border-right:11px solid transparent;border-top:11px solid rgba(8,14,20,.94)');
+  f.append(head,lines,bar,arrow);
+  document.body.append(el,f);
+}
+function tutorPaint(now){
+  const Q=TUTOR,lesson=Q.on&&Q.lessonShow,c=!lesson&&!Q.on&&Q.card&&tutorCoachFree()?Q.card:null,fight=Q.on&&!!Q.fight&&!tutorBusy();
+  // the four-line lesson box this replaces stays out of the way while Karki is teaching (and is handed back afterwards)
+  {const old=$('lesson'),want=Q.on?'none':'';if(old&&old.style.display!==want)old.style.display=want;}
+  if(!Q.el){if(!lesson&&!c&&!fight)return;tutorBuild();}
+  if(fight!==Q.fightShown){Q.fightShown=fight;Q.elFight.style.display=fight?'block':'none';Q.fightReady=false;Q.elFightGo.style.opacity='.35';}
+  if(fight){const ready=now-Q.fight.since>=TUTOR_FIGHT_WAIT;if(ready!==Q.fightReady){Q.fightReady=ready;Q.elFightGo.style.opacity=ready?'1':'.35';}}
+  if(!lesson&&!c){if(Q.shown){Q.shown=false;Q.el.style.display='none';}return;}
+  const serial=lesson?Q.vSerial:c.serial;
+  if(serial!==Q.painted){
+    Q.painted=serial;
+    if(lesson){
+      Q.elTitle.textContent=Q.vTitle;Q.elBody.innerHTML=Q.vHTML;
+      Q.elCount.textContent='';Q.elSkip.style.display='';Q.elNext.style.display='none';
+    }else{
+      const topic=COACH[c.id],n=topic.steps.length;
+      Q.elTitle.textContent='Tip · '+topic.title;Q.elBody.innerHTML=tutorStepHTML(topic.steps[c.i]);
+      Q.elCount.textContent=n>1?(c.i+1)+' / '+n:'';Q.elSkip.style.display='none';Q.elNext.style.display='';Q.elNext.textContent=c.i<n-1?'Next ›':'Got it';
+    }
+    const big=lesson&&Q.vBig;
+    Q.elBody.style.fontSize=big?'1.3em':'';Q.elBody.style.color=big?'#ffd23f':'';
+    // a nudge so the eye catches the change: in from the left with a gold edge, then settle
+    Q.el.style.transition='none';Q.el.style.transform='translateX(-12px)';Q.el.style.borderLeftColor='#fff5db';Q.popAt=now+34;
+  }else if(Q.popAt&&now>=Q.popAt){
+    Q.popAt=0;Q.el.style.transition='transform .28s ease-out,border-color .9s';Q.el.style.transform='';Q.el.style.borderLeftColor='#ffd23f';
+  }
+  // "done" for the step before, for a moment (it starts counting once it can be seen)
+  const fl=lesson?Q.flash:null;
+  if(fl&&!fl.until){fl.until=now+2000;Q.elDone.textContent=fl.text;}
+  if(fl&&now>fl.until){Q.flash=null;}
+  const flashOn=!!(lesson&&Q.flash);
+  if(flashOn!==Q.flashOn){Q.flashOn=flashOn;Q.elDone.style.display=flashOn?'block':'none';}
+  // just under the quest box (and under the "launch your boat" note when that is up)
+  if(now>=Q.layAt){
+    Q.layAt=now+400;
+    let top=150;
+    const goal=$('goal'),guide=$('launchGuide'),gr=goal&&goal.getBoundingClientRect&&goal.getBoundingClientRect();
+    if(gr&&gr.bottom>20&&gr.bottom<innerHeight*.5)top=gr.bottom+10;
+    const lr=guide&&!guide.hidden&&guide.getBoundingClientRect&&guide.getBoundingClientRect();
+    if(lr&&lr.bottom>top-10&&lr.bottom<innerHeight*.6)top=lr.bottom+10;
+    top=Math.round(top);
+    if(top!==Q.top){Q.top=top;Q.el.style.top=top+'px';}
+  }
+  if(!Q.shown){Q.shown=true;Q.el.style.display='block';}
+}
+// drawn on the game's own overlay: the SPACE key, big, the moment the float goes under
+function tutorKey(x,y,label,k,glow){
+  ox.save();ox.font='900 '+Math.round(24*k)+'px "Segoe UI", Arial';
+  const h=44*k,w=Math.max(h,ox.measureText(label).width+40*k);
+  ox.shadowColor='rgba(255,210,63,'+(.45+.45*glow)+')';ox.shadowBlur=14+22*glow;
+  ox.fillStyle='#1a2328';ox.beginPath();ox.roundRect(x-w/2,y-h/2,w,h,9*k);ox.fill();
+  ox.shadowBlur=0;ox.lineWidth=3*k;ox.strokeStyle='#ffd23f';ox.stroke();
+  ox.fillStyle='#ffd23f';ox.fillRect(x-w/2+6*k,y+h/2-6*k,w-12*k,3*k);
+  ox.fillStyle='#fff5db';ox.textAlign='center';ox.textBaseline='middle';ox.fillText(label,x,y-2*k);
+  ox.restore();
+}
+function tutorHud(){
+  const Q=TUTOR;
+  if(!Q.on||UI||mapOpen||atPubGame()||F.st!=='bite'||tutorHas(TUTOR_BIT.keep))return;
+  const beat=.5+.5*Math.sin(performance.now()/95),cx=innerWidth/2,y=innerHeight-150-74,k=Math.min(1.9,innerWidth/640)*(1+.06*beat);
+  ox.save();ox.font='900 '+Math.round(15*k)+'px "Segoe UI", Arial';ox.textAlign='center';ox.textBaseline='middle';ox.lineJoin='round';
+  ox.lineWidth=5;ox.strokeStyle='rgba(8,14,20,.92)';ox.strokeText('PRESS',cx,y-40*k);ox.fillStyle='#fff';ox.fillText('PRESS',cx,y-40*k);
+  ox.restore();
+  tutorKey(cx,y,'SPACE',k,beat);
+}
+
+// ===================== COACH MARKS =====================
+// One entry per topic: group (which heading of the help page), title, and up to three steps of up to sixteen words.
+// keys are drawn as key caps in front of the text. known(s) (s is S.stats) says an old save has plainly done this
+// already, so the card is not needed. todo marks a placeholder for something that is not in the game yet: whoever
+// builds it should rewrite the steps and remove the flag (until then it is left off the help page unless it has shown).
+const COACH={
+  // ----- fishing -----
+  night:{group:'Fishing',title:'Night fishing',known:s=>(s.night||0)>0,steps:[
+    {keys:[],text:'It is dark. Different fish feed at night, and a few only bite now.'},
+    {keys:['J'],text:'Opens the fish book. It marks the fish that like the night.'},
+    {keys:[],text:'Dawn and dusk are when they bite best of all.'}]},
+  lychee:{group:'Fishing',title:'Stolen lychees',known:s=>(s.lycheeCatches||0)>0,steps:[
+    {keys:['TAB'],text:'Lychees are bait. Pick them, then cast as usual.'},
+    {keys:[],text:'Every fish wants one, and the rare ones want it most.'},
+    {keys:[],text:'Each lychee you take is a wanted star. One is used per fish hooked.'}]},
+  esky:{group:'Fishing',title:'A full esky',known:s=>S.esky>0||(s.sold||0)>=30,steps:[
+    {keys:[],text:'Your esky is full. Sell at Petey’s to make room.'},
+    {keys:['K'],text:'Opens the esky. You can let fish go from there.'},
+    {keys:[],text:'Karki sells a bigger esky.'}]},
+  comp:{group:'Fishing',title:'Competitions',known:s=>(s.comps||0)>0,steps:[
+    {keys:[],text:'You have five minutes. The biggest eligible fish wins.'},
+    {keys:[],text:'Cast into the comp’s water. The board on the right says if it counts.'},
+    {keys:['N'],text:'Shows the full standings.'}]},
+  // PLACEHOLDER (trolling is not in the game yet): rewrite when it is, and remove todo
+  trolling:{group:'Fishing',title:'Trolling',todo:1,steps:[
+    {keys:[],text:'Tow a lure behind a moving boat and wait for a strike.'}]},
+  // ----- getting around -----
+  ride:{group:'Getting around',title:'Rides and cars',known:s=>(s.drive||0)>150,steps:[
+    {keys:['V'],text:'Hops on and off your ride. You start with a skateboard.'},
+    {keys:['W','A','S','D'],text:'In a car or on a bike: W goes, S brakes, A and D steer.'},
+    {keys:['G'],text:'Takes a car that is not yours. The police will want a word.'}]},
+  boat:{group:'Getting around',title:'Boats',known:s=>!!S.launchGuide||(s.boatsTaken||0)>0||(s.skiTaken||0)>0,steps:[
+    {keys:['B'],text:'Launches your boat at the water’s edge, boards one beside you, or steps back ashore.'},
+    {keys:['E'],text:'Takes the helm. Then W and S are the throttle, A and D steer.'},
+    {keys:['SPACE'],text:'Let go of the helm first, then cast as you do on land.'}]},
+  passenger:{group:'Getting around',title:'On a friend’s boat',steps:[
+    {keys:['B'],text:'You are a passenger. It steps ashore when the boat is beside a bank or the jetty.'},
+    {keys:['B'],text:'Press it twice to jump off and swim to the nearest shore, from anywhere.'},
+    {keys:[],text:'If the skipper is gone and you are stuck, the water police run you back.'}]},
+  // PLACEHOLDER (houses are not in the game yet): rewrite when they are, and remove todo
+  house:{group:'Getting around',title:'Your house',todo:1,steps:[
+    {keys:[],text:'A place of your own in Hannaford. Go in and have a look around.'}]},
+  // PLACEHOLDER (the phone is not in the game yet): rewrite when it is, and remove todo
+  phone:{group:'Getting around',title:'Your phone',todo:1,steps:[
+    {keys:[],text:'Your phone is how the town gets hold of you. Have a look at it.'}]},
+  // ----- money and gear -----
+  shop:{group:'Money and gear',title:'Shops',known:s=>(s.sold||0)>0||(s.bought||0)>0,steps:[
+    {keys:['E'],text:'Inside a shop, stand at what you want and press it to buy.'},
+    {keys:['E'],text:'At Petey’s counter it sells your catch instead.'},
+    {keys:['E'],text:'Next to Karki it opens his whole price list.'}]},
+  backpack:{group:'Money and gear',title:'Backpack and hotbar',steps:[
+    {keys:['3'],text:'Food and drink you buy lands on your hotbar by itself. Press its number to use it.'},
+    {keys:['I'],text:'Opens your backpack: everything you carry on one screen. Click a tile to use it.'},
+    {keys:['1','2'],text:'Swap your rod and your bait.'}]},
+  boxing:{group:'Money and gear',title:'The boxing ring',known:s=>(s.boxFights||0)>0,steps:[
+    {keys:['E'],text:'In the pink marker, starts a round with Nate. Legal, and losing costs nothing.'},
+    {keys:['J','K','L','SPACE'],text:'Jab, hook, block and dodge.'},
+    {keys:[],text:'A red or orange ! comes through a block, so dodge it.'}]},
+  bull:{group:'Money and gear',title:'The bull show',known:s=>(s.bullRides||0)>0,steps:[
+    {keys:['E'],text:()=>{const b=typeof BULLP==='object'?BULLP:{fee:20,perSec:2};return 'Starts a ride for $'+b.fee+'. It pays $'+b.perSec+' for every second you stay on.';}},
+    {keys:['A','D'],text:'Lean to keep the needle in the green.'},
+    {keys:['W','S','Q','E'],text:'When one pops up, press it before its bar runs out. X lets go.'}]},
+  // PLACEHOLDER (golf is not in the game yet): rewrite when it is, and remove todo
+  golf:{group:'Money and gear',title:'Golf',todo:1,steps:[
+    {keys:[],text:'Line the shot up, pick your power and swing.'}]},
+  // ----- trouble -----
+  wanted:{group:'Trouble',title:'Wanted',known:s=>(s.fines||0)>0||(s.arrests||0)>0||(s.escapes||0)>0,steps:[
+    {keys:['SHIFT'],text:'Stars mean the police want you. Run: they only catch you slow or stopped.'},
+    {keys:[],text:'Get out of their sight and stay hidden until the stars stop flashing.'},
+    {keys:['E'],text:'Or stop beside the officer and surrender for a lower fine.'}]},
+  undersize:{group:'Trouble',title:'Undersize fish',known:s=>(s.underSold||0)>0||(s.rigged||0)>0,steps:[
+    {keys:[],text:'Keeping an undersize fish brings the ranger. Every extra one adds a star.'},
+    {keys:[],text:'Lose the ranger and Petey buys them out the back, for more than a legal fish.'},
+    {keys:['K'],text:'Or open the esky and rig one as live bait.'}]},
+  isaac:{group:'Trouble',title:'Isaac',known:s=>(s.dealerMet||0)>0,steps:[
+    {keys:['M'],text:'Every night a bloke called Isaac camps in Charlie’s Forest. He is the ? on your map, under the green light.'},
+    {keys:['E'],text:'He sells dynamite, cut-price rods and a false-bottom esky, and he pays more than Petey for fish.'},
+    {keys:[],text:'He will not deal while the police are after you.'}]},
+  drink:{group:'Trouble',title:'Great Southerns',known:s=>(s.blackouts||0)>0,steps:[
+    {keys:[],text:'They stack. Four and you see double, six and your legs go, eight and it is good night.'},
+    {keys:[],text:'A blackout costs you the night and leaves a hangover. A coffee or a pie fixes that.'}]},
+  // PLACEHOLDER (robberies are not in the game yet): rewrite when they are, and remove todo
+  robbery:{group:'Trouble',title:'Robberies',todo:1,steps:[
+    {keys:[],text:'A robbery brings the police fast. Know your way out before you start.'}]}
+};
+function coachSeen(id){return (S.stats['coach_'+id]||0)>0;}
+// Show this topic's card, once ever. Safe to call every frame: it does nothing once the card is seen or waiting.
+function coach(id){
+  const Q=TUTOR;
+  if(!COACH[id]||coachSeen(id)||Q.queue.includes(id)||Q.card&&Q.card.id===id)return false;
+  Q.queue.push(id);return true;
+}
+const tutorReadMs=step=>2600+330*String(typeof step.text==='function'?step.text():step.text).split(' ').length;
+function tutorCoachNext(){
+  const Q=TUTOR,c=Q.card;if(!c)return;
+  const steps=COACH[c.id].steps;
+  if(++c.i>=steps.length){Q.card=null;Q.coachAt=performance.now()+1500;return;}
+  c.left=tutorReadMs(steps[c.i]);c.serial=++Q.serial;
+}
+// the systems that exist today: each of these is true the first time the topic comes up
+function tutorWatch(){
+  const here=GTA.here,inside=insideShop(PS.x,PS.z);
+  if(S.wanted>0)coach('wanted');
+  if(onBoat)coach('boat');
+  if(mounted)coach('ride');
+  if(S.cooler.some(c=>c.under))coach('undersize');
+  if(S.cooler.length>=eskyCapacity())coach('esky');
+  if(inside&&!mounted&&!onBoat)coach('shop');
+  if(S.comp)coach('comp');
+  if(isNight()&&!inside)coach('night');
+  if((S.bag.lychee||0)>0)coach('lychee');
+  if(here&&here.kind==='box')coach('boxing');
+  if(here&&here.kind==='bull')coach('bull');
+  if(onBoat&&aboard&&aboard.owner!==null)coach('passenger');
+  if(DRUNK.level>0)coach('drink');
+  if(typeof DEALER==='object'&&DEALER.npc&&!S.stats.dealerMet&&(S.stats.dealerTold||0)>0)coach('isaac');
+}
+function tutorCoachTick(now){
+  const Q=TUTOR;
+  if(now>=Q.watchAt){Q.watchAt=now+300;tutorWatch();}
+  const free=tutorCoachFree();
+  let c=Q.card;
+  if(!c){
+    if(!free||!Q.queue.length||now<Q.coachAt)return;
+    const id=Q.queue.shift();if(coachSeen(id))return;
+    S.stats['coach_'+id]=1;
+    c=Q.card={id,i:0,left:tutorReadMs(COACH[id].steps[0]),last:now,serial:++Q.serial};
+    tone(740,.07,'triangle',.05,988);
+  }
+  // each step stays up long enough to read; the clock only runs while the card can be seen
+  if(free){c.left-=Math.min(100,now-c.last);if(c.left<=0)tutorCoachNext();}
+  c.last=now;
+}
+
+// ===================== THE TRAIL =====================
+// tutorTrail(x,z) lays gold dots on the ground from the player to that spot; tutorTrail(null) takes them away.
+// The route is worked out again only when the target changes or the player wanders well off it.
+function tutorTrail(x,z){
+  const R=TUTOR.trail;
+  if(x===null||x===undefined){R.target=null;R.pts=null;R.dots=null;R.job=null;R.owner='';R.show=false;return;}
+  if(R.target&&Math.hypot(R.target[0]-x,R.target[1]-z)<.3)return;
+  R.target=[x,z];R.pts=null;R.dots=null;R.job=null;R.due=0;R.owner='';
+}
+// The path-finder: A* on a 2 m grid from (ax,az) to (bx,bz), which is made a grid node. Where you may walk is what
+// blocked() and isWater() say, read from RECTS and CIRC directly (blocked() also counts people standing about and parked
+// rides, which come and go) and with the inside of every shop closed (shops are entered through their doors: see
+// tutorRouteSteps). Fences and shelter walls are far thinner than the grid, so a move between two nodes is tested against
+// the exact shape of every solid box and post near it, not sampled. It is a generator so that a long search can be
+// spread over several frames: it yields after a few milliseconds' work and returns the corners of the path, or null.
+function* tutorSearchSteps(ax,az,bx,bz){
+  const f=TUTOR_FINE,per=Math.round(TUTOR_CELL/f),span=f*per,pad=TUTOR_PAD;
+  const x0=Math.min(ax,bx)-pad,z0=Math.min(az,bz)-pad,x1=Math.max(ax,bx)+pad,z1=Math.max(az,bz)+pad;
+  const oi=Math.ceil((bx-x0)/span)*per,oj=Math.ceil((bz-z0)/span)*per;
+  const w=oi+Math.ceil((x1-bx)/span)*per+1,h=oj+Math.ceil((z1-bz)/span)*per+1,cw=(w-1)/per+1,ch=(h-1)/per+1;
+  if(w*h>1.2e6)return null;
+  // everything solid inside the search area, sorted into 8 m squares so a step only looks at the few things near it
+  const B=8,gx=x0-2,gz=z0-2,bw=Math.ceil((x1-x0+4)/B),bh=Math.ceil((z1-z0+4)/B),bins=new Array(bw*bh);
+  const sort=(o,lx,hx,lz,hz)=>{
+    if(hx<gx||hz<gz||lx>gx+bw*B||lz>gz+bh*B)return;
+    const i0=Math.max(0,Math.floor((lx-gx)/B)),i1=Math.min(bw-1,Math.floor((hx-gx)/B)),j0=Math.max(0,Math.floor((lz-gz)/B)),j1=Math.min(bh-1,Math.floor((hz-gz)/B));
+    for(let j=j0;j<=j1;j++)for(let i=i0;i<=i1;i++)(bins[j*bw+i]||(bins[j*bw+i]=[])).push(o);
+  };
+  for(const r of RECTS)sort(r,r.x0,r.x1,r.z0,r.z1);
+  for(const c of CIRC)if(!c.ride)sort(c,c.x-c.r-.28,c.x+c.r+.28,c.z-c.r-.28,c.z+c.r+.28);
+  // does the straight line from p to q pass through the inside of anything solid? (p = q asks about one spot)
+  const hit=(px,pz,qx,qz)=>{
+    const dx=qx-px,dz=qz-pz,l2=dx*dx+dz*dz;
+    const i0=Math.max(0,Math.floor((Math.min(px,qx)-gx)/B)),i1=Math.min(bw-1,Math.floor((Math.max(px,qx)-gx)/B));
+    const j0=Math.max(0,Math.floor((Math.min(pz,qz)-gz)/B)),j1=Math.min(bh-1,Math.floor((Math.max(pz,qz)-gz)/B));
+    for(let j=j0;j<=j1;j++)for(let i=i0;i<=i1;i++){
+      const list=bins[j*bw+i];if(!list)continue;
+      for(let n=0;n<list.length;n++){
+        const o=list[n];
+        if(o.x0===undefined){
+          // a post or a tree: how close does the line come to its middle?
+          const t=l2?clamp(((o.x-px)*dx+(o.z-pz)*dz)/l2,0,1):0,ex=px+dx*t-o.x,ez=pz+dz*t-o.z,rr=o.r+.28;
+          if(ex*ex+ez*ez<rr*rr)return true;
+          continue;
+        }
+        // a box: the stretch of the line that is inside it in x, and in z, have to overlap
+        let t0=0,t1=1;
+        if(Math.abs(dx)<1e-9){if(px<=o.x0||px>=o.x1)continue;}
+        else{const a=(o.x0-px)/dx,b=(o.x1-px)/dx;t0=Math.max(t0,Math.min(a,b));t1=Math.min(t1,Math.max(a,b));if(t0>=t1)continue;}
+        if(Math.abs(dz)<1e-9){if(pz<=o.z0||pz>=o.z1)continue;}
+        else{const a=(o.z0-pz)/dz,b=(o.z1-pz)/dz;t0=Math.max(t0,Math.min(a,b));t1=Math.min(t1,Math.max(a,b));if(t0>=t1)continue;}
+        return true;
+      }
+    }
+    return false;
+  };
+  // the jetty, its ramp and the road bridge are walkable whatever is under (or drawn on) them, as they are in blocked()
+  const deck=(x,z)=>onApproach(x,z)||onJetty(x,z)||onBridge(x,z);
+  // the ground itself, half a metre at a time: inside the map, dry, not solid, not inside a shop (0 not looked at, 1 open, 2 closed)
+  const fine=new Uint8Array(w*h);
+  const open=(i,j)=>{
+    if(i<0||j<0||i>=w||j>=h)return false;
+    const k=j*w+i;let v=fine[k];
+    if(!v){
+      const x=bx+(i-oi)*f,z=bz+(j-oj)*f;
+      v=fine[k]=x>WX0+3&&x<WX1-2&&z>WZ0+3&&z<WZ1-3&&(deck(x,z)||waterLevel(x,z)-H(x,z)<.02&&!hit(x,z,x,z))&&!insideShop(x,z,.2)?1:2;
+    }
+    return v===1;
+  };
+  const at=(x,z)=>open(Math.round((x-bx)/f)+oi,Math.round((z-bz)/f)+oj);
+  const solid=(px,pz,qx,qz)=>!(deck(px,pz)&&deck(qx,qz))&&hit(px,pz,qx,qz);
+  // A straight walk from p to q: nothing solid across it (tested exactly), and open ground at each end and about every
+  // metre and a half between (water and shop floors are never thinner than that; asking H() any more often is what
+  // would make this slow).
+  // Stepping on or off the jetty (or the bridge) only counts where the ground beside it is about level with the deck:
+  // the game would let you walk off the side onto the sand below, but nobody should be led that way.
+  const line=(px,pz,qx,qz)=>{
+    if(solid(px,pz,qx,qz)||!at(px,pz))return false;
+    const d=Math.hypot(qx-px,qz-pz),n=Math.max(1,Math.ceil(d/1.45));
+    let was=deck(px,pz),lx=px,lz=pz;
+    for(let s=1;s<=n;s++){
+      const t=s/n,x=px+(qx-px)*t,z=pz+(qz-pz)*t,on=deck(x,z);
+      if(!at(x,z)||on!==was&&Math.abs(groundAt(x,z)-groundAt(lx,lz))>.6)return false;
+      was=on;lx=x;lz=z;
+    }
+    return true;
+  };
+  // ...and, with side, nothing solid that far to either side of it as well
+  const clear=(px,pz,qx,qz,side)=>{
+    if(!line(px,pz,qx,qz))return false;
+    if(!side)return true;
+    const d=Math.hypot(qx-px,qz-pz)||1,nx=-(qz-pz)/d*side,nz=(qx-px)/d*side;
+    return !solid(px+nx,pz+nz,qx+nx,qz+nz)&&!solid(px-nx,pz-nz,qx-nx,qz-nz);
+  };
+  if(Math.hypot(bx-ax,bz-az)<40&&clear(ax,az,bx,bz,.45))return [[ax,az],[bx,bz]];
+  const node=(ci,cj)=>ci>=0&&cj>=0&&ci<cw&&cj<ch&&open(ci*per,cj*per);
+  const wx=ci=>bx+(ci*per-oi)*f,wz=cj=>bz+(cj*per-oj)*f;
+  // the nearest open node to a spot (first choice: one that can be walked to in a straight line)
+  const nearest=(x,z,reach)=>{
+    const ci=Math.round((x-bx)/span)+oi/per,cj=Math.round((z-bz)/span)+oj/per;let best=-1,bd=1e9,any=-1,ad=1e9;
+    for(let dj=-reach;dj<=reach;dj++)for(let di=-reach;di<=reach;di++){
+      if(!node(ci+di,cj+dj))continue;
+      const d=Math.hypot(wx(ci+di)-x,wz(cj+dj)-z),k=(cj+dj)*cw+ci+di;
+      if(d<ad){ad=d;any=k;}
+      if(d<bd&&(at(x,z)?line(x,z,wx(ci+di),wz(cj+dj)):!hit(x,z,wx(ci+di),wz(cj+dj)))){bd=d;best=k;}
+    }
+    return best>=0?best:any;
+  };
+  const goal=node(oi/per,oj/per)?(oj/per)*cw+oi/per:nearest(bx,bz,5),start=nearest(ax,az,3);
+  if(goal<0||start<0)return null;
+  const ti=goal%cw,tj=(goal-ti)/cw;
+  const N=cw*ch,g=new Float32Array(N).fill(Infinity),from=new Int32Array(N).fill(-1),shut=new Uint8Array(N),room=new Float32Array(N).fill(-1),hk=[],hf=[];
+  // a metre of room on every side of a node is worth a small detour
+  const tight=k=>{
+    if(room[k]<0){const x=wx(k%cw),z=wz((k-k%cw)/cw);room[k]=line(x,z,x+1,z)&&line(x,z,x-1,z)&&line(x,z,x,z+1)&&line(x,z,x,z-1)?0:1.5;}
+    return room[k];
+  };
+  const push=(k,v)=>{let i=hk.length;hk.push(k);hf.push(v);while(i>0){const p=(i-1)>>1;if(hf[p]<=v)break;hk[i]=hk[p];hf[i]=hf[p];i=p;}hk[i]=k;hf[i]=v;};
+  const pop=()=>{
+    const top=hk[0],k=hk.pop(),v=hf.pop(),n=hk.length;
+    if(n){let i=0;for(;;){let c=i*2+1;if(c>=n)break;if(c+1<n&&hf[c+1]<hf[c])c++;if(hf[c]>=v)break;hk[i]=hk[c];hf[i]=hf[c];i=c;}hk[i]=k;hf[i]=v;}
+    return top;
+  };
+  const guess=(ci,cj)=>{const dx=Math.abs(ci-ti),dz=Math.abs(cj-tj);return (Math.max(dx,dz)+.4142*Math.min(dx,dz))*span;};
+  g[start]=0;push(start,guess(start%cw,(start-start%cw)/cw));
+  // a little each frame: about 3 ms of it, and never more than 200 nodes
+  let found=false,spent=0,began=performance.now();
+  while(hk.length){
+    const cur=pop();if(shut[cur])continue;shut[cur]=1;
+    if(cur===goal){found=true;break;}
+    if(++spent>30000)break;
+    if(spent%200===0||(spent&7)===0&&performance.now()-began>3){yield;began=performance.now();}
+    const ci=cur%cw,cj=(cur-ci)/cw,cx=wx(ci),cz=wz(cj);
+    for(let dj=-1;dj<=1;dj++)for(let di=-1;di<=1;di++){
+      if(!di&&!dj)continue;
+      const ni=ci+di,nj=cj+dj;if(ni<0||nj<0||ni>=cw||nj>=ch)continue;
+      const nk=nj*cw+ni;
+      // (a diagonal needs a little room either side of it, so that it does not cut a corner)
+      if(shut[nk]||!clear(cx,cz,wx(ni),wz(nj),di&&dj?.3:0))continue;
+      const cost=g[cur]+(di&&dj?1.4142:1)*span+tight(nk);
+      if(cost<g[nk]){g[nk]=cost;from[nk]=cur;push(nk,cost+guess(ni,nj));}
+    }
+  }
+  if(!found)return null;
+  const pts=[];
+  for(let k=goal;k>=0;k=from[k]){const ci=k%cw,cj=(k-ci)/cw;pts.push([wx(ci),wz(cj)]);}
+  pts.push([ax,az]);pts.reverse();
+  // pull the string tight: skip ahead to the furthest corner that can be walked to in a straight line with room to spare
+  const out=[pts[0]];
+  for(let i=0;i<pts.length-1;){
+    let j=Math.min(pts.length-1,i+12);
+    while(j>i+1&&!clear(pts[i][0],pts[i][1],pts[j][0],pts[j][1],.45))j--;
+    out.push(pts[j]);i=j;
+  }
+  // and ease each corner into the middle of whatever it is squeezing through (the jetty, a gap between two fences)
+  for(let k=1;k<out.length-1;k++){
+    const p=out[k],a=out[k-1],b=out[k+1],dx=b[0]-a[0],dz=b[1]-a[1],d=Math.hypot(dx,dz)||1,nx=-dz/d,nz=dx/d;
+    let l=0,r=0;
+    while(l<6&&line(p[0]+nx*l*f,p[1]+nz*l*f,p[0]+nx*(l+1)*f,p[1]+nz*(l+1)*f))l++;
+    while(r<6&&line(p[0]-nx*r*f,p[1]-nz*r*f,p[0]-nx*(r+1)*f,p[1]-nz*(r+1)*f))r++;
+    const shift=l<6&&r<6?(l-r)/2*f:l<2?(l-2)*f:r<2?(2-r)*f:0;
+    if(!shift)continue;
+    const q=[p[0]+nx*shift,p[1]+nz*shift];
+    if(clear(a[0],a[1],q[0],q[1],0)&&clear(q[0],q[1],b[0],b[1],0))out[k]=q;
+  }
+  return out;
+}
+// Karki's and Petey's are walked into through one doorway each: a spot just outside it and one just inside
+function tutorDoor(x,z){
+  const b=insideShop(x,z);if(!b||b.entry===undefined)return null;
+  const o=b.T([b.entry,0,b.depth/2+1.2]),i=b.T([b.entry,0,b.depth/2-1.1]);
+  return {shop:b,out:[o[0],o[2]],into:[i[0],i[2]]};
+}
+// the whole way from one spot to another: out of the shop you are in, across town, in through the door of the one you want
+function* tutorRouteSteps(px,pz,tx,tz){
+  const from=tutorDoor(px,pz),to=tutorDoor(tx,tz);
+  if(from&&to&&from.shop===to.shop)return [[px,pz],[tx,tz]];
+  const head=from?[[px,pz],from.into]:[],tail=to?[to.into,[tx,tz]]:[];
+  const a=from?from.out:[px,pz],b=to?to.out:[tx,tz];
+  const mid=yield* tutorSearchSteps(a[0],a[1],b[0],b[1]);
+  return mid?[...head,...mid,...tail]:null;
+}
+// (all in one go, for anything that wants a route there and then)
+function tutorRoute(px,pz,tx,tz){
+  const steps=tutorRouteSteps(px,pz,tx,tz);
+  for(;;){const r=steps.next();if(r.done)return r.value;}
+}
+// turn the corners of a route into a dot every metre and a half
+function tutorTrailLay(pts){
+  const R=TUTOR.trail,cum=[0],dots=[];
+  for(let i=1;i<pts.length;i++)cum.push(cum[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]));
+  const len=cum[cum.length-1];
+  for(let d=TUTOR_DOT*.5,i=1;d<len-.3;d+=TUTOR_DOT){
+    while(i<pts.length-1&&cum[i]<d)i++;
+    const t=(d-cum[i-1])/Math.max(1e-6,cum[i]-cum[i-1]),x=lerp(pts[i-1][0],pts[i][0],t),z=lerp(pts[i-1][1],pts[i][1],t);
+    dots.push(x,groundAt(x,z)+.09,z,d);
+  }
+  R.pts=pts;R.cum=cum;R.len=len;R.dots=new Float32Array(dots);R.along=0;R.off=0;
+}
+// how far along the route the player is (R.along), and how far off it (R.off)
+function tutorTrailWhere(){
+  const R=TUTOR.trail,pts=R.pts;let best=1e9,along=0;
+  for(let i=1;i<pts.length;i++){
+    const ax=pts[i-1][0],az=pts[i-1][1],dx=pts[i][0]-ax,dz=pts[i][1]-az,l2=dx*dx+dz*dz;
+    const t=l2?clamp(((PS.x-ax)*dx+(PS.z-az)*dz)/l2,0,1):0,d=Math.hypot(PS.x-ax-dx*t,PS.z-az-dz*t);
+    if(d<best-.01){best=d;along=R.cum[i-1]+Math.sqrt(l2)*t;}
+  }
+  R.along=along;R.off=best;
+}
+function tutorTrailTick(now){
+  const Q=TUTOR,R=Q.trail;
+  // the lesson's own dots follow whatever it is sending you to
+  if(Q.on||R.owner==='lesson'){
+    const to=Q.on?Q.to:null;
+    if(!to){if(R.owner==='lesson')tutorTrail(null);}
+    else if(!R.target||R.owner!=='lesson'||Math.hypot(R.target[0]-to[0],R.target[1]-to[1])>.3){tutorTrail(to[0],to[1]);R.owner='lesson';}
+  }
+  R.show=!!R.target&&!atPubGame()&&!(R.owner==='lesson'&&(tutorBusy()||fishBusy()));
+  if(!R.show)return;
+  if(R.pts)tutorTrailWhere();
+  // a route being worked out: a few hundred grid squares of it each frame, so that even a long one is never felt
+  if(R.job){
+    const r=R.job.next();
+    if(r.done){R.job=null;if(r.value)tutorTrailLay(r.value);}        // (no way found: the dots there were stay where they are)
+    return;
+  }
+  if(now<R.checkAt)return;
+  R.checkAt=now+300;
+  // no route yet, or you have wandered off the one there is: work it out again (at most every second and a half)
+  const stale=!R.pts||R.off>TUTOR_STRAY&&Math.hypot(PS.x-R.target[0],PS.z-R.target[1])>3;
+  if(stale&&now>=R.due){R.due=now+1500;R.job=tutorRouteSteps(PS.x,PS.z,R.target[0],R.target[1]);}
+}
+// a soft round dot lying on the ground: bright in the middle, nothing at the rim
+function tutorDotMesh(){
+  const d=[],n=14;
+  for(let i=0;i<n;i++){const a0=i/n*TAU,a1=(i+1)/n*TAU;d.push(0,0,0,0,1,0,1,1,1,1, Math.cos(a1),0,Math.sin(a1),0,1,0,1,1,1,0, Math.cos(a0),0,Math.sin(a0),0,1,0,1,1,1,0);}
+  return upload(new Float32Array(d));
+}
+// the solid part of the trail: a gold ball over every dot, bobbing in a wave that runs towards where you are going
+function tutorDraw(L){
+  const R=TUTOR.trail,d=R.dots;
+  if(!R.show||!d||!R.pts||UI==='works'||TITLE.active||atPubGame())return;
+  if(!R.ball){const b=new MB();b.add(ico(.5,1,0),TF({}),TUTOR_GOLD);R.ball=upload(b);R.ballGlow={glow:[1,.78,.2,1.1]};}
+  const from=R.along+TUTOR_NEAR,to=from+TUTOR_AHEAD;
+  for(let i=0;i<d.length;i+=4){
+    const at=d[i+3];if(at<from)continue;if(at>to)break;
+    const x=d[i],z=d[i+2];if(Math.hypot(x-PS.x,z-PS.z)<TUTOR_NEAR)continue;
+    const wave=.5+.5*Math.sin(at*1.1-T*5.5),fade=Math.min(1,(at-from)/1.5,(to-at)/12),far=Math.hypot(x-CAM.eye[0],z-CAM.eye[2]);
+    L.push([R.ball,M.trs(x,d[i+1]+TUTOR_BALL+.07*wave,z,0,at,0,(.2+.07*wave)*fade*(1+Math.min(far/30,1.6))),R.ballGlow]);
+  }
+}
+function tutorGlows(SK){
+  const R=TUTOR.trail,d=R.dots;
+  if(!R.show||!d||!R.pts||UI==='works'||TITLE.active)return;
+  R.mesh||=tutorDotMesh();
+  const m=R.M||(R.M=new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]));
+  const from=R.along+TUTOR_NEAR,to=from+TUTOR_AHEAD,dim=1-.5*SK.night,face=Math.atan2(CAM.eye[0]-CAM.tgt[0],CAM.eye[2]-CAM.tgt[2]);
+  gl.useProgram(P_GLOW.p);gl.uniformMatrix4fv(P_GLOW.u.uVP,false,lastVP);gl.blendFunc(gl.ONE,gl.ONE);gl.uniform3fv(P_GLOW.u.uCol,TUTOR_GOLD);
+  // two passes over the same dots: first a dark patch that takes light away from the ground (so the dot shows on pale
+  // sand and sunlit planks), then the gold itself
+  for(let pass=0;pass<2;pass++){
+    if(pass){gl.blendFunc(gl.ONE,gl.ONE);gl.uniform3fv(P_GLOW.u.uCol,TUTOR_GOLD);}
+    else{gl.blendFunc(gl.ZERO,gl.ONE_MINUS_SRC_COLOR);gl.uniform3fv(P_GLOW.u.uCol,TUTOR_DARK);}
+    for(let i=0;i<d.length;i+=4){
+      const at=d[i+3];if(at<from)continue;if(at>to)break;
+      const x=d[i],z=d[i+2];if(Math.hypot(x-PS.x,z-PS.z)<TUTOR_NEAR)continue;
+      // a brighter patch runs along the line away from you, towards where you are going
+      const wave=.5+.5*Math.sin(at*1.1-T*5.5),fade=Math.min(1,(at-from)/1.5,(to-at)/12),s=.44+.12*wave;
+      gl.uniform1f(P_GLOW.u.uA,pass?(.55+.6*wave*wave)*fade*dim:.62*fade);
+      m[0]=m[5]=m[10]=pass?s:s*1.45;m[12]=x;m[13]=d[i+1]+(pass?.012:0);m[14]=z;draw(P_GLOW,R.mesh,m);
+      // the ball above it: this is what you see from walking height, where a flat dot is edge-on
+      gl.uniform1f(P_GLOW.u.uA,pass?(.7+.5*wave*wave)*fade*dim:.5*fade);
+      const far=Math.hypot(x-CAM.eye[0],z-CAM.eye[2]),big=1+Math.min(far/22,2.2);
+      draw(P_GLOW,HALO,M.trs(x,d[i+1]+TUTOR_BALL+.06*wave,z,0,face,0,(pass?.2+.06*wave:.3)*big));
+    }
+  }
+  // and the spot itself
+  const tx=R.target[0],tz=R.target[1],far=Math.hypot(tx-PS.x,tz-PS.z);
+  if(far>1&&far<40){
+    const beat=.5+.5*Math.sin(T*4);
+    const ty=groundAt(tx,tz)+.1;
+    gl.blendFunc(gl.ZERO,gl.ONE_MINUS_SRC_COLOR);gl.uniform3fv(P_GLOW.u.uCol,TUTOR_DARK);gl.uniform1f(P_GLOW.u.uA,.62);
+    m[0]=m[5]=m[10]=1.25;m[12]=tx;m[13]=ty;m[14]=tz;draw(P_GLOW,R.mesh,m);
+    gl.blendFunc(gl.ONE,gl.ONE);gl.uniform3fv(P_GLOW.u.uCol,TUTOR_GOLD);gl.uniform1f(P_GLOW.u.uA,(.6+.4*beat)*dim);
+    m[0]=m[5]=m[10]=.8+.14*beat;m[13]=ty+.012;draw(P_GLOW,R.mesh,m);
+  }
+}
+
+// ===================== HOW TO PLAY =====================
+// The basics from Karki's lesson, in the same shape as the coach topics.
+const TUTOR_BASICS=[
+  {group:'Fishing',title:'Casting',steps:[
+    {keys:['SPACE'],text:'Face the water. Hold to wind up, let go to cast. Near the top of the bar is a clean cast.'}]},
+  {group:'Fishing',title:'The bite',steps:[
+    {keys:['SPACE'],text:'Leave the keys alone while you wait. When the float goes under, press it to hook the fish.'}]},
+  {group:'Fishing',title:'Reeling in',steps:[
+    {keys:['SPACE'],text:'Hold and the band slides right. Let go and it slides left. Keep the fish in the band.'},
+    {keys:['A','D'],text:'When one flashes up, tap it for a boost.'},
+    {keys:['Q'],text:'Reels your line back in.'}]},
+  {group:'Fishing',title:'Keeping fish',steps:[
+    {keys:[],text:'[SPACE] keeps a fish and [X] lets it go. Kept fish sit in your esky until you sell them.'},
+    {keys:['K'],text:'Opens the esky.'}]},
+  {group:'Fishing',title:'Bait',steps:[
+    {keys:['TAB'],text:'Swaps your bait. Different fish take different bait: prawns for the jetty, worms for the creek.'},
+    {keys:[],text:'Worms are free and never run out. Karki sells better bait.'}]},
+  {group:'Getting around',title:'Looking and walking',steps:[
+    {keys:['MOUSE'],text:'Hold the button and drag to look around.'},
+    {keys:['W','A','S','D'],text:'Walk.'},
+    {keys:['SHIFT'],text:'Hold to run.'}]},
+  {group:'Getting around',title:'Doing things',steps:[
+    {keys:['E'],text:'Talks to people, uses shop shelves and starts glowing markers.'},
+    {keys:['ESC'],text:'Opens the menu: saving, graphics, sound and this page.'}]},
+  {group:'Getting around',title:'Map and quests',steps:[
+    {keys:['M'],text:'The map of Hannaford.'},
+    {keys:['L'],text:'Your quest list. The gold marker on the radar is the next one.'},
+    {keys:['R'],text:'Takes you straight back to the jetty.'}]},
+  {group:'Money and gear',title:'Selling fish',steps:[
+    {keys:['E'],text:'At the counter in Petey’s Fish Market, on the main street. Fishing is how you earn.'}]},
+  {group:'Money and gear',title:'Rods and bait',steps:[
+    {keys:['E'],text:'Karki’s Bait & Tackle, next to Petey’s. Stand at a rod or a bait tray and press it to buy.'}]},
+  {group:'Money and gear',title:'The hotbar',steps:[
+    {keys:['1','2'],text:'Swap your rod and your bait.'},
+    {keys:['3'],text:'Up to 8: the food and drink on your hotbar. Whatever you buy lands there by itself.'},
+    {keys:['I'],text:'The backpack: everything you carry, on one screen.'}]},
+  {group:'Trouble',title:'The rules',steps:[
+    {keys:[],text:()=>'Keep at most '+BAG_LIMIT+' fish of each kind, and let the undersize ones go. That is all the ranger cares about.'}]}
+];
+function tutorHelp(){
+  let h='<h1>How to play</h1><p class="sub">Everything Karki shows you, and everything else. Press <b>H</b> on foot to open this page at any time.</p>';
+  for(const group of TUTOR_GROUPS){
+    const rows=TUTOR_BASICS.filter(t=>t.group===group);
+    for(const id in COACH){const t=COACH[id];if(t.group===group&&(!t.todo||coachSeen(id)))rows.push(t);}
+    if(!rows.length)continue;
+    h+='<h4>'+group.toUpperCase()+'</h4>';
+    for(const t of rows)h+='<div class="row"><div><h3>'+t.title+'</h3>'+t.steps.map(s=>'<p style="margin:5px 0 0;font-size:13px;line-height:1.7;opacity:.95">'+tutorStepHTML(s)+'</p>').join('')+'</div></div>';
+  }
+  h+='<div class="big"><button id="helpReplay">Karki’s lesson again</button> <button id="helpClose">CLOSE [E / ESC]</button></div>';
+  $('pin').innerHTML=h;
+  const again=$('helpReplay'),shut=$('helpClose');
+  if(shut)shut.onclick=()=>closeUI();
+  if(again)again.onclick=()=>{closeUI();S.tutorial=0;save();};            // the same thing "Replay tutorial" in the menu does
+}
+UI_MODS.help={render:tutorHelp,close(){}};
+// one button for the pause menu, and the line that makes it work
+function tutorMenuHTML(){return '<button id="menuHelp">How to play</button>';}
+function tutorBindMenu(){const b=$('menuHelp');if(b)b.onclick=()=>openUI('help');}
+
+// ===================== every frame =====================
+function tutorTick(dt){
+  if(!window.READY||TITLE.active||!GTA.markers)return;
+  const Q=TUTOR,now=performance.now();
+  if(Q.S!==S)tutorSync();
+  // S.tutorial at 0 is "Replay tutorial" (or a brand-new trip, which has caught nothing)
+  if(S.tutorial===0&&(Q.on||S.stats.caught>0||S.stats.tutorDone))tutorStart(true);
+  else if(!Q.on&&S.tutorial<4&&!S.stats.caught&&!S.stats.tutorDone)tutorStart(false);
+  if(Q.on)tutorLesson(now);
+  tutorCoachTick(now);
+  tutorTrailTick(now);
+  tutorPaint(now);
+  // until the pause menu has the button written into it, put it there (see the hooks this module asks for)
+  if(UI==='menu'&&!$('menuHelp')){const b=$('menuTutorial');if(b&&b.insertAdjacentHTML){b.insertAdjacentHTML('afterend',tutorMenuHTML());tutorBindMenu();}}
+}
+MODS.push({tick:tutorTick,draw:tutorDraw,glows:tutorGlows,hud:tutorHud});
+// Keys. Nothing here is taken from the game except H on foot, which used to restart the old four-line lesson with no
+// warning and now opens the help page (H is still the horn in a car).
+addEventListener('keydown',e=>{
+  if(!window.READY||TITLE.active||e.repeat||e.ctrlKey||e.metaKey||e.altKey)return;
+  const Q=TUTOR,k=e.key.toLowerCase();
+  if(Q.fight&&k===' '){tutorFightGo();return;}
+  if(k==='tab'||k==='2')Q.keyAt=1;                                     // a bait swap made by hand (the lesson checks the bait really changed)
+  if(k==='h'&&!UI&&!(mounted&&activeRide>=2)&&!/^(INPUT|TEXTAREA|SELECT)$/.test(e.target?.tagName||'')){
+    // the game never sees it (its own H would set S.tutorial to 0, which is how a replay is asked for)
+    e.preventDefault();e.stopImmediatePropagation();
+    if(!mapOpen&&!fishBusy()&&!knockdown&&!GTA.act&&!COP.busted)openUI('help');
+  }
+},true);
+// (a click on the fight card's own Skip button is not a click to carry on)
+addEventListener('pointerdown',e=>{if(TUTOR.fight&&!e.button&&!(e.target&&e.target.closest&&e.target.closest('#tutorFight')))tutorFightGo();},true);
+
 // ===================== RENDER =====================
 let P_MAIN,P_DEPTH,P_SKY,P_WATER,P_GLOW,P_TEX,SHTEX,SHFB,SHS=0;
 let renderDensity=1,renderStress=0,worldBlur=0,renderProbe=0,renderCapped=false;
@@ -12739,7 +13843,12 @@ function drawBigMap(){const pad=46,sc=Math.min((innerWidth-pad*2)/MAPC.width,(in
   pill(innerWidth/2,y0-18,'HANNAFORD HEADS  -  PRESS M TO CLOSE','rgba(242,182,50,0.95)','#1a1206','800 14px Segoe UI, Arial');}
 // ===================== INPUT =====================
 addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(e.repeat&&!keys[k]||knockdown)return;au();
-  if(UI){if(parlourKey(k,e))return;if(k==='escape'||(!/^(INPUT|TEXTAREA|SELECT)$/.test(e.target?.tagName||'')&&(k==='e'||(k==='l'&&UI==='journey')||(k==='j'&&UI==='book')||(k==='n'&&UI==='nate')||(['i','k'].includes(k)&&UI==='bag'))))closeUI();return;}
+  if(UI){if(parlourKey(k,e))return;
+    const typing=/^(INPUT|TEXTAREA|SELECT)$/.test(e.target?.tagName||'');
+    if(UI==='bag'&&bagPage==='Pack'&&!typing&&!e.repeat&&k==='k'){bagPage='Esky';renderUI();return;}
+    if(UI==='bag'&&bagPage==='Pack'&&!typing&&!e.repeat&&k.length===1&&'12345678jlmvb'.includes(k))closeUI();
+    else{if(k==='escape'||(!typing&&(k==='e'||(k==='l'&&UI==='journey')||(k==='j'&&UI==='book')||(k==='n'&&UI==='nate')||(['i','k'].includes(k)&&UI==='bag'))))closeUI();return;}
+  }
   if(k==='escape'&&!fishBusy()&&!mapOpen){openUI('menu');return;}
   if('12345678'.includes(k)&&k.length===1&&!e.repeat){quickSlot(k);return;}
   if(!e.repeat&&!fishBusy()&&!mapOpen&&activityKey(k))return;
@@ -12802,13 +13911,13 @@ cv.addEventListener('lostpointercapture',event=>{if(reelPointer===event.pointerI
 cv.addEventListener('wheel',e=>{e.preventDefault();if(UI==='works'){workZoom=clamp(workZoom*Math.exp(e.deltaY*.0007),.84,1.25);return;}walkZoom=clamp(CAM.dist*Math.exp(clamp(e.deltaY*(e.deltaMode===1?16:1),-500,500)*0.0015),2.5,60);if(F.st!=='idle')CAM.dist=walkZoom;},{passive:false});
 // ===================== START =====================
 let onBoat=false,mounted=false,activeRide=0,rideMesh=null,bikeMesh=null;
-const XP=[0,75,205,500,1050,2100,3600,5600,8200,11500,15500,20500];
+const XP=[0,50,145,350,735,1470,2520,3920,5740,8050,10850,14350];
 const level=()=>XP.filter(x=>S.xp>=x).length;
 const eskyCapacity=()=>ESKYS[S.esky].cap+BOATS[S.hull].box;
 function updateTutorial(){
   const el=$('lesson');
   const step={idle:['1 / 4 · Cast','Aim at open water. Hold Space to charge, then release.'],charge:['1 / 4 · Cast','Let go of Space to send the line out.'],fly:['2 / 4 · Watch the float','Wait for the bite cue.'],wait:['2 / 4 · Watch the float','Press Space or click when the float goes under.'],bite:['2 / 4 · Hook it','Press Space or click now.'],fight:['3 / 4 · Reel it in','Hold to move right, release to move left. Keep the fish in the band. Press the shown A or D for a boost.'],show:['4 / 4 · First catch','Keep a legal catch for Petey or release it.']}[F.st];
-  el.hidden=S.tutorial>=4||!step||!!UI||mounted||!!aboard?.helm;
+  el.hidden=S.tutorial>=4||TUTOR.on||!step||!!UI||mounted||!!aboard?.helm;
   if(el.hidden||el.dataset.step===F.st)return;
   el.dataset.step=F.st;el.replaceChildren();
   const title=document.createElement('b');title.textContent=step[0];
@@ -12977,10 +14086,10 @@ function launchHelp(){
 
 
 const supplies=[
-  ['gs','Great Southern',6,DRINK_SECONDS,'Soft focus, a tipsy sway and a queasy spell if you stop'],
+  ['gs','Great Southern',6,DRINK_SECONDS,'They stack: a sway, then seeing double, then your legs go. Eight and it is good night'],
   ['dart','Deckers Dart',8,DART_SECONDS,'A floaty head rush and drifting smoke'],
-  ['pie','Meat pie',6,120,'More time to hook a bite'],
-  ['coffee','Iced coffee',5,120,'Fish bite sooner'],
+  ['pie','Meat pie',6,120,'More time to hook a bite · fixes a hangover'],
+  ['coffee','Iced coffee',5,120,'Fish bite sooner · fixes a hangover'],
   ['ginger','Ginger beer',4,120,'A slightly wider reel band'],
   ['lychee','Phill’s lychees',0,LYCHEE_SECONDS,'Sugar rush · quicker on foot and quicker bites']
 ];
@@ -12990,20 +14099,51 @@ function buySupply(id){
   if(!item||item[2]===0||!buy(item[2]))return;
   S.bag[id]=(S.bag[id]||0)+1;S.stats.pubBought=(S.stats.pubBought||0)+1;
   if(id==='gs')S.stats.gsBought=(S.stats.gsBought||0)+1;
+  packGot(id);
 }
 function useSupply(id){
   const item=supplies.find(i=>i[0]===id);
   if(!item||!(S.bag[id]>0)){say('That supply isn’t in your backpack');return false;}
-  if(buffSeconds(id)&&id!=='gs'){say(item[1]+' is still active');return false;}
-  S.bag[id]--;S.buffs[id]=Date.now()+item[3]*1000;if(id==='gs')drinkGS();
+  const cure=(id==='coffee'||id==='pie')&&hungover();
+  if(buffSeconds(id)&&id!=='gs'&&!cure){say(item[1]+' is still active');return false;}
+  S.bag[id]--;S.buffs[id]=Date.now()+item[3]*1000;if(id==='gs')drinkGS();packSync();
+  if(cure)S.stats.hangover=0;
   supplyGesture={id,start:T};
   if(id==='gs'){queasySince=-10;queasyAt=T+18+Math.random()*6;}
     if(id==='dart'){localBreath.exhaleAt=T+.32;S.stats.darts=(S.stats.darts||0)+1;}
-  if(id!=='gs')say(item[1]+' · '+buffSeconds(id)+'s',2);SFX.click();save();return true;
+  if(id!=='gs')say(cure?item[1]+' · that fixed the hangover':item[1]+' · '+buffSeconds(id)+'s',2.4);SFX.click();save();return true;
 }
-function defaultHotbar(){return ['rod:current','bait:current','book','bag',null,'vehicle:ride',null,null];}
-const bagPages=['Tackle','Supplies','Vehicles','Esky'];
-let bagPage='Tackle',bagSlot=4,fishSort='Recent',supplyGesture=null;
+function defaultHotbar(){return ['rod:current','bait:current',null,null,null,null,null,null];}
+let bagPage='Pack',fishSort='Recent',supplyGesture=null;
+// Put the hotbar in order: rod, bait, then food and drink. Things that have run out leave their slot (the others keep
+// their numbers, so the pie you learnt was on 4 stays on 4); what is waiting in the backpack moves up to a free slot.
+// Returns what it placed, as [id, slot]. (Called while a save is being read, so it only uses names declared above it.)
+function packSync(P=S){
+  const hot=Array.isArray(P.hotbar)?P.hotbar.slice(0,HOT_SLOTS):[];
+  while(hot.length<HOT_SLOTS)hot.push(null);
+  hot[0]='rod:current';hot[1]='bait:current';
+  const bag=P.bag||{},on=new Set();
+  for(let i=HOT_FIRST;i<HOT_SLOTS;i++){
+    const token=hot[i],id=typeof token==='string'&&token.startsWith('supply:')?token.slice(7):'';
+    if(!id||!supplyIds.includes(id)||!(bag[id]>0)||on.has(id)){hot[i]=null;continue;}
+    on.add(id);
+  }
+  const placed=[];
+  for(const id of supplyIds){
+    if(on.has(id)||HOT_SKIP.includes(id)||!(bag[id]>0))continue;
+    const free=hot.indexOf(null,HOT_FIRST);if(free<0)break;
+    hot[free]='supply:'+id;on.add(id);placed.push([id,free]);
+  }
+  P.hotbar=hot;return placed;
+}
+// You have just been handed one of these: say where it went.
+function packGot(id){
+  const token='supply:'+id,before=S.hotbar.indexOf(token);packSync();
+  const at=S.hotbar.indexOf(token),name=(supplies.find(s=>s[0]===id)||[0,id])[1];
+  if(at>=0&&before<0)say(name+' is on your hotbar · press '+(at+1)+' to use it',3.4);
+  else if(at<0&&!HOT_SKIP.includes(id))say(name+' is in your backpack · the hotbar is full · press I',3.4);
+  hud();if(typeof coach==='function')coach('backpack');
+}
 function restoreBackpack(raw,next){
   const used=new Set();
   let serial=intIn(raw.nextCatch,0,1e8);
@@ -13015,18 +14155,15 @@ function restoreBackpack(raw,next){
   next.nextCatch=serial;
   next.held=used.has(raw.held)?raw.held:0;
   next.launchGuide=raw.launchGuide===true;
-  if(Array.isArray(raw.hotbar)){
-    next.hotbar=defaultHotbar().map((base,i)=>{
-      const item=raw.hotbar[i];
-      if(item===null)return null;
-      if(typeof item!=='string')return i===6&&next.hull?'vehicle:boat':base;
-      if(['book','bag','rod:current','bait:current','vehicle:ride'].includes(item)||item==='vehicle:boat'&&next.hull)return item;
-      const [kind,id]=item.split(':');
-      if(kind==='rod'&&next.rods.includes(id)||kind==='bait'&&BAITS.some(b=>b.id===id)
-        ||kind==='supply'&&supplyIds.includes(id)||kind==='fish'&&used.has(Number(id)))return item;
-      return null;
-    });
+  // Hotbars from before this version could have anything pinned anywhere. Keep the food and drink on the slots it was on;
+  // packSync then drops what you no longer own and gives anything left over the first free slot.
+  const seen=new Set();
+  next.hotbar=defaultHotbar();
+  if(Array.isArray(raw.hotbar))for(let i=HOT_FIRST;i<HOT_SLOTS;i++){
+    const token=raw.hotbar[i];
+    if(typeof token==='string'&&token.startsWith('supply:')&&!seen.has(token)){seen.add(token);next.hotbar[i]=token;}
   }
+  packSync(next);
 }
 function storeCatch(item){
   const max=S.cooler.reduce((n,c)=>Math.max(n,c.uid),S.nextCatch);
@@ -13036,14 +14173,14 @@ function storeCatch(item){
 function heldFish(){return S.held?S.cooler.find(f=>f.uid===S.held)||null:null;}
 function cleanBackpack(){
   if(S.held&&!heldFish())S.held=0;
-  S.hotbar=S.hotbar.map(item=>item?.startsWith('fish:')&&!S.cooler.some(f=>f.uid===Number(item.slice(5)))?null:item);
+  packSync();
 }
 function hotItem(token){
+  if(!token)return {name:'',art:null};
   if(token==='book')return {name:'Fish book',art:2};
   if(token==='bag')return {name:'Backpack',art:3};
   if(token==='vehicle:ride')return {name:S.impound.ride?'Ride impounded':S.ride===1?'Skateboard':'Call '+RIDES[S.ride].n.toLowerCase(),art:5,active:mounted&&activeRide===S.ride};
   if(token==='vehicle:boat'&&S.hull)return {name:S.impound.boat?'Boat impounded':onBoat?'Step ashore':'Launch boat',art:6,active:onBoat};
-  if(!token)return {name:'Empty',art:null};
   const [kind,id]=token.split(':');
   if(kind==='rod'){
     const rod=id==='current'?rodNow():RODS.find(r=>r.id===id);
@@ -13051,36 +14188,45 @@ function hotItem(token){
   }
   if(kind==='bait'){
     const bait=id==='current'?baitNow():BAITS.find(b=>b.id===id);
-    if(bait)return {name:bait.n,art:1,active:S.bait===bait.id,qty:foreverBait(bait.id)?null:baitLeft(bait.id)};
+    if(bait)return {name:bait.n,art:bait.id==='lychee'?'lychee':1,active:S.bait===bait.id,qty:foreverBait(bait.id)?null:baitLeft(bait.id)};
   }
   if(kind==='supply'){
     const supply=supplies.find(s=>s[0]===id);
-    if(supply)return {name:supply[1],art:4,qty:S.bag[id]||0,active:buffSeconds(id)>0};
+    if(supply)return {name:supply[1],art:id,qty:S.bag[id]||0,active:buffSeconds(id)>0};
   }
   if(kind==='fish'){
     const fish=S.cooler.find(c=>c.uid===Number(id));
     if(fish)return {name:FISHI[fish.id].n,fish:FISHI[fish.id],active:S.held===fish.uid};
   }
-  return {name:'Empty',art:null};
+  return {name:'',art:null};
 }
 function resetBag(page){
-  bagPage=page;
+  bagPage=page==='Esky'?'Esky':'Pack';
   openUI('bag');
+  if(typeof coach==='function')coach('backpack');
 }
+function nextRod(){
+  const own=RODS.filter(r=>S.rods.includes(r.id));
+  if(own.length<2){say(rodNow().n+' · the only rod you own so far',1.9);return;}
+  chooseTackle('rod',own[(own.findIndex(r=>r.id===S.rod)+1)%own.length].id);
+}
+function nextBait(){
+  const own=BAITS.filter(b=>baitLeft(b.id)>0);
+  S.bait=own[(own.findIndex(b=>b.id===S.bait)+1)%own.length].id;say('BAIT: '+baitNow().n,1.5);
+}
+// the number keys (and a click on a slot): 1 swaps rod, 2 swaps bait, the rest use what is in them
 function quickSlot(key){
   if(fishBusy()||UI||mapOpen||knockdown)return;
   const i=Number(key)-1,token=S.hotbar[i];
-  if(!token){bagSlot=i;resetBag('Tackle');return;}
-  if(token==='book'){openUI('book');return;}
-  if(token==='bag'){resetBag('Tackle');return;}
-  if(token==='rod:current'){resetBag('Tackle');return;}
-  if(token==='bait:current'){resetBag('Tackle');return;}
-  const [type,id]=token.split(':');
-  if(type==='rod')chooseTackle(type,id);
-  else if(type==='bait')chooseTackle(type,id);
-  else if(type==='supply')useSupply(id);
-  else if(type==='fish')showEskyFish(Number(id));
-  else if(type==='vehicle'){if(id==='ride')summonRide();else launchOwnedBoat();}
+  if(i===0)nextRod();
+  else if(i===1)nextBait();
+  else if(!token)say('Slot '+(i+1)+' is free · food and drink you buy lands here by itself',2.8);
+  else{
+    const [type,id]=token.split(':');
+    if(type==='supply')useSupply(id);
+    else if(type==='fish')showEskyFish(Number(id));
+    else if(type==='vehicle'){if(id==='ride')summonRide();else launchOwnedBoat();}
+  }
   save();hud();
 }
 function chooseTackle(type,id){
@@ -13102,19 +14248,12 @@ function discardCatch(uid){
   SFX.splash();
 }
 function inventoryAction(key,id){
-  if(key==='bagPage'){if(bagPages.includes(id))bagPage=id;}
-  else if(key==='hotPick'){bagSlot=clamp(Number(id),0,S.hotbar.length-1);}
-  else if(key==='hotClear'){S.hotbar[bagSlot]=null;}
-  else if(key==='hotMove'){
-    const index=bagSlot+Number(id);
-    if(index>=0&&index<S.hotbar.length){[S.hotbar[index],S.hotbar[bagSlot]]=[S.hotbar[bagSlot],S.hotbar[index]];bagSlot=index;}
-  }else if(key==='hotPin'){
-    const item=hotItem(id);
-    if(item.name!=='Empty'){
-      const previous=S.hotbar.indexOf(id);
-      if(previous!==-1&&previous!==bagSlot)S.hotbar[previous]=S.hotbar[bagSlot];
-      S.hotbar[bagSlot]=id;
-      say(item.name+' · slot '+(bagSlot+1),1.45);
+  if(key==='bagPage'){bagPage=id==='Esky'?'Esky':'Pack';}
+  else if(key==='hotPut'){
+    // the hotbar is full and you want this on it: it takes the last slot, and what was there goes back in the backpack
+    if(supplyIds.includes(id)&&S.bag[id]>0&&!S.hotbar.includes('supply:'+id)){
+      const free=S.hotbar.indexOf(null,HOT_FIRST),slot=free>=0?free:HOT_SLOTS-1,was=hotItem(S.hotbar[slot]).name;
+      S.hotbar[slot]='supply:'+id;say(hotItem('supply:'+id).name+' · slot '+(slot+1)+(was?' · '+was+' went back in the backpack':''),2.6);
     }
   }else if(key==='chooseRod')chooseTackle('rod',id);
   else if(key==='chooseBait')chooseTackle('bait',id);
@@ -13125,67 +14264,74 @@ function inventoryAction(key,id){
   else if(key==='sellunder')sellUnder(Number(id));
   else if(key==='rigbait')rigBait(Number(id));
   else if(key==='use'){if(useSupply(id))closeUI();}
+  else if(key==='openBook'){openUI('book');return true;}
+  else if(key==='openQuests'){questPage='Active';openUI('journey');return true;}
+  else if(key==='openMap'){closeUI();mapOpen=true;document.body.classList.add('map-open');return true;}
   else return false;
   save();hud();return true;
 }
+const packPictures={};        // tile pictures, drawn once each
+function packPicture(art){return packPictures[art]||(packPictures[art]=slotArt(art).toDataURL());}
 function backpackPanel(){
   const button=(key,id,label,disabled=false)=>'<button data-a="'+key+'" data-i="'+id+'" '+(disabled?'disabled':'')+'>'+label+'</button>';
-  const pin=token=>button('hotPin',token,'Pin to '+(bagSlot+1));
-  const rows=(name,detail,actions,img='')=>'<article class="bag-item">'+(img?'<img src="'+img+'" alt="">':'')+'<div><strong>'+name+'</strong><small>'+detail+'</small></div><div class="bag-actions">'+actions+'</div></article>';
-  const hotbar=S.hotbar.map((token,i)=>{
-    const {name}=hotItem(token);
-    return '<button data-a="hotPick" data-i="'+i+'" aria-pressed="'+(i===bagSlot)+'"><b>'+(i+1)+'</b><span>'+name+'</span></button>';
-  }).join('');
-  let items='';
-  if(bagPage==='Tackle'){
-    items=rows('Fishing licence',S.license?'Valid in Hannaford waters':'Buy for $25 at Karki’s after your first three fish','')+'<h4>Rods</h4>'+RODS.filter(r=>S.rods.includes(r.id)).map(rod=>rows(rod.n,rod.cast+' m cast · Power '+rod.pow,
-      button('chooseRod',rod.id,S.rod===rod.id?'Equipped':'Equip',S.rod===rod.id)+pin('rod:'+rod.id))).join('')
-      +'<h4>Bait</h4>'+BAITS.filter(b=>baitLeft(b.id)>0||S.baits[b.id]!==undefined).map(bait=>{
-        const qty=baitLeft(bait.id),description=foreverBait(bait.id)?bait.d:qty+' packed · '+bait.d;
-        return rows(bait.n,description,button('chooseBait',bait.id,S.bait===bait.id?'Equipped':'Equip',!qty||S.bait===bait.id)+pin('bait:'+bait.id));
-      }).join('')+'<h4>Tools</h4>'+rows('Fish book','Browse the species you’ve discovered.',pin('book'))
-      +rows('Backpack','Open your equipment, supplies and esky.',pin('bag'));
-  }else if(bagPage==='Vehicles'){
-    items=rows(RIDES[S.ride].n,S.ride===1?'Ride the skateboard':'Call it to a clear spot nearby',button('summonRide','',S.ride===1?'Ride':'Call ride')+pin('vehicle:ride'));
-    items+=S.hull?rows(BOATS[S.hull].n,onBoat?'Step ashore beside a bank':'Launch beside water deep enough for your hull',button('summonBoat','',onBoat?'Step ashore':'Launch')+pin('vehicle:boat'))
-      :'<p class="pub-note">Build a hull at Damo’s to launch from a riverbank, lake or the coast.</p>';
-  }else if(bagPage==='Supplies'){
-    const owned=supplies.filter(([id])=>S.bag[id]||buffSeconds(id));
-    items=owned.length?owned.map(([id,name,,seconds,desc])=>rows(name,(S.bag[id]||0)+' packed · '+desc+' · '+seconds+'s'
-      +(buffSeconds(id)?' · Active':''),
-      button('use',id,'Use one',!S.bag[id]||buffSeconds(id)>0)+pin('supply:'+id))).join('')
-      :'<p class="pub-note">Your supplies are empty. Hugh serves food and drinks at the pub.</p>';
-  }else{
+  if(bagPage==='Esky'){
+    const rows=(name,detail,actions,img='')=>'<article class="bag-item">'+(img?'<img src="'+img+'" alt="">':'')+'<div><strong>'+name+'</strong><small>'+detail+'</small></div><div class="bag-actions">'+actions+'</div></article>';
     const fish=S.cooler.slice();
     if(fishSort==='Heaviest')fish.sort((a,b)=>b.w-a.w);
     else if(fishSort==='A–Z')fish.sort((a,b)=>FISHI[a.id].n.localeCompare(FISHI[b.id].n));
     else if(fishSort==='Undersize')fish.sort((a,b)=>Number(!!b.under)-Number(!!a.under)||b.uid-a.uid);
     else fish.sort((a,b)=>b.uid-a.uid);
-    items='<div class="bag-sort"><span>'+fish.length+' / '+eskyCapacity()+' fish stored</span><label>Sort <select id="fishSort">'
+    return '<h1>Esky</h1><div class="bag-sort">'+button('bagPage','Pack','‹ Backpack')+'<span>'+fish.length+' / '+eskyCapacity()+' fish · sell them at Petey’s</span><label>Sort <select id="fishSort">'
       +['Recent','Heaviest','A–Z','Undersize'].map(v=>'<option'+(v===fishSort?' selected':'')+'>'+v+'</option>').join('')+'</select></label></div>'
       +(fish.length?fish.map(f=>{
         const species=FISHI[f.id];
         return rows(species.n,f.w.toFixed(2)+' kg · '+f.len+' cm'+(f.under?' · Undersize':''),
-          button('holdFish',f.uid,S.held===f.uid?'Put away':'Hold')+button('dump',f.uid,f.under?'Remove undersize':'Release')+(f.under?button('rigbait',f.uid,'Rig as live bait +2'):'')+pin('fish:'+f.uid),portrait(species));
-      }).join(''):'<p class="pub-note">Your esky is empty.</p>');
+          button('holdFish',f.uid,S.held===f.uid?'Put away':'Hold')+button('dump',f.uid,f.under?'Remove undersize':'Release')+(f.under?button('rigbait',f.uid,'Rig as live bait +2'):''),portrait(species));
+      }).join(''):'<p class="pub-note">Your esky is empty. Catch something and keep it.</p>');
   }
-  return '<h1>Backpack</h1><div class="bag-slots">'+hotbar+'</div><div class="bag-slot-actions"><span>Editing slot '+(bagSlot+1)+'</span>'
-    +button('hotMove',-1,'Move left',bagSlot===0)+button('hotMove',1,'Move right',bagSlot===S.hotbar.length-1)+button('hotClear',0,'Clear slot',!S.hotbar[bagSlot])+'</div>'
-    +'<nav class="journal-tabs">'+bagPages.map(tab=>'<button data-a="bagPage" data-i="'+tab+'" aria-pressed="'+(tab===bagPage)+'">'+tab+'</button>').join('')+'</nav>'
-    +items;
+  // one screen: what is on the hotbar, then everything you carry as tiles. A click on a tile does the obvious thing with it.
+  const tile=(act,id,art,name,detail,o={})=>'<button class="pack-tile'+(o.on?' on':'')+'" data-a="'+act+'" data-i="'+id+'"'+(o.off?' disabled':'')+'><img src="'+(o.img||packPicture(art))+'" alt="">'
+    +(o.qty!==undefined&&o.qty!==null?'<em>'+o.qty+'</em>':'')+(o.key?'<kbd>'+o.key+'</kbd>':'')+'<strong>'+name+'</strong><small>'+detail+'</small></button>';
+  const group=(title,note,tiles)=>'<h4>'+title+(note?'<small class="pack-note">'+note+'</small>':'')+'</h4><div class="pack-grid">'+tiles+'</div>';
+  const strip=S.hotbar.map((token,i)=>{
+    const it=hotItem(token);
+    return '<span class="pack-slot'+(token?'':' empty')+'"><b>'+(i+1)+'</b>'+(token&&it.art!==null&&it.art!==undefined?'<img src="'+packPicture(it.art)+'" alt="">':'')
+      +'<i>'+(token?it.name.toLowerCase():'free')+'</i>'+(it.qty!==null&&it.qty!==undefined?'<em>'+it.qty+'</em>':'')+'</span>';
+  }).join('');
+  const rods=RODS.filter(r=>S.rods.includes(r.id)).map(r=>tile('chooseRod',r.id,0,r.n,r.cast+' m cast · power '+r.pow+(S.rod===r.id?' · in your hands':''),{on:S.rod===r.id})).join('');
+  const baits=BAITS.filter(b=>baitLeft(b.id)>0).map(b=>tile('chooseBait',b.id,b.id==='lychee'?'lychee':1,b.n,b.d,{on:S.bait===b.id,qty:foreverBait(b.id)?'∞':baitLeft(b.id)})).join('');
+  const owned=supplies.filter(([id])=>S.bag[id]>0||buffSeconds(id)>0);
+  const food=owned.map(([id,name,,seconds,desc])=>{
+    const at=S.hotbar.indexOf('supply:'+id),working=buffSeconds(id)>0;
+    return tile('use',id,id,name,desc+(working?' · working now ('+buffSeconds(id)+'s)':' · lasts '+seconds+'s')+(at>=0?' · hotbar '+(at+1):''),
+      {qty:S.bag[id]||0,off:!S.bag[id]||(working&&id!=='gs'&&!((id==='coffee'||id==='pie')&&hungover())),key:at>=0?at+1:''});
+  }).join('');
+  const waiting=owned.filter(([id])=>S.bag[id]>0&&!S.hotbar.includes('supply:'+id));
+  const move=waiting.length?'<div class="bag-slot-actions"><span>Not on the hotbar:</span>'+waiting.map(([id,name])=>button('hotPut',id,'Put '+name.toLowerCase()+' on the hotbar')).join('')+'</div>':'';
+  const ride=tile('summonRide','',5,RIDES[S.ride].n,S.impound.ride?'Impounded · see the rangers':S.ride===1?'Hop on and ride':'Call it to a clear spot nearby',{key:'V',off:S.impound.ride});
+  const boat=S.hull?tile('summonBoat','',6,BOATS[S.hull].n,S.impound.boat?'Impounded · see the rangers':onBoat?'Step ashore beside a bank':'Launch beside deep enough water',{key:'B',off:S.impound.boat})
+    :tile('summonBoat','',6,'No boat yet','Damo builds your first hull at the Boat Works',{off:true});
+  return '<h1>Backpack</h1>'
+    +'<h4>On your hotbar<small class="pack-note">press the number to use it · anything you buy lands on the first free slot by itself</small></h4><div class="pack-bar">'+strip+'</div>'
+    +group('Food and drink','click one to have it',food||'<p class="pub-note">Nothing to eat or drink. Hugh sells both at the pub.</p>')+move
+    +group('Bait','click one to use it · Tab or 2 swaps between them',baits)
+    +group('Rods','click one to fish with it · 1 swaps between them',rods)
+    +group('Getting around','',ride+boat)
+    +group('The rest','',tile('bagPage','Esky',4,'Esky',S.cooler.length+' / '+eskyCapacity()+' fish',{key:'K'})+tile('openBook','',2,'Fish book','Every fish you have found, and where the rest live',{key:'J'})
+      +tile('openQuests','',2,'Quests','What to do next, and what it pays',{key:'L'})+tile('openMap','',2,'Map','Where everything is',{key:'M'}));
 }
 
 
 function activityPanel(kind,row){
   const action=(key,i,text)=>'<button data-a="'+key+'" data-i="'+i+'">'+text+'</button>';
   const equipment=(list,key,current)=>list.map((item,i)=>row(item.n,item.d||(item.kg+' kg line'),i<=current?'':action(key,i,'Buy $'+item.c))).join('');
-  if(kind==='karki')return '<h4>Licence</h4>'+row('Hannaford fishing licence','First three catches are free. Local bag limit · '+BAG_LIMIT+' of each species.',S.license?'Owned':action('licence',0,'Buy $25'))
+  if(kind==='karki')return '<p class="sub">No licence needed in Hannaford. The rangers only care about two things: '+BAG_LIMIT+' fish of each kind at most, and undersize fish go back.</p>'
     +'<h4>Reels</h4>'+equipment(REELS,'reel',S.reel)+'<h4>Line</h4>'+equipment(LINES,'line',S.line);
   if(kind==='petey'){
     const order=dailyOrder();return '<h4>Daily order</h4>'+row(FISHI[order.id].n,order.count+'/'+order.need+' delivered today · Pays 2.5× + $35 for filling the order','');
   }
 
-  if(kind==='cars')return '<h1>Keith’s Car Yard</h1><p>Your ride is out front. Call it from the backpack or hotbar when you’re away from the yard. Press E to get in.</p>'
+  if(kind==='cars')return '<h1>Keith’s Car Yard</h1><p>Your ride is out front. Press V to call it when you’re away from the yard (it is in the backpack too). Press E to get in.</p>'
     +RIDES.slice(2).map((ride,i)=>row(ride.n,ride.d+' · Level '+ride.lv,i+2<=S.ride?'':action('ride',i+2,'Buy $'+ride.c))).join('');
   if(['hugh','blackjack','slots','pool'].includes(kind))return pubMenu(kind,row);
   if(kind==='nate')return showCompetition(row,action);
@@ -13209,10 +14355,9 @@ function activityAction(key,id){
     if(item.lv>level())say('Unlocks at angler level '+item.lv);
     else if(buy(item.c)){
       S[key]=i;
-      if(key==='ride'){if(mounted){mounted=false;activeRide=0;PS.spd=0;}S.park=vehiclePickup();say('Parked out front · also available in Backpack → Vehicles',2.6);}
+      if(key==='ride'){if(mounted){mounted=false;activeRide=0;PS.spd=0;}S.park=vehiclePickup();say('Parked out front · press V to call it from anywhere',2.6);}
     }
   }
-  else if(key==='licence'){if(!S.license&&buy(25)){S.license=true;say('Fishing licence added to your backpack',2);}}
   else if(key==='supply')buySupply(id);
   else if(key==='comp'){
     const c=COMPS.find(x=>x.id===id);if(!c||S.comp)return true;
@@ -13223,7 +14368,8 @@ function activityAction(key,id){
   save();hud();return true;
 }
 // A boat owns a world transform. Every angler on it owns a local deck position.
-let ownedCraft=null,aboard=null,deckWake=0,deckEscape=null;
+let ownedCraft=null,aboard=null,deckWake=0,deckEscape=null,adrift=0,swimAsk=0;
+const ADRIFT_SECONDS=6;     // how long a passenger sits on a boat with no skipper and no bank in reach before being run ashore
 const deckShapeNonKayak=[[-.50,.82],[-.38,.94],[-.21,1],[.01,.99],[.24,.87],[.37,.66],[.46,.33],[.51,.018]];
 const deckShapeKayak=[[-.50,.08],[-.42,.51],[-.23,.90],[0,1],[.22,.87],[.38,.54],[.48,.13],[.50,.02]];
 const capacity=tier=>[0,1,3,4,5,7][tier];
@@ -13280,27 +14426,60 @@ function placeAboard(ship){
   PS.y=boatDeckY(ship)+stepHeight(ship.config.hull,aboard.u,aboard.v);
 }
 function attachAboard(ship,owner){
-  deckEscape=[PS.x,PS.z];if(mounted)parkRide();onBoat=true;
+  deckEscape=[PS.x,PS.z];adrift=0;swimAsk=0;if(mounted)parkRide();onBoat=true;
   const cfg=ship.config,[u,v]=cfg.hull===1?helmStand(1):settleDeckPoint(cfg,hullAftFree(cfg.hull),owner===null?-.31:.32);
   aboard={owner,u,v,helm:false};PS.spd=0;placeAboard(ship);
   CAM.yaw=ship.yaw+PI+.49;CAM.pitch=.40;CAM.clearance=1;
 }
+// a dry spot within a step of where the player stands on a deck (null if there is none)
+function deckLanding(ship){
+  for(let r=.65;r<=4.55+MARINE_SIZE[ship.config.hull][0]*.22;r+=.34)for(let i=0;i<24;i++){
+    const x=PS.x+Math.cos(i*TAU/24)*r,z=PS.z+Math.sin(i*TAU/24)*r;
+    if(!blocked(x,z)&&(!isWater(x,z)||onJetty(x,z))&&Math.abs(groundAt(x,z)-PS.y)<2.0)return [x,z];
+  }
+  return null;
+}
+// the nearest place a person can stand that is not water: the jetty, the boat ramp, or the sand along the coast
+function nearestShore(x,z){
+  let best=null,near=Infinity;
+  // dry, clear, on the mainland (west of the tide line) or on the jetty: never an offshore rock you could not get off
+  const consider=(sx,sz)=>{
+    const d=Math.hypot(sx-x,sz-z);
+    if(d>=near||sx<WX0+6||sz<WZ0+6||sz>WZ1-6||blocked(sx,sz))return;
+    if(onJetty(sx,sz)||(!isWater(sx,sz)&&sx<coastX(sz)-1)){near=d;best=[sx,sz];}
+  };
+  // rings out from where you are find the bank of a creek, a dam or a lagoon
+  for(let r=3;r<=96&&!best;r+=3)for(let i=0,n=Math.max(12,Math.round(r*1.4));i<n;i++)consider(x+Math.cos(i*TAU/n)*r,z+Math.sin(i*TAU/n)*r);
+  for(const [sx,sz] of [[JET.x1-3,JET.z],[JET.x0+2,JET.z],[RAMP.x-2,RAMP.z]])consider(sx,sz);
+  for(let cz=WZ0+12;cz<=WZ1-12;cz+=6)consider(coastX(cz)-3.5,cz);
+  return best||freeSpot(...SPAWN);
+}
+// off a boat and onto the nearest shore, with a line saying why (stranded passengers, and anyone who jumps)
+function rescueAshore(why){
+  reelIn();F.card=null;$('card').style.display='none';
+  if(aboard?.owner===null&&ownedCraft)stopCraft(ownedCraft);
+  [PS.x,PS.z]=nearestShore(PS.x,PS.z);
+  onBoat=false;aboard=null;deckEscape=null;adrift=0;swimAsk=0;PS.spd=0;PS.y=groundAt(PS.x,PS.z);CAM.clearance=1;
+  banner('BACK ON DRY LAND',why,'#9fe3ff',4.6);save();hud();return true;
+}
 function leaveDeck(fallback=false){
   const ship=craftAtSeat();
   if(!fallback&&ship){
-    if(Math.abs(ship.speed||0)>1){say('Slow down before stepping off');return false;}
-    let land=null;
-    for(let r=.65;r<=4.55+MARINE_SIZE[ship.config.hull][0]*.22&&!land;r+=.34)for(let i=0;i<24;i++){
-      const x=PS.x+Math.cos(i*TAU/24)*r,z=PS.z+Math.sin(i*TAU/24)*r;
-      if(!blocked(x,z)&&(!isWater(x,z)||onJetty(x,z))&&Math.abs(groundAt(x,z)-PS.y)<2.0){land=[x,z];break;}
+    const guest=aboard.owner!==null,fast=Math.abs(ship.speed||0)>1,land=fast?null:deckLanding(ship);
+    if(!land&&guest){
+      // somebody else's boat and nowhere to step: a passenger can always jump for it
+      if(T<swimAsk)return rescueAshore('You jumped off and swam for it.');
+      swimAsk=T+4;say((fast?'Still moving':'No bank in reach')+' · press B again to jump off and swim ashore',3.8);return false;
     }
+    if(fast){say('Slow down before stepping off');return false;}
     if(!land){say('Pull up beside a clear bank before stepping ashore');return false;}
     [PS.x,PS.z]=land;
-  }else if(deckEscape&&!blocked(...deckEscape)){
-    [PS.x,PS.z]=deckEscape;
   }else{
-    const [x,z]=freeSpot(...SPAWN);PS.x=x;PS.z=z;
+    // the boat is gone from under you: back where you stepped on if that is right here, otherwise the nearest shore
+    const back=deckEscape&&!blocked(...deckEscape)&&Math.hypot(deckEscape[0]-PS.x,deckEscape[1]-PS.z)<14;
+    [PS.x,PS.z]=back?deckEscape:nearestShore(PS.x,PS.z);
   }
+  adrift=0;swimAsk=0;
   if(aboard?.owner===null&&ownedCraft)stopCraft(ownedCraft);
   onBoat=false;aboard=null;PS.spd=0;PS.y=groundAt(PS.x,PS.z);save();return true;
 }
@@ -13430,7 +14609,16 @@ function pilotCraft(boat,dt,turn,throttle){
 }
 function advanceDeck(dt,fx,fz,mx,mz){
   const boat=craftAtSeat();
-  if(!boat){reelIn();leaveDeck(true);say('The boat left the room. Back on shore.');return;}
+  if(!boat){rescueAshore('The boat you were on is gone. You swam to the nearest shore.');return;}
+  if(aboard.owner!==null){
+    // nobody at the wheel (the skipper was arrested, or walked off) and no bank to step onto: run the passenger ashore
+    const skipper=friends.get(aboard.owner);
+    if(skipper?.next.deck?.owner===aboard.owner)adrift=0;
+    else if(!fishBusy()&&(adrift+=dt)>ADRIFT_SECONDS){
+      adrift=0;
+      if(!deckLanding(boat)){rescueAshore((skipper?.name||'The skipper')+' is not on the boat any more. The water police ran you back to shore.');return;}
+    }
+  }else adrift=0;
   const cfg=boat.config,tier=cfg.hull;
   if(tier===1&&F.st==='idle')PS.yaw=boat.yaw;
   if(aboard.helm){
@@ -13490,7 +14678,7 @@ function deckPrompt(){
     if(craftAtSeat()?.jetSki)return aboard.helm?'W / S Throttle · A / D Steer · Space Hop':'E   Ride jet ski · B   Step ashore';
     if(craftAtSeat()?.config.hull===1)return aboard.helm?'W   Paddle · A / D   Turn · E   Stow paddle':'E   Paddle · B   Step ashore';
     if(nearHelm())return aboard.helm?'E   Leave helm   ·   W / S throttle   ·   A / D steer':'E   Take helm   ·   B   Step ashore';
-    return aboard.owner===null?'Walk along the deck to the helm':'Passenger   ·   B   Step ashore when docked';
+    return aboard.owner===null?'Walk along the deck to the helm':'Passenger   ·   B   Step ashore   ·   B twice   Jump off and swim';
   }
   const nearby=nearbyCraft();
   if(nearby)return 'B   Board '+nearby.name;
@@ -13561,9 +14749,9 @@ function activityKey(k){
   if(k==='t'&&!onBoat&&!mounted){danceEmote();return true;}
   if(k==='l'){questPage='Active';openUI('journey');return true;}
   if(k==='n'&&(S.comp||S.compResult)){openUI('nate');return true;}
-  if(k==='i'){resetBag('Tackle');return true;}
+  if(k==='i'){resetBag('Pack');return true;}
   if(k==='k'){resetBag('Esky');return true;}
-  if(k==='h'){if(mounted&&activeRide>=2){honk();return true;}S.tutorial=0;save();updateTutorial();return true;}
+  if(k==='h'){if(mounted&&activeRide>=2){honk();return true;}openUI('help');return true;}
   return false;
 }
 function prepareActivities(){
@@ -13632,8 +14820,8 @@ const MARINE_PAINTS=[
 ];
 const MARINE_MOTORS=[
   ['Paddle',0,1,'For the kayak'],['15 hp outboard',0,1,'Standard on motor hulls'],
-  ['60 hp outboard',700,1.35,'35% faster'],['150 hp V6',2400,1.75,'75% faster'],
-  ['Twin 300 hp',7000,2.2,'Two motors for a centre console or game boat']
+  ['60 hp outboard',525,1.35,'35% faster'],['150 hp V6',1800,1.75,'75% faster'],
+  ['Twin 300 hp',5250,2.2,'Two motors for a centre console or game boat']
 ];
 const MARINE_FINDERS=[
   ['None',0,1],['Basic fish finder',500,1.20],['HD side-scan',1900,1.45]
@@ -13980,7 +15168,7 @@ function commissionBuild(){
   owned.tank||=cfg.tank;owned.rods||=cfg.rods;
   S.money-=price.total;
   if(!previous.hull)S.launchGuide=false;
-  S.hull=cfg.hull;if(!S.hotbar[6]&&!S.hotbar.includes('vehicle:boat'))S.hotbar[6]='vehicle:boat';S.boatMotor=cfg.motor;S.boatFinder=cfg.finder;S.boatDecal=cfg.decal;S.paintHull=cfg.paint;S.paintTrim=cfg.trim;
+  S.hull=cfg.hull;S.boatMotor=cfg.motor;S.boatFinder=cfg.finder;S.boatDecal=cfg.decal;S.paintHull=cfg.paint;S.paintTrim=cfg.trim;
   S.boatUps={...S.boatUps,motor:false,finder:!!cfg.finder,tank:cfg.tank,rods:cfg.rods};
   if(!guestsAboard())ownedCraft=null;
   const hullChange=cfg.hull!==previous.hull,motorChange=cfg.motor!==previous.motor;
