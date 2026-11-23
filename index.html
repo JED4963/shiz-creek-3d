@@ -306,7 +306,7 @@ body.job-on #rewardToast{top:118px}
 <canvas id="c" tabindex="0"></canvas><canvas id="ov"></canvas>
 <div class="ui" id="hud"><h1>SHIZ CREEK 3D</h1><div><span id="heatStars" role="status" hidden><b></b><i></i></span><span id="money">$0</span><span id="esk">ESKY 0/10</span></div><button id="goal" type="button" aria-label="Open the journey journal"></button></div>
 <div class="ui" id="gear"></div><aside id="compHud" hidden aria-label="Tournament standings"></aside><aside id="launchGuide" hidden></aside><div id="rewardToast" role="status" hidden></div><aside id="poolHud" hidden></aside><aside id="parlourHud" hidden><b></b><span role="status"></span><small></small><details><summary>Rules</summary><span></span></details><button type="button" id="stepFromTable">Step back [Esc]</button></aside><button id="headShake" type="button" hidden></button>
-<div id="workTools" hidden><div class="work-orbit"><button data-turn="-.34" aria-label="Rotate boat left">‹</button><span>Drag to inspect</span><button data-turn=".34" aria-label="Rotate boat right">›</button></div></div><aside id="lesson" hidden></aside><button id="friendsButton" type="button">Friends</button><button id="leaderboardsButton" title="Leaderboards [U]" type="button">Boards</button><div id="card"></div><div id="panel"><div id="pin"></div></div>
+<div id="workTools" hidden><div class="work-orbit"><button data-turn="-.34" aria-label="Rotate boat left">‹</button><span>Drag to inspect</span><button data-turn=".34" aria-label="Rotate boat right">›</button></div></div><aside id="lesson" hidden></aside><button id="friendsButton" type="button">Friends</button><div id="card"></div><div id="panel"><div id="pin"></div></div>
 <div id="title" hidden><div class="title-box"><div class="title-kicker">HANNAFORD HEADS PRESENTS</div><h1>SHIZ CREEK <span>3D</span></h1><p id="titleSub"></p><button id="titlePlay" type="button">PLAY</button><button id="titleGfx" type="button" class="quiet"></button><p class="title-keys">WASD move · Shift run · drag to look · Space cast · E interact · G take a vehicle · Esc menu</p></div></div>
 <div id="load">SHIZ CREEK 3D<small id="lmsg">building Hannaford Heads...</small><div id="bar"><div></div></div></div>
 <div id="err"><div id="errt"></div></div>
@@ -2560,10 +2560,6 @@ function carYard(mb,x,z,yaw){
   for(let i=0;i<5;i++)part(-6.8+i*.24,.25,7.61,.145,.07,.24,'#5b6855');
 }
 
-let recordsPost=null;
-function nearRecordsPost(){
-  return recordsPost&&!mapOpen&&!UI&&!fishBusy()&&!onBoat&&!mounted&&Math.hypot(PS.x-recordsPost[0],PS.z-recordsPost[2])<2.5;
-}
 function nateHQ(mb,x,z,yaw){const w=7,d=6,T=shopBase('nate',x,z,yaw,w,d),wh=3;
   for(let xx=-w/2+0.3;xx<w/2;xx+=1.6)for(const zz of [-d/2+0.3,d/2-0.3])mb.add(box(0.2,0.6,0.2),Lc(T,{x:xx,z:zz}),'#9a9a96');
   mb.add(box(w,wh,d),Lc(T,{y:0.6}),'#e8e0c8');for(let yy=0.8;yy<wh+0.6;yy+=0.22)mb.add(box(w+0.035,0.035,d+0.035),Lc(T,{y:yy}),'#cfc4a8');
@@ -2574,8 +2570,6 @@ function nateHQ(mb,x,z,yaw){const w=7,d=6,T=shopBase('nate',x,z,yaw,w,d),wh=3;
   const ws=T([w/2+2,0,d/2]);const wy=H(ws[0],ws[2]);for(const s of [-1,1])mb.add(box(0.15,3,0.15),TF({x:ws[0]+s*0.9,y:wy,z:ws[2]}),'#6a4424');mb.add(box(2,0.15,0.15),TF({x:ws[0],y:wy+3,z:ws[2]}),'#6a4424');
   mb.add(box(0.02,0.6,0.02),TF({x:ws[0],y:wy+2.4,z:ws[2]}),'#3a3a3a');mb.add(loft([[0,0.17,0.17],[0.08,0.17,0.17]],12,true),TF({x:ws[0],y:wy+2.2,z:ws[2]-0.04,rx:PI/2}),'#d8dce4');
   fishGeo(mb,TF({x:ws[0],y:wy+1.6,z:ws[2],rz:PI/2-0.1,ry:yaw}),{len:1.3,dep:0.38,wid:0.16,c:['#c84a5a','#e88890','#f8e0e0']});
-  const sb=T([-w/2-2.2,0,d/2+0.5]);recordsPost=sb;const sy=H(sb[0],sb[2]);for(const s of [-1,1])mb.add(box(0.12,2,0.12),TF({x:sb[0]+s*1.1,y:sy,z:sb[2]}),'#6a4424');
-  boardSign(mb,{bg:'#223a34',fg:'#eee1bc',border:'#a78f5c',lines:[['Hannaford Records',.45,'#f0d7a0','800 #px Georgia'],['CASH & BIGGEST CATCHES',.19,'#d9c99c','700 #px Arial']]},sb[0],sy+2.6,sb[2],yaw,2.4,1.5,120,0.3);
   for(let k=0;k<6;k++){const f=T([-w/2+k*1.4,0,d/2+3]);mb.add(loft([[0,0.03,0.03],[3.5,0.02,0.02]],5),TF({x:f[0],y:H(f[0],f[2]),z:f[2]}),'#d8dce4');mb.tri([f[0],H(f[0],f[2])+3.5,f[2]],[f[0],H(f[0],f[2])+2.6,f[2]],[f[0]+Math.cos(yaw)*0.6,H(f[0],f[2])+3.2,f[2]-Math.sin(yaw)*0.6],k%2?'#f07820':'#1a3a7a',0,null,true);}}
 // ===================== BOATS (hulls) =====================
 function boatHull(mb,T,o){const col=o.col||'#f4f4f4',stripe=o.stripe||'#2a5ab8',L=o.L||4.6,Wd=o.W||1.9,n=9,stations=[[1,0.02,0.7,0.95],[0.85,0.35,0.75,1.0],[0.6,0.8,0.55,0.95],[0.25,1,0.42,0.92],[-0.2,1,0.38,0.9],[-0.6,0.98,0.36,0.88],[-0.95,0.95,0.36,0.88]];
@@ -3593,7 +3587,6 @@ function save(){
   cleanBackpack();S.tod=tod;S.version=SAVE_VERSION;
   if(window.READY&&!onBoat&&!blocked(PS.x,PS.z))S.position=[PS.x,PS.z,PS.yaw];
   try{localStorage.setItem(SAVE_KEY,JSON.stringify(S));saveOK=true;}catch(error){saveOK=false;}
-  scheduleBoardSync();
 }
 function restoreLanding(){
   const position=S.position;
@@ -4734,9 +4727,9 @@ function openUI(kind){resetGameInput();UI=kind;
   if(kind==='works')openWorkshop();renderUI();$('panel').style.display='flex';}
 function closeUI(){if(atPubGame()){
     $('parlourHud').hidden=true;document.body.classList.remove('pool-view','at-pub-game');parlour.view=null;cv.style.cursor='';cv.focus();
-  }$('panel').classList.remove('leaderboards');if(UI==='poolplay')closePoolView();if(UI==='works'){workshopClosed();$('workTools').hidden=true;}if(UI==='fit')fitClosed();if(UI_MODS[UI]&&UI_MODS[UI].close)UI_MODS[UI].close();UI=null;$('panel').style.display='none';save();hud();}
+  }if(UI==='poolplay')closePoolView();if(UI==='works'){workshopClosed();$('workTools').hidden=true;}if(UI==='fit')fitClosed();if(UI_MODS[UI]&&UI_MODS[UI].close)UI_MODS[UI].close();UI=null;$('panel').style.display='none';save();hud();}
 function buy(cost){if(S.money<cost){SFX.no();say("YOU CAN'T AFFORD THAT YET",1.8);return false;}S.money-=cost;SFX.cash();return true;}
-function renderUI(){if(atPubGame()){updateParlourHud();return;}if(UI_MODS[UI]){UI_MODS[UI].render();return;}if(UI!=='boards')$('panel').classList.remove('leaderboards');if(UI==='boards'){renderLeaderboards();return;}if(UI==='poolplay'){updatePoolHud();return;}if(UI==='works'){renderWorkshop();return;}if(UI==='fit'){renderFit();return;}let h='';const row=(title,desc,btn,extra)=>'<div class="row"><div><h3>'+title+'</h3><p>'+desc+'</p>'+(extra||'')+'</div>'+btn+'</div>';
+function renderUI(){if(atPubGame()){updateParlourHud();return;}if(UI_MODS[UI]){UI_MODS[UI].render();return;}if(UI==='poolplay'){updatePoolHud();return;}if(UI==='works'){renderWorkshop();return;}if(UI==='fit'){renderFit();return;}let h='';const row=(title,desc,btn,extra)=>'<div class="row"><div><h3>'+title+'</h3><p>'+desc+'</p>'+(extra||'')+'</div>'+btn+'</div>';
   if(UI==='karki'){h='<h1>KARKI\'S BAIT & TACKLE</h1><p class="sub">"G\'DAY MATE! WHAT ARE WE AFTER?"  ·  YOU HAVE <b>$'+S.money+'</b></p><h4>RODS</h4>';
     for(const r of RODS){const own=S.rods.includes(r.id),eq=S.rod===r.id;h+=row(r.n,r.d,eq?'<button disabled>EQUIPPED</button>':own?'<button data-a="eq" data-i="'+r.id+'">EQUIP</button>':'<button class="go" data-a="rod" data-i="'+r.id+'">$'+r.price+'</button>','<div class="bars">POWER '+'■'.repeat(Math.round(r.pow/1.2))+' · CAST '+r.cast+' m · LINE '+r.line+' m</div>');}
     h+='<h4>BAIT</h4>';for(const b of BAITS){if(b.id==='worm'||b.stolen)continue;const once=LURES.includes(b.id),own=once&&S.baits[b.id];h+=row(b.n+(once?'':' ×'+b.qty),b.d+(once?'':' (you have '+(S.baits[b.id]||0)+')'),own?'<button disabled>OWNED</button>':'<button class="go" data-a="bait" data-i="'+b.id+'">$'+b.price+'</button>');}
@@ -7460,7 +7453,7 @@ function forgetTown(){try{localStorage.removeItem('shizcreek3d_town');}catch(e){
 // If you were on the town server last time, hop straight back on when the game starts.
 function autoJoinTown(){
   let again=false;try{again=localStorage.getItem('shizcreek3d_town')==='1';}catch(e){}
-  if(again&&!room&&boardHosted&&(location.protocol!=='file:'||NET))joinRoom('TOWN',savedName()||'Angler');
+  if(again&&!room&&hostedPage&&(location.protocol!=='file:'||NET))joinRoom('TOWN',savedName()||'Angler');
 }
 function netEvents(list){
   for(const e of list){
@@ -12697,7 +12690,6 @@ function drawOverlay(VP,W,Hh){lastVP=VP;if(ov.width!==innerWidth||ov.height!==in
   else if(tree)pill(innerWidth/2,innerHeight*.67,'G   Take lychee','#12201fed','#fff5db');
   else if(loan)pill(innerWidth/2,innerHeight*.67,'G   '+(loan.type==='water'?(loan.boat.jetSki?'Take jet ski':'Take boat'):loan.car.forward?'Take vehicle from driver':'Take parked car'),'#12201fed','#fff5db');
   else if(point){const [name,action]=shelfOffer(point);pill(innerWidth/2,innerHeight*.66,'E   '+action+'   ·   '+name,'#12201fed','#fff5db');}
-  else if(nearRecordsPost())pill(innerWidth/2,innerHeight*.67,'E   Read leaderboards','#12201fed','#fff5db');
   else if(station)pill(innerWidth/2,innerHeight*.67,'E   '+station.label,'#12201fed','#fff5db');
   else if(marineHint)pill(innerWidth/2,innerHeight*.67,marineHint,'#12201fed','#fff5db');
   else if(nearParkedRide()&&!mounted&&!fishBusy()&&!UI&&!mapOpen)pill(innerWidth/2,innerHeight*.66,(S.ride===2?'E   Get on   ·   ':'E   Get in   ·   ')+RIDES[S.ride].n,'#12201fed','#fff5db');
@@ -12747,7 +12739,7 @@ function drawBigMap(){const pad=46,sc=Math.min((innerWidth-pad*2)/MAPC.width,(in
   pill(innerWidth/2,y0-18,'HANNAFORD HEADS  -  PRESS M TO CLOSE','rgba(242,182,50,0.95)','#1a1206','800 14px Segoe UI, Arial');}
 // ===================== INPUT =====================
 addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(e.repeat&&!keys[k]||knockdown)return;au();
-  if(UI){if(parlourKey(k,e))return;if(k==='escape'||(!/^(INPUT|TEXTAREA|SELECT)$/.test(e.target?.tagName||'')&&(k==='e'||(k==='l'&&UI==='journey')||(k==='j'&&UI==='book')||(k==='n'&&UI==='nate')||(k==='u'&&UI==='boards')||(['i','k'].includes(k)&&UI==='bag'))))closeUI();return;}
+  if(UI){if(parlourKey(k,e))return;if(k==='escape'||(!/^(INPUT|TEXTAREA|SELECT)$/.test(e.target?.tagName||'')&&(k==='e'||(k==='l'&&UI==='journey')||(k==='j'&&UI==='book')||(k==='n'&&UI==='nate')||(['i','k'].includes(k)&&UI==='bag'))))closeUI();return;}
   if(k==='escape'&&!fishBusy()&&!mapOpen){openUI('menu');return;}
   if('12345678'.includes(k)&&k.length===1&&!e.repeat){quickSlot(k);return;}
   if(!e.repeat&&!fishBusy()&&!mapOpen&&activityKey(k))return;
@@ -12755,7 +12747,7 @@ addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(e.repeat&&!keys[k]
   keys[k]=true;if(fishKey(k,true,e))return;if(e.key==='Shift')keys.shift=true;if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();
   if(k==='m'&&!e.repeat&&!fishBusy()){resetGameInput();mapOpen=!mapOpen;document.body.classList.toggle('map-open',mapOpen);}if(k==='r'&&!fishBusy()&&!onBoat){if(S.wanted){say('Lose the patrol before returning to the jetty');return;}if(mounted)parkRide();toSpawn();}
   if(k==='e'&&!e.repeat&&!mapOpen&&canSurrenderToPatrol()){citePlayer(true);return;}
-  if(k==='e'&&!fishBusy()&&!mapOpen){if(e.repeat)return;if(nearRangerDesk()){openUI('ranger');return;}if(onBoat){toggleHelm();return;}if(mounted||nearParkedRide()){toggleRide();return;}const point=shelfNear();if(point){const offer=shelfOffer(point);if(point.kind==='sell')openUI('petey');else applyTrade(offer[2],point.item?.id);return;}if(nearRecordsPost()){openLeaderboards();return;}const station=pubStationNear();if(station){openUI(station.id);return;}const n=nearestNPC();if(n&&['karki','damo','keith','nate'].includes(n.k)){openUI(n.k==='damo'?'works':n.k==='keith'?'cars':n.k);return;}if(n?.k==='moss'){openUI('oddjobs');return;}if(n){const lines=TALK[n.k]||['G’day'];n.li=((n.li||0)+1)%lines.length;talk={n,s:lines[n.li],t:4.5};}}});
+  if(k==='e'&&!fishBusy()&&!mapOpen){if(e.repeat)return;if(nearRangerDesk()){openUI('ranger');return;}if(onBoat){toggleHelm();return;}if(mounted||nearParkedRide()){toggleRide();return;}const point=shelfNear();if(point){const offer=shelfOffer(point);if(point.kind==='sell')openUI('petey');else applyTrade(offer[2],point.item?.id);return;}const station=pubStationNear();if(station){openUI(station.id);return;}const n=nearestNPC();if(n&&['karki','damo','keith','nate'].includes(n.k)){openUI(n.k==='damo'?'works':n.k==='keith'?'cars':n.k);return;}if(n?.k==='moss'){openUI('oddjobs');return;}if(n){const lines=TALK[n.k]||['G’day'];n.li=((n.li||0)+1)%lines.length;talk={n,s:lines[n.li],t:4.5};}}});
 addEventListener('keyup',event=>{
   const key=event.key.toLowerCase();
   keys[key]=false;
@@ -13569,7 +13561,6 @@ function activityKey(k){
   if(k==='t'&&!onBoat&&!mounted){danceEmote();return true;}
   if(k==='l'){questPage='Active';openUI('journey');return true;}
   if(k==='n'&&(S.comp||S.compResult)){openUI('nate');return true;}
-  if(k==='u'){openLeaderboards();return true;}
   if(k==='i'){resetBag('Tackle');return true;}
   if(k==='k'){resetBag('Esky');return true;}
   if(k==='h'){if(mounted&&activeRide>=2){honk();return true;}S.tutorial=0;save();updateTutorial();return true;}
@@ -14552,7 +14543,7 @@ function acceptPool(remote,queued,notice=''){
     }
   }
   pubState.remote=remote;pubState.queued=!!queued;
-  if(notice)pubState.notice=boardEscape(notice);
+  if(notice)pubState.notice=escapeHtml(notice);
   if(UI==='pool'&&remote&&!old){openPoolView();return;}
   if(UI==='pool'&&(old?.id!==remote?.id||old?.rev!==remote?.rev||wasQueued!==pubState.queued||notice))renderUI();
 }
@@ -14563,7 +14554,7 @@ async function sendPoolAction(action,data={}){
   try{
     const result=await online('/pool',{...active,action,match:match?.id,rev:match?.rev,...data});
     if(room===active)acceptPool(result.pool,result.queued,result.notice);
-  }catch(error){if(room===active)pubState.notice=boardEscape(error.message||'Could not reach the table.');}
+  }catch(error){if(room===active)pubState.notice=escapeHtml(error.message||'Could not reach the table.');}
   finally{pubState.pending=false;if(UI==='pool'&&room===active)renderUI();}
 }
 function tickPubGames(){
@@ -14659,7 +14650,7 @@ function updatePoolHud(){
     game.breaking?'Break the rack · pull back from the white ball and release':game.message+' · pull back from the white ball';
   const power=poolAim(view)?.power;
   const header='<div class="pool-desk-scores">'+view.names.map((n,i)=>'<div'+(game.turn===i&&!winner?' class="turn"':'')
-    +'><b>'+boardEscape(n)+'</b><small>'+(game.groups[i]||'Open')+' · '+game.potted[i]+' potted</small></div>').join('')+'</div>';
+    +'><b>'+escapeHtml(n)+'</b><small>'+(game.groups[i]||'Open')+' · '+game.potted[i]+' potted</small></div>').join('')+'</div>';
   const controls='<button id="poolExit">Step back [Esc]</button>'
     +(winner&&!view.online?'<button id="poolRack">Rack again</button>':'')
     +(view.online?'<button id="poolLeave">Leave match</button>':'');
@@ -14771,189 +14762,9 @@ function pubAction(key,id){
 }
 
 
-// Anglers decide when to publish the cash and personal records in their browser save.
-const boardCatalogue=FISH.filter(f=>!f.junk).slice().sort((a,b)=>a.n.localeCompare(b.n));
-const boardKey='shizcreek3d_leaderboard_profile';
-const boardHosted=location.protocol==='http:'||location.protocol==='https:'||!!NET;
-let boardProfile=readBoardProfile(),boardTab='cash',boardFish='bream',boardSearch='';
-let boardSampleKey='',boardTimer=null,boardSyncing=false,boardRevision=0;
-let boardView=null,boardNotice='',boardRead=0,boardLoading=false,boardJoining=false;
-const boardEscape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const boardMoney=n=>(n<0?'−':'')+'$'+Math.abs(n).toLocaleString();
-const boardWeight=n=>(n/100).toFixed(2)+' kg';
-function readBoardProfile(){
-  try{
-    const p=JSON.parse(localStorage.getItem(boardKey)||'null');
-    if(typeof p?.name==='string'&&/^[a-f0-9]{20}$/.test(p.id)&&/^[a-f0-9]{48}$/.test(p.token))return p;
-  }catch{}
-  return null;
-}
-const stats0Nate=()=>S.stats.nateLv||0;
-function localBoardStats(){
-  const fish={};
-  for(const species of boardCatalogue){
-    const hit=S.book[species.id];
-    if(!hit||!Number.isFinite(hit.best)||hit.best<=0)continue;
-    fish[species.id]=[Math.round(hit.best*100),Math.round(hit.len||0)];
-  }
-  const cash=clamp(Math.round(S.money),-99999,1e9);
-  return {cash,fish,nate:S.stats.nateLv||0,bull:Math.round(S.stats.bullBest||0)};      // bull: the longest ride, in tenths of a second
-}
-function localBoardView(){
-  const stats=localBoardStats(),name='You',id='local';
-  const leaders=Object.fromEntries(Object.entries(stats.fish).map(([id0,[w,len]])=>[id0,{name,w,len}]));
-  const catch0=leaders[boardFish];
-  const cash={top:[{id,name,cash:stats.cash,rank:1}],total:1,you:null};
-  const fish={id:boardFish,top:catch0?[{id,rank:1,...catch0}]:[],total:catch0?1:0,you:null};
-  const nate={top:stats.nate?[{id,name,lv:stats.nate,rank:1}]:[],total:stats.nate?1:0,you:null};
-  const bull={top:stats.bull?[{id,name,t:stats.bull,rank:1}]:[],total:stats.bull?1:0,you:null};
-  return {cash,fish,nate,bull,leaders};
-}
-async function boardFetch(path,body,keepalive=false){
-  const init=body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),keepalive}:{cache:'no-store'};
-  const r=await fetch(NET+'/leaderboards'+path,init);
-  const data=await r.json();
-  if(!r.ok){const error=new Error(data.error||'The boards are unavailable.');error.status=r.status;throw error;}
-  return data;
-}
-function nextBoardRevision(){
-  boardRevision=Math.max(boardRevision+1,Date.now());
-  return boardRevision;
-}
-function scheduleBoardSync(delay=1400){
-  if(!boardProfile||!boardHosted||boardSyncing||boardTimer!==null)return;
-  if(boardSampleKey===JSON.stringify(localBoardStats()))return;
-  boardTimer=setTimeout(()=>{boardTimer=null;flushBoardStats();},delay);
-}
-async function flushBoardStats(keepalive=false){
-  if(!boardProfile||!boardHosted||boardSyncing)return;
-  const stats=localBoardStats(),signature=JSON.stringify(stats),profile=boardProfile;
-  if(signature===boardSampleKey)return;
-  boardSyncing=true;
-  let failed=false;
-  try{
-    const result=await boardFetch('/sync',{id:profile.id,token:profile.token,revision:nextBoardRevision(),...stats},keepalive);
-    if(boardProfile!==profile)return;
-    boardSampleKey=signature;
-    if(result.updated&&UI==='boards')refreshBoard();
-  }catch(error){
-    failed=true;
-    if(error.status===401){
-      boardProfile=null;boardSampleKey='';
-      try{localStorage.removeItem(boardKey);}catch{}
-      boardNotice=error.message;
-      if(UI==='boards')renderLeaderboards();
-    }
-  }finally{boardSyncing=false;if(!keepalive)scheduleBoardSync(failed?8000:1400);}
-}
-async function enterBoards(name){
-  if(!boardHosted||boardJoining||boardProfile)return;
-  boardJoining=true;boardNotice='';
-  const stats=localBoardStats();
-  const form=$('boardJoin');
-  if(form)form.querySelector('button').disabled=true;
-  try{
-    const data=await boardFetch('/join',{name,revision:nextBoardRevision(),...stats});
-    boardProfile=data.profile;boardSampleKey=JSON.stringify(stats);
-    try{localStorage.setItem(boardKey,JSON.stringify(boardProfile));}catch{boardNotice='Your browser can use this profile until you close this tab.';}
-    scheduleBoardSync();
-  }catch(error){boardNotice=error.message||'Could not join the boards.';}
-  finally{
-    boardJoining=false;
-    if(UI==='boards'){renderLeaderboards();refreshBoard();}
-  }
-}
-async function refreshBoard(){
-  if(!boardHosted||UI!=='boards')return;
-  const stamp=++boardRead;
-  boardLoading=true;
-  try{
-    const query=new URLSearchParams({fish:boardFish});
-    if(boardProfile)query.set('viewer',boardProfile.id);
-    const view=await boardFetch('?'+query);
-    if(stamp!==boardRead)return;
-    boardView=view;
-    if(boardNotice==='Could not read the host’s leaderboards.')boardNotice='';
-  }catch{
-    if(stamp===boardRead)boardNotice='Could not read the host’s leaderboards.';
-  }finally{
-    if(stamp===boardRead){boardLoading=false;if(UI==='boards')renderLeaderboards();}
-  }
-}
-function openLeaderboards(){
-  openUI('boards');
-  refreshBoard();
-}
-function boardRankRows(result,isFish,ring=false){
-  const rows=result?.top||[],you=result?.you;
-  const myId=boardProfile?.id||(!boardHosted?'local':null);
-  if(!rows.length)return '<p class="board-empty">'+(boardLoading?'Loading records…':ring==='bull'?'Nobody has stayed on the bull yet. The pen is behind the pub.':ring?'Nobody has beaten Nate yet. The ring is on the grass beside the highway.':isFish?'No catch recorded for this species.':'Nobody has joined the cash board yet.')+'</p>';
-  const items=you&&you.rank>rows.length?[...rows,you]:rows;
-  return '<table class="board-table"><thead><tr><th scope="col">Rank</th><th scope="col">Angler</th>'+
-    (ring==='bull'?'<th scope="col">Stayed on for</th>':ring?'<th scope="col">Beat Nate at</th>':isFish?'<th scope="col">Length</th><th scope="col">Weight</th>':'<th scope="col">Cash</th>')+
-    '</tr></thead><tbody>'+items.map(row=>{
-      const mine=row.id===myId,name=boardEscape(row.name);
-      return '<tr class="'+(mine?'board-you ':'')+(row.rank===1?'board-first':'')+'"><td>'+row.rank+'</td><td>'+name+
-        (mine&&row.name!=='You'?'<small>You</small>':'')+'</td>'+
-        (ring==='bull'?'<td>'+(row.t/10).toFixed(1)+' s</td>':ring?'<td>Level '+Math.round(row.lv)+'</td>':isFish?'<td>'+(row.len?boardEscape(row.len)+' cm':'—')+'</td><td>'+boardWeight(row.w)+'</td>':'<td>'+boardMoney(row.cash)+'</td>')+'</tr>';
-    }).join('')+'</tbody></table>';
-}
-function boardRoster(view){
-  const q=boardSearch.trim().toLowerCase(),leaders=view?.leaders||{};
-  const choices=boardCatalogue.filter(f=>!q||f.n.toLowerCase().includes(q));
-  return choices.length?choices.map(f=>{
-    const lead=leaders[f.id],selected=f.id===boardFish;
-    return '<button class="species-button" data-fish="'+f.id+'" aria-pressed="'+selected+'"><span>'+f.n+'</span><small>'+
-      (lead?boardEscape(lead.name)+' · '+boardWeight(lead.w):'Open record')+'</small></button>';
-  }).join(''):'<p class="board-empty">No matching species.</p>';
-}
-function renderLeaderboards(){
-  const root=$('pin'),active=document.activeElement;
-  const focus=active&&['boardSearch','boardName'].includes(active.id)?{id:active.id,start:active.selectionStart,end:active.selectionEnd}:null;
-  const previousName=$('boardName')?.value;
-  const oldScroll=$('boardRoster')?.scrollTop||0;
-  $('panel').classList.add('leaderboards');
-  const view=boardHosted?boardView:localBoardView();
-  const species=FISHI[boardFish],lead=view?.leaders[boardFish];
-  const money=boardTab==='cash',ringTab=boardTab==='nate',bullTab=boardTab==='bull',bullBest=Math.round(S.stats.bullBest||0);
-  const bullContent='<section class="board-cash"><div class="board-total"><span>Your longest ride</span><strong>'+(bullBest?(bullBest/10).toFixed(1)+' s':'Not yet')+'</strong></div>'+boardRankRows(view?.bull,false,'bull')+'</section>';
-  const ringContent='<section class="board-cash"><div class="board-total"><span>Your best</span><strong>'+(stats0Nate()?'Nate level '+stats0Nate():'Not yet')+'</strong></div>'+boardRankRows(view?.nate,false,true)+'</section>';
-  const login=!boardHosted?'<p class="boards-hint">Local records · use your shared game address for rankings with friends.</p>':
-    boardProfile?'<p class="boards-hint">Playing as <strong>'+boardEscape(boardProfile.name)+'</strong></p>':
-    '<form id="boardJoin"><label for="boardName">Display name</label><div><input id="boardName" maxlength="18" minlength="2" autocomplete="nickname" required><button type="submit" '+(boardJoining?'disabled':'')+'>Join boards</button></div></form>';
-  const stats=localBoardStats();
-  const cashContent='<section class="board-cash"><div class="board-total"><span>Your cash</span><strong>'+boardMoney(stats.cash)+'</strong></div>'+
-    boardRankRows(view?.cash,false)+'</section>';
-  const fishContent='<div class="board-fish-layout"><aside><label class="board-search-label" for="boardSearch">Find a species</label><input id="boardSearch" autocomplete="off" placeholder="Search species"><div id="boardRoster">'+boardRoster(view)+'</div></aside>'+
-    '<section class="board-fish-record"><div class="board-champion"><img alt="" src="'+portrait(species)+'"><div><h2>'+species.n+'</h2><p>'+
-    (lead?boardEscape(lead.name)+' · '+boardWeight(lead.w):'Record still open')+'</p></div></div>'+
-    boardRankRows(view?.fish?.id===boardFish?view.fish:null,true)+'</section></div>';
-  root.innerHTML='<header class="boards-header"><h1>Leaderboards</h1><button id="boardsClose" type="button" aria-label="Close leaderboards">×</button></header>'+
-    '<div class="boards-bar"><nav aria-label="Leaderboard"><button type="button" data-board="cash" aria-pressed="'+money+'">Cash</button><button type="button" data-board="fish" aria-pressed="'+(!money&&!ringTab&&!bullTab)+'">Fish records</button><button type="button" data-board="nate" aria-pressed="'+ringTab+'">Boxing</button><button type="button" data-board="bull" aria-pressed="'+bullTab+'">Bull ride</button></nav>'+login+'</div>'+
-    (boardNotice?'<p class="board-alert" role="status">'+boardEscape(boardNotice)+'</p>':'')+(money?cashContent:ringTab?ringContent:bullTab?bullContent:fishContent);
-  if($('boardName')){
-    $('boardName').value=previousName??room?.name??'';
-    $('boardJoin').onsubmit=e=>{e.preventDefault();enterBoards($('boardName').value.trim());};
-  }
-  $('boardsClose').onclick=closeUI;
-  root.querySelectorAll('button[data-board]').forEach(button=>button.onclick=()=>{
-    boardTab=button.dataset.board;renderLeaderboards();refreshBoard();
-  });
-  if($('boardSearch')){
-    const input=$('boardSearch'),list=$('boardRoster');
-    input.value=boardSearch;list.scrollTop=oldScroll;
-    input.oninput=()=>{boardSearch=input.value;list.innerHTML=boardRoster(view);list.scrollTop=0;};
-    list.onclick=e=>{
-      const selected=e.target.closest('button[data-fish]')?.dataset.fish;
-      if(!selected||selected===boardFish)return;
-      boardFish=selected;renderLeaderboards();refreshBoard();
-    };
-  }
-  const focusField=focus&&$(focus.id);
-  if(focusField){focusField.focus();focusField.setSelectionRange(focus.start,focus.end);}
-}
-setInterval(()=>{if(UI==='boards'&&!boardLoading)refreshBoard();},4500);
-addEventListener('pagehide',()=>{if(window.READY)flushBoardStats(true);});
+// Is this copy of the game being handed out by its own multiplayer server (or pointed at one with ?server=)?
+const hostedPage=location.protocol==='http:'||location.protocol==='https:'||!!NET;
+const escapeHtml=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 
 const friends=new Map();
@@ -14996,8 +14807,6 @@ async function joinRoom(code,name){
 }
 function connectFromLink(){
   $('friendsButton').onclick=()=>{if(!fishBusy())openUI('friends');};
-  $('leaderboardsButton').onclick=()=>{if(!fishBusy()&&!knockdown)openLeaderboards();};
-  scheduleBoardSync();
   if(new URLSearchParams(location.search).has('room'))openUI('friends');
 }
 setInterval(async()=>{

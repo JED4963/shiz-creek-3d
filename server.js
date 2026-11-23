@@ -1,11 +1,10 @@
 // Shiz Creek 3D - multiplayer server.
-// Serves the game (index.html in this folder) and runs the Friends rooms, online eight-ball and the leaderboards.
+// Serves the game (index.html in this folder) and runs the Friends rooms and online eight-ball.
 // No installs needed: it only uses what comes with Node.js.   Start it with:   node server.js
 const http = require('http'), fs = require('fs'), path = require('path'), crypto = require('crypto'), zlib = require('zlib');
 
 const PORT = Number(process.env.PORT) || 8080;
 const GAME_FILE = path.join(__dirname, 'index.html');
-const BOARD_FILE = process.env.BOARD_FILE || path.join(__dirname, 'leaderboards.json');
 const MAX_PLAYERS = 32, STALE_MS = 9000, MAX_BODY = 48 * 1024;
 const TOWN = 'TOWN';   // the always-open public room everyone can share; private rooms get random 4-letter codes
 // How often each player should check in, in milliseconds: busier rooms check in a little less often to keep a small server happy.
@@ -145,53 +144,6 @@ function poolAction(room, player, body) {
   return { pool: poolView(room, player), queued: room.queue.includes(player.id), notice };
 }
 
-// ---------- leaderboards (kept in a small JSON file) ----------
-let board = { profiles: {} };
-try { board = JSON.parse(fs.readFileSync(BOARD_FILE, 'utf8')); if (!board.profiles) board = { profiles: {} }; } catch { /* first run */ }
-let boardDirty = false;
-setInterval(() => { if (!boardDirty) return; boardDirty = false; fs.writeFile(BOARD_FILE, JSON.stringify(board), () => {}); }, 5000).unref();
-function boardStats(body) {
-  const fish = {};
-  if (body.fish && typeof body.fish === 'object') for (const [id, rec] of Object.entries(body.fish).slice(0, 200)) {
-    if (!/^[a-zA-Z][a-zA-Z0-9_-]{0,30}$/.test(id) || !Array.isArray(rec)) continue;
-    fish[id] = [Math.round(num(rec[0], 0, 200000)), Math.round(num(rec[1], 0, 2000))];
-  }
-  return { cash: Math.round(num(body.cash, -99999, 1e9)), fish, nate: Math.round(num(body.nate, 0, 100000)), bull: Math.round(num(body.bull, 0, 36000)) };
-}
-function boardJoin(body) {
-  const name = cleanName(body.name, '');
-  if (name.length < 2) throw fail(400, 'Pick a name with at least two letters.');
-  if (Object.values(board.profiles).some(p => p.name.toLowerCase() === name.toLowerCase())) throw fail(409, 'That name is taken. Try another.');
-  if (Object.keys(board.profiles).length > 5000) throw fail(503, 'The boards are full.');
-  const profile = { id: hex(10), token: hex(24), name };
-  board.profiles[profile.id] = { ...profile, revision: num(body.revision, 0, 1e15), ...boardStats(body) };
-  boardDirty = true;
-  return { profile };
-}
-function boardSync(body) {
-  const id = String(body.id || ''), p = Object.hasOwn(board.profiles, id) ? board.profiles[id] : null;
-  if (!p || typeof body.token !== 'string' || p.token !== body.token) throw fail(401, 'Your leaderboard profile was not found. Join again.');
-  const revision = num(body.revision, 0, 1e15);
-  if (revision <= p.revision) return { updated: false };
-  Object.assign(p, boardStats(body), { revision });
-  boardDirty = true;
-  return { updated: true };
-}
-function boardRead(query) {
-  const fishId = /^[a-zA-Z][a-zA-Z0-9_-]{0,30}$/.test(query.get('fish') || '') ? query.get('fish') : 'bream', viewer = query.get('viewer') || '';
-  const all = Object.values(board.profiles);
-  const ranked = (rows, key) => rows.sort((a, b) => b[key] - a[key]).map((r, i) => ({ ...r, rank: i + 1 }));
-  const cashRows = ranked(all.map(p => ({ id: p.id, name: p.name, cash: p.cash })), 'cash');
-  const fishRows = ranked(all.filter(p => p.fish[fishId]).map(p => ({ id: p.id, name: p.name, w: p.fish[fishId][0], len: p.fish[fishId][1] })), 'w');
-  const leaders = {};
-  for (const p of all) for (const [id, [w, len]] of Object.entries(p.fish)) if (!leaders[id] || w > leaders[id].w) leaders[id] = { name: p.name, w, len };
-  const nateRows = ranked(all.filter(p => p.nate > 0).map(p => ({ id: p.id, name: p.name, lv: p.nate })), 'lv');
-  // the longest bull ride, in tenths of a second (profiles from before the bull show have none)
-  const bullRows = ranked(all.filter(p => p.bull > 0).map(p => ({ id: p.id, name: p.name, t: p.bull })), 't');
-  const slice = rows => ({ top: rows.slice(0, 10), total: rows.length, you: rows.find(r => r.id === viewer) || null });
-  return { cash: slice(cashRows), fish: { id: fishId, ...slice(fishRows) }, nate: slice(nateRows), bull: slice(bullRows), leaders };
-}
-
 // ---------- the API ----------
 function handle(method, url, body) {
   const route = url.pathname.replace(/\/+$/, '');
@@ -235,10 +187,7 @@ function handle(method, url, body) {
     if (room && player && player.token === body.token) dropPlayer(room, player.id);
     return { ok: true };
   }
-  if (method === 'POST' && route === '/leaderboards/join') return boardJoin(body);
-  if (method === 'POST' && route === '/leaderboards/sync') return boardSync(body);
-  if (method === 'GET' && route === '/leaderboards') return boardRead(url.searchParams);
-  if (method === 'GET' && route === '/status') return { ok: true, rooms: rooms.size, players: [...rooms.values()].reduce((n, r) => n + r.players.size, 0), anglers: Object.keys(board.profiles).length };
+  if (method === 'GET' && route === '/status') return { ok: true, rooms: rooms.size, players: [...rooms.values()].reduce((n, r) => n + r.players.size, 0) };
   throw fail(404, 'Not found');
 }
 

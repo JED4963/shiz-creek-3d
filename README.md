@@ -5,7 +5,7 @@ A 3D fishing game set in the town of Hannaford: catch fish, sell them, buy bette
 ## What is here
 
 - `index.html` is the whole game in one file.
-- `server.js` hands out that page and runs the multiplayer rooms and the leaderboards. It needs nothing installed besides Node.
+- `server.js` hands out that page and runs the multiplayer rooms. It needs nothing installed besides Node.
 - `package.json` tells a hosting service how to start it.
 
 ## Running it
